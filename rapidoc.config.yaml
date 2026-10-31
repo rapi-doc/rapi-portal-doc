@@ -37,7 +37,7 @@ header:
           icon: lock
           description: OpenID Connect sign-in and per-page access rules
     - label: GitHub
-      href: https://github.com/rapi-doc/RapiDocPortal
+      href: https://github.com/rapi-doc/rapi-portal-doc
       icon: github-logo
 navigation:
   - label: Documentation
@@ -109,7 +109,7 @@ apis:
     spec: ./specs/bookstore.yaml
     category: Examples
 docs:
-  editUrl: https://github.com/rapi-doc/RapiDocPortal/edit/main/docs/
+  editUrl: https://github.com/rapi-doc/rapi-portal-doc/edit/main/docs/
 footer:
   cta:
     title: Build your portal in five minutes
@@ -141,10 +141,10 @@ footer:
         - label: RapiDoc
           href: https://rapidocweb.com
         - label: GitHub
-          href: https://github.com/rapi-doc/RapiDocPortal
+          href: https://github.com/rapi-doc/rapi-portal-doc
   social:
     - icon: github
-      href: https://github.com/rapi-doc/RapiDocPortal
+      href: https://github.com/rapi-doc/rapi-portal-doc
   copyright: © 2026 RapiDoc. MIT licensed.
 rapidoc:
   render-style: read

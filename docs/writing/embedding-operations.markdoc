@@ -31,7 +31,7 @@ Only pages with an embed load the RapiDoc bundle. Other docs pages stay light.
 
 ## Try from a guide
 
-**Try** sends a real request to the spec's server. In this site's example spec, the server is the local mock: run `npm run mock` in the [RapiDocPortal repository](https://github.com/rapi-doc/RapiDocPortal) and the console above answers. See [Mock server](/docs/tools/mock-server/).
+**Try** sends a real request to the spec's server. In this site's example spec, the server is the local mock: run `npm run mock` in the [rapi-portal-doc repository](https://github.com/rapi-doc/rapi-portal-doc) and the console above answers. See [Mock server](/docs/tools/mock-server/).
 
 With sign-in and `auth.tryIt`, the embed fills in the signed-in reader's access token. See [Try with the reader's token](/docs/access/try-it/).
 
