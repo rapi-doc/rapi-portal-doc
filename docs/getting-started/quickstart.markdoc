@@ -1,0 +1,70 @@
+---
+title: Quickstart
+description: Create a portal, preview it, and build it for production.
+---
+
+{% callout type="caution" title="Preview" %}
+The RapiDoc Portal packages are not on npm yet. Until they are, run the CLI from a checkout of the [RapiDoc monorepo](https://github.com/rapi-doc/RapiDoc): `node <monorepo>/packages/rapidoc-cli/src/index.js <command>` instead of `npx rapidoc <command>`.
+{% /callout %}
+
+## Prerequisites
+
+- Node.js 22.12 or later
+- One or more OpenAPI 3.0, 3.1 or Swagger 2.0 files (optional: the starter includes one)
+
+## Create a portal
+
+{% steps %}
+{% step title="Scaffold the project" %}
+```bash
+npm create rapidoc@latest my-portal
+```
+
+In a repository that already has OpenAPI files, run `npx rapidoc init` there instead. It finds the specs and lists them under `apis:` in the new config. Options: `--title "Acme Developers"`, `--yes` to accept the defaults, `--no-install`, and `--force` to overwrite existing files.
+{% /step %}
+
+{% step title="Start the dev server" %}
+```bash
+cd my-portal
+npm run dev
+```
+
+The portal opens on `http://localhost:4321`. Guide edits appear immediately; a change to `rapidoc.config.yaml` or a spec restarts the server.
+{% /step %}
+
+{% step title="Make it yours" %}
+Edit `rapidoc.config.yaml`: the site title and logo, the theme color, the header tabs and the sidebar. Write guides in `docs/`. See [Configuration](/docs/configuration/overview/) and [Writing guides](/docs/writing/markdown/).
+{% /step %}
+
+{% step title="Build for production" %}
+```bash
+npm run build
+```
+
+The static site is written to `dist/`. Upload it to any static host: see [Static hosting](/docs/deploy/static-hosting/).
+{% /step %}
+{% /steps %}
+
+## What the starter contains
+
+```text
+my-portal/
+├── rapidoc.config.yaml   # site, header, tabs, theme, APIs
+├── package.json          # dev, build and validate scripts
+├── specs/api.yaml        # a starter spec (or your own specs)
+├── docs/
+│   ├── index.markdoc     # the home page
+│   ├── getting-started.md
+│   └── guides/overview.markdoc
+└── .gitignore            # node_modules/, dist/, .rapidoc-temp/
+```
+
+Read on in [Project structure](/docs/getting-started/project-structure/).
+
+## Check your specs in CI
+
+```bash
+npx rapidoc validate
+```
+
+It checks every local spec in `apis:` against the OpenAPI schema and exits with code 1 on an error. See [Validate](/docs/tools/validate/).

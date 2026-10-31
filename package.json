@@ -1,0 +1,15 @@
+{
+  "name": "rapidoc-portal-docs",
+  "version": "0.1.0",
+  "description": "Documentation for RapiDoc Portal, built with RapiDoc Portal",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node ../rapidoc/packages/rapidoc-cli/src/index.js dev",
+    "build": "node ../rapidoc/packages/rapidoc-cli/src/index.js build",
+    "serve": "node ../rapidoc/packages/rapidoc-cli/src/index.js serve",
+    "preview": "npm run build && npm run serve",
+    "validate": "node ../rapidoc/packages/rapidoc-cli/src/index.js validate",
+    "mock": "node ../rapidoc/packages/rapidoc-cli/src/index.js mock"
+  }
+}

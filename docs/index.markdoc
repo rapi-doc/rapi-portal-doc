@@ -1,0 +1,57 @@
+---
+title: Developer portals from OpenAPI
+description: Turn OpenAPI specs and Markdown guides into a developer portal. Docs as code, static output, optional sign-in.
+template: splash
+hero:
+  title: Your APIs and guides<br><mark>one developer portal</mark>
+  tagline: Point RapiDoc Portal at your OpenAPI files, write guides in Markdown or Markdoc, and get a fast static portal with search, an API catalog and interactive references. This site is built with it.
+  actions:
+    - text: Quickstart
+      link: /docs/getting-started/quickstart/
+    - text: See an API reference
+      link: /apis/bookstore/
+      variant: secondary
+---
+
+## Everything a developer portal needs
+
+{% card-grid %}
+{% card title="Interactive API reference" icon="code" href="/docs/api-reference/reference-pages" %}
+Every OpenAPI 3.0, 3.1 or Swagger 2.0 spec gets a reference page rendered by RapiDoc, with Try, code samples and a sidebar that stays in view.
+{% /card %}
+{% card title="Guides as code" icon="book-open" href="/docs/writing/markdown" %}
+Markdown, MDX and Markdoc pages in a `docs/` folder. Callouts, tabs, steps, cards, and live API operations inside a guide.
+{% /card %}
+{% card title="One config file" icon="sliders-horizontal" href="/docs/configuration/overview" %}
+`rapidoc.config.yaml` describes the header, tabs, sidebars, theme and footer. A strict schema names every typo.
+{% /card %}
+{% card title="Search built in" icon="magnifying-glass" href="/docs/configuration/docs-search-redirects" %}
+Full-text search across guides and API operations, indexed at build time. No search service to run.
+{% /card %}
+{% card title="Sign-in and access rules" icon="lock" href="/docs/access/overview" %}
+Optional OpenID Connect sign-in. Decide who may read which pages, APIs and files, by group or email.
+{% /card %}
+{% card title="Mock server" icon="test-tube" href="/docs/tools/mock-server" %}
+Serve your specs with their examples, validate requests, and check real OAuth scopes, so Try works before the API does.
+{% /card %}
+{% /card-grid %}
+
+## From zero to portal
+
+```bash
+npm create rapidoc@latest my-portal
+cd my-portal
+npm run dev
+```
+
+The starter finds the OpenAPI files already in the folder, writes a `rapidoc.config.yaml` and a first guide, and opens the portal on `http://localhost:4321`. [Read the quickstart](/docs/getting-started/quickstart/).
+
+## A live operation, right in a guide
+
+Guides can embed any operation from your specs. This one comes from the [example Bookstore API](/apis/bookstore/). Run `npm run mock` in this site's repository and **Try** answers from the mock server.
+
+{% api-operation spec="bookstore" path="/books" method="get" /%}
+
+{% callout type="rocket" title="Moving from Zudoku or Redocly?" %}
+`rapidoc migrate --from zudoku` or `--from redocly` writes a `rapidoc.config.yaml` from your existing project. [See migrating](/docs/tools/migrate/).
+{% /callout %}

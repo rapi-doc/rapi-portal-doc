@@ -1,0 +1,151 @@
+# yaml-language-server: $schema=../rapidoc/packages/rapidoc-portal/schema.json
+# The RapiDoc Portal documentation, built with RapiDoc Portal.
+site:
+  title: RapiDoc Portal
+  description: Turn OpenAPI specs and Markdown guides into a developer portal. Docs as code, static output, optional sign-in.
+  logo:
+    src:
+      light: /rapidoc-lockup-light.svg
+      dark: /rapidoc-lockup-dark.svg
+    text: Portal
+  favicon: /rapidoc-leaves.svg
+  banner:
+    message: RapiDoc Portal is in preview. Packages are not on npm yet.
+    href: /docs/getting-started/quickstart
+    background: "#ff791a"
+    color: "#1c1917"
+theme:
+  primary: "#ff791a"
+  mode: auto
+  fonts: # from Google Fonts, so the site looks the same on every OS
+    sans: { family: Inter }
+    mono: { family: JetBrains Mono }
+header:
+  links:
+    - label: Ecosystem
+      items:
+        - label: RapiDoc web component
+          href: https://rapidocweb.com
+          icon: puzzle-piece
+          description: The <rapi-doc> element behind every API reference page
+        - label: Mock server
+          href: /docs/tools/mock-server
+          icon: test-tube
+          description: Serve your specs with examples and real token checks
+        - label: Sign-in and access
+          href: /docs/access/overview
+          icon: lock
+          description: OpenID Connect sign-in and per-page access rules
+    - label: GitHub
+      href: https://github.com/rapi-doc/RapiDocPortal
+      icon: github-logo
+navigation:
+  - label: Documentation
+    icon: book
+    items:
+      - label: Get started
+        icon: rocket-launch
+        items:
+          - { slug: getting-started/introduction, icon: book-open-text }
+          - { slug: getting-started/quickstart, icon: lightning }
+          - { slug: getting-started/project-structure, icon: tree-structure }
+          - { slug: getting-started/how-it-works, icon: gear-six }
+      - label: Configuration
+        icon: sliders-horizontal
+        items:
+          - { slug: configuration/overview, icon: list-checks }
+          - { slug: configuration/site, icon: globe }
+          - { slug: configuration/theme, icon: palette }
+          - { slug: configuration/header, icon: browser }
+          - { slug: configuration/navigation, icon: compass }
+          - { slug: configuration/apis, icon: plugs-connected }
+          - { slug: configuration/footer, icon: copyright }
+          - { slug: configuration/docs-search-redirects, icon: magnifying-glass }
+          - { slug: configuration/llms, icon: sparkle }
+      - label: Writing guides
+        icon: pencil-simple-line
+        items:
+          - { slug: writing/markdown, icon: markdown-logo }
+          - { slug: writing/markdoc, icon: brackets-curly }
+          - { slug: writing/mdx, icon: file-jsx }
+          - { slug: writing/callouts, icon: chat-centered-text }
+          - { slug: writing/embedding-operations, icon: plug }
+      - label: API reference
+        icon: code
+        items:
+          - { slug: api-reference/reference-pages, icon: file-code }
+          - { slug: api-reference/versions, icon: git-branch }
+          - { slug: api-reference/catalog, icon: squares-four }
+          - { slug: api-reference/rapidoc-attributes, icon: sliders }
+      - label: Sign-in and access
+        icon: lock
+        items:
+          - { slug: access/overview, icon: sign-in }
+          - { slug: access/access-rules, icon: shield-check }
+          - { slug: access/try-it, icon: key }
+          - { slug: access/providers, icon: identification-card }
+      - label: Tools
+        icon: wrench
+        items:
+          - { slug: tools/mock-server, icon: test-tube }
+          - { slug: tools/validate, icon: check-circle }
+          - { slug: tools/migrate, icon: arrows-left-right }
+      - label: Deploy
+        icon: cloud-arrow-up
+        items:
+          - { slug: deploy/static-hosting, icon: hard-drives }
+          - { slug: deploy/rapidoc-serve, icon: cloud-check }
+  - label: Reference
+    icon: list-bullets
+    items:
+      - { slug: reference/cli, icon: terminal-window }
+      - { slug: reference/config, icon: list-dashes }
+      - { slug: reference/programmatic-api, icon: code }
+  - label: Example API
+    icon: code
+    api: bookstore
+apis:
+  - id: bookstore
+    spec: ./specs/bookstore.yaml
+    category: Examples
+docs:
+  editUrl: https://github.com/rapi-doc/RapiDocPortal/edit/main/docs/
+footer:
+  cta:
+    title: Build your portal in five minutes
+    description: Point it at your OpenAPI files, write guides in Markdown, ship static HTML.
+    links:
+      - label: Quickstart
+        href: /docs/getting-started/quickstart
+      - label: See the example API
+        href: /apis/bookstore
+  columns:
+    - title: Get started
+      links:
+        - label: Introduction
+          href: /docs/getting-started/introduction
+        - label: Quickstart
+          href: /docs/getting-started/quickstart
+        - label: Configuration
+          href: /docs/configuration/overview
+    - title: Reference
+      links:
+        - label: CLI
+          href: /docs/reference/cli
+        - label: Configuration keys
+          href: /docs/reference/config
+        - label: Programmatic API
+          href: /docs/reference/programmatic-api
+    - title: Project
+      links:
+        - label: RapiDoc
+          href: https://rapidocweb.com
+        - label: GitHub
+          href: https://github.com/rapi-doc/RapiDocPortal
+  social:
+    - icon: github
+      href: https://github.com/rapi-doc/RapiDocPortal
+  copyright: © 2026 RapiDoc. MIT licensed.
+rapidoc:
+  render-style: read
+  schema-style: tree
