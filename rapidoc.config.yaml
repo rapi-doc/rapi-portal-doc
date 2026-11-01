@@ -111,14 +111,6 @@ apis:
 docs:
   editUrl: https://github.com/rapi-doc/rapi-portal-doc/edit/main/docs/
 footer:
-  cta:
-    title: Build your portal in five minutes
-    description: Point it at your OpenAPI files, write guides in Markdown, ship static HTML.
-    links:
-      - label: Quickstart
-        href: /docs/getting-started/quickstart
-      - label: See the example API
-        href: /apis/bookstore
   columns:
     - title: Get started
       links:
