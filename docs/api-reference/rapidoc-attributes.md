@@ -29,7 +29,7 @@ Without a `rapidoc:` key, the portal uses:
 | `allow-try` | `true` |
 | `allow-authentication` | `true` |
 | `allow-server-selection` | `false` |
-| `show-method-in-nav-bar` | `as-colored-block` |
+| `show-method-in-nav-bar` | `as-colored-text` |
 | `use-path-in-nav-bar` | `false` |
 
 Your `rapidoc:` values replace these.
@@ -40,14 +40,14 @@ The sidebar of an API reference page is drawn by the portal, not by `<rapi-doc>`
 
 ```yaml title="rapidoc.config.yaml"
 rapidoc:
-  show-method-in-nav-bar: as-colored-text   # as-colored-block (default) | as-colored-text | as-plain-text | false
+  show-method-in-nav-bar: as-colored-block  # as-colored-text (default) | as-colored-block | as-plain-text | false
   use-path-in-nav-bar: true                 # show each operation's path instead of its summary
 ```
 
 | `show-method-in-nav-bar` | Shows |
 | :--- | :--- |
-| `as-colored-block` | A colored three-letter badge: `GET`, `POS`, `DEL`. |
 | `as-colored-text` | The method in its color: `GET`, `POST`, `DELETE`. |
+| `as-colored-block` | A colored three-letter badge: `GET`, `POS`, `DEL`. |
 | `as-plain-text` | The method in the text color. |
 | `false` | No method. |
 
