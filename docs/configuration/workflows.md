@@ -58,7 +58,7 @@ npx rapidoc mock
 A workflow that spans several APIs works the same way: each API answers under its own `/<api id>`.
 
 - **Credentials**: the run panel has one field per security scheme of the workflow's APIs. Values stay in the page. Started with `--issuer`, the mock checks a pasted token's signature, audience and scopes, so a step the reader isn't allowed to call fails with `403`, and the workflow follows its `onFailure` actions.
-- **Failure paths**: the mock answers each operation's documented success response. To walk a failure branch, call the mock with `Prefer: code=<status>` from a tool such as curl; the run panel doesn't set it yet.
+- **Failure paths**: the mock answers each operation's documented success response. To walk a failure branch, open **Mock status** in the run panel and give a step the status it should get (`404`, or `503, 200` for a first attempt that fails and a retry that succeeds); the run sends it to the mock as `Prefer: code=<status>`.
 - **Before you publish**: move the real server first, or the published portal runs workflows against `localhost`.
 
 ## Checks
