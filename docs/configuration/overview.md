@@ -60,6 +60,7 @@ The engine also reads `rapidoc.config.yml`, `.json`, `.js`, `.mjs` and `.ts`. A 
 - [Header](/docs/configuration/header/): links, dropdowns, mega-menus
 - [Navigation](/docs/configuration/navigation/): tabs and sidebars
 - [APIs](/docs/configuration/apis/): specs, ids, categories
+- [Workflows](/docs/configuration/workflows/): Arazzo files, drawn and runnable in the docs
 - [Footer](/docs/configuration/footer/)
 - [Docs, search and redirects](/docs/configuration/docs-search-redirects/)
 - [Sign-in and access](/docs/access/overview/)

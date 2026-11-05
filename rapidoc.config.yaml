@@ -59,6 +59,7 @@ navigation:
           - { slug: configuration/header, icon: browser }
           - { slug: configuration/navigation, icon: compass }
           - { slug: configuration/apis, icon: plugs-connected }
+          - { slug: configuration/workflows, icon: flow-arrow }
           - { slug: configuration/footer, icon: copyright }
           - { slug: configuration/docs-search-redirects, icon: magnifying-glass }
           - { slug: configuration/llms, icon: sparkle }
@@ -108,6 +109,8 @@ apis:
   - id: bookstore
     spec: ./specs/bookstore.yaml
     category: Examples
+workflows:
+  - file: ./workflows/bookstore.arazzo.yaml
 docs:
   editUrl: https://github.com/rapi-doc/rapi-portal-doc/edit/main/docs/
 footer:

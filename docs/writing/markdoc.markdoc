@@ -113,6 +113,16 @@ Webhooks {% badge text="Beta" variant="caution" /%}
 
 Embeds one live operation from an API in `apis:`. See [Embedding operations](/docs/writing/embedding-operations/).
 
+## Workflow
+
+```markdoc
+{% workflow file="bookstore" id="findBook" title="Find a book" /%}
+```
+
+{% workflow file="bookstore" id="findBook" title="Find a book" /%}
+
+Draws one workflow of a file in [`workflows:`](/docs/configuration/workflows/): `file` is the entry's id, `id` the `workflowId` in the file (default: its first workflow), `view` is `expanded` (the default) or `compact`, and `title` a caption. The diagram is generated at build time, so it shows without JavaScript; **Run workflow** loads the runner and executes the steps from the browser, asking for the inputs and credentials first.
+
 ## More tags
 
 | Tag | Does |

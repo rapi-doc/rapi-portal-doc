@@ -77,6 +77,16 @@ A tab or sidebar item with `api` can have `version`: one of that API's versions.
 | `version` | lowercase letters, digits, dots, dashes; **required** for a URL spec | `info.version` |
 | `label` | string | `info.version` |
 
+## `workflows[]`
+
+| Key | Type | Default |
+| :--- | :--- | :--- |
+| `file` | path to an Arazzo 1.x file; **required** | |
+| `id` | lowercase letters, digits, dashes | the file name without `.arazzo.yaml` |
+| `sources` | map of source description name → API id | sources named like an API id |
+
+See [Workflows](/docs/configuration/workflows/).
+
 ## `docs`
 
 | Key | Type | Default |
