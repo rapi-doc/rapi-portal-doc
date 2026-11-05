@@ -14,6 +14,7 @@ RAPIDOC_SESSION_SECRET=... RAPIDOC_AUTH_CLIENT_SECRET=... RAPIDOC_PUBLIC_URL=htt
 
 - **Stateless**: the session is an encrypted cookie, so any number of instances can run behind a load balancer. No database.
 - **Small**: it needs only Node, the CLI, `@rapidoc/server` and the build. Not `@rapidoc/portal`.
+- **Agents too**: the APIs and workflows are MCP tools at `/mcp`, under the same rules. See [MCP server for agents](/docs/tools/mcp-server/).
 
 ## Environment variables
 
@@ -25,6 +26,7 @@ RAPIDOC_SESSION_SECRET=... RAPIDOC_AUTH_CLIENT_SECRET=... RAPIDOC_PUBLIC_URL=htt
 | `RAPIDOC_AUTH_ISSUER`, `RAPIDOC_AUTH_CLIENT_ID`, `RAPIDOC_AUTH_AUDIENCE` | no | Override `auth.issuer`, `auth.clientId`, `auth.audience`. |
 | `RAPIDOC_MOUNT_PATH` | no | Path requests arrive under, when a proxy strips part of the portal's path. `--mount-path` wins. Default: the path of `site.url`. |
 | `PORT`, `HOST` | no | Default `8080` and `0.0.0.0`. `--port` and `--host` win. |
+| `<SCHEME>`, `API_KEY` | no | API keys and HTTP Basic credentials for `/mcp` tool calls, named by the spec's security scheme id. See [MCP server for agents](/docs/tools/mcp-server/#credentials-of-other-kinds). |
 
 The server refuses to start, with the reason, when a required value is missing or the provider can't be discovered.
 

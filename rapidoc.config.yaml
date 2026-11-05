@@ -89,6 +89,7 @@ navigation:
         icon: wrench
         items:
           - { slug: tools/mock-server, icon: test-tube }
+          - { slug: tools/mcp-server, icon: robot }
           - { slug: tools/validate, icon: check-circle }
           - { slug: tools/migrate, icon: arrows-left-right }
       - label: Deploy

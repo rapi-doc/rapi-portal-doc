@@ -32,6 +32,8 @@ A static host can't check who is asking, so a portal with `auth` is served by `r
 
 The pages stay static. The header's sign-in button and the lock icons ask the server at runtime.
 
+Agents get the same treatment: `rapidoc serve` hosts the APIs as MCP tools at `/mcp`, and a signed-in reader can give their agent a token from the user menu. See [MCP server for agents](/docs/tools/mcp-server/).
+
 ```bash
 RAPIDOC_SESSION_SECRET=... RAPIDOC_AUTH_CLIENT_SECRET=... \
   npx rapidoc serve dist --port 8080
