@@ -121,7 +121,7 @@ Embeds one live operation from an API in `apis:`. See [Embedding operations](/do
 
 {% workflow file="bookstore" id="findBook" title="Find a book" /%}
 
-Draws one workflow of a file in [`workflows:`](/docs/configuration/workflows/): `file` is the entry's id, `id` the `workflowId` in the file (default: its first workflow), `view` is `expanded` (the default) or `compact`, and `title` a caption. The diagram is generated at build time, so it shows without JavaScript; **Run workflow** loads the runner and executes the steps from the browser, asking for the inputs and credentials first.
+Draws one workflow of a file in [`workflows:`](/docs/configuration/workflows/): `file` is the entry's id, `id` the `workflowId` in the file (default: its first workflow), `view` is `expanded` (the default) or `compact`, and `title` a caption. The tag shows the workflow runner: the diagram with a panel for the inputs and credentials, and **Run workflow** executes the steps from the browser. The same diagram is also generated at build time, so it shows while the runner loads and without JavaScript.
 
 ## More tags
 
