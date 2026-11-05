@@ -40,6 +40,27 @@ sourceDescriptions:
 
 The `url` still matters when a reader runs the workflow from a docs page: the first source is replaced by the API's published spec, and the others are fetched relative to the published workflow file. Writing them relative to the file (`../specs/orders.yaml`) works both on disk and once published.
 
+## Run against the mock
+
+**Run workflow** sends each step's request to the first server of that step's API, from the reader's browser. List [`rapidoc mock`](/docs/tools/mock-server/) first in each spec's `servers`, and every workflow on your docs pages runs with no backend:
+
+```yaml title="specs/orders.yaml"
+servers:
+  - url: http://localhost:4010/orders
+    description: Mock server (rapidoc mock)
+  - url: https://api.acme.com/v1
+```
+
+```bash
+npx rapidoc mock
+```
+
+A workflow that spans several APIs works the same way: each API answers under its own `/<api id>`.
+
+- **Credentials**: the run panel has one field per security scheme of the workflow's APIs. Values stay in the page. Started with `--issuer`, the mock checks a pasted token's signature, audience and scopes, so a step the reader isn't allowed to call fails with `403`, and the workflow follows its `onFailure` actions.
+- **Failure paths**: the mock answers each operation's documented success response. To walk a failure branch, call the mock with `Prefer: code=<status>` from a tool such as curl; the run panel doesn't set it yet.
+- **Before you publish**: move the real server first, or the published portal runs workflows against `localhost`.
+
 ## Checks
 
 `rapidoc validate`, `rapidoc dev` and `rapidoc build` warn about a workflow the runtime cannot run and leave it out of the MCP export: a step whose operation is not in the API's spec, a source that matches no API, a step that calls another workflow, or `regex`, `jsonpath` and `xpath` criteria (only simple conditions such as `$statusCode == 200` run for now). The diagram still draws such a workflow.

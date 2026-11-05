@@ -22,7 +22,7 @@ servers:
     description: Local mock
 ```
 
-This site's [example API](/apis/bookstore/) does exactly that: run `npm run mock` in its repository and **Try** answers.
+This site's [example API](/apis/bookstore/) does exactly that: run `npm run mock` in its repository and **Try** answers. **Run workflow** on a [workflow](/docs/configuration/workflows/#run-against-the-mock) diagram uses the same server, so whole workflows run with no backend.
 
 ## What it answers
 
