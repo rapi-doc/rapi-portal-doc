@@ -15,9 +15,13 @@ rapidoc <command> [options]
 | `dev [dir]` | Starts the dev server with live reload on `http://localhost:4321`. |
 | `build [dir]` | Builds the static portal into `dist/`. |
 | `serve [dist]` | Serves a built portal, with sign-in and access rules. Default folder `dist`. |
+| `preview <spec>` | Shows one spec (a file or URL) in `<rapi-doc>` on `http://localhost:4000`, reloading when a file in its folder changes. No portal needed. |
 | `mock [dir \| spec...]` | Mock server for a portal's APIs, a folder of specs, or spec files, each under `/<api id>`. |
 | `validate [spec \| dir]` | Validates one spec (a file or URL), or every spec and workflow file in a portal ([Validate](/docs/tools/validate/)). |
+| `mcp export <spec>` | Writes an MCP server project for the spec ([MCP server](/docs/tools/mcp-server/#from-the-command-line)). |
+| `mcp serve <spec>` | Runs that MCP server over stdio, without writing files. |
 | `migrate [--from <src>]` | Writes `rapidoc.config.yaml` from a `zudoku` or `redocly` project (found in the folder when `--from` is left out). |
+| `doctor [dir]` | Checks Node, the packages' versions, the portal config and the browser bundle; `--format json` for bug reports. |
 | `help [command]` | Shows help, or one command's options and examples (same as `rapidoc <command> --help`). |
 | `--version`, `-v` | Shows the version. |
 
@@ -28,8 +32,10 @@ Options and arguments can come in any order (`rapidoc build --out-dir public ./p
 | Option | Commands | Meaning |
 | :--- | :--- | :--- |
 | `--out-dir <path>` | build | Output folder. Default `dist`. |
-| `--port <number>` | dev, serve, mock | dev: default `4321`; serve: `$PORT` or `8080`; mock: `4010`. |
-| `--host <host>` | serve, mock | Address to listen on. Default `$HOST` (serve), else `0.0.0.0`. |
+| `--port <number>` | dev, serve, mock, preview | dev: default `4321`; serve: `$PORT` or `8080`; mock: `4010`; preview: `4000`. |
+| `--host <host>` | serve, mock, preview | Address to listen on. Default `$HOST` (serve), `localhost` (preview), else `0.0.0.0`. |
+| `--open` | dev, preview | Open the page in the browser. |
+| `--theme <name>` | preview | `<rapi-doc>` theme. |
 | `--mount-path <path>` | serve | Path requests arrive under, when a proxy strips part of the portal's path. Default `$RAPIDOC_MOUNT_PATH`, else the path of `site.url`. |
 | `--issuer <url>` | mock | OpenID Connect issuer whose tokens are accepted. Default `$RAPIDOC_MOCK_ISSUER`. |
 | `--audience <id>` | mock | Audience tokens must be issued for. Default `$RAPIDOC_MOCK_AUDIENCE`. |
@@ -40,9 +46,14 @@ Options and arguments can come in any order (`rapidoc build --out-dir public ./p
 | `--starter-spec` | init | Use the starter spec instead of the OpenAPI files found. |
 | `--force`, `-f` | init | Overwrite existing files (in a terminal, lists them and asks first). |
 | `--no-install` | init | Skip `npm install`. |
-| `--format <format>` | validate | `pretty` (default), `json` or `sarif`. |
+| `--format <format>` | validate, doctor | `pretty` (default), `json`, or `sarif` (validate). |
 | `--strict` | validate | Fail on warnings too. |
-| `--remote` | validate | Also check remote specs and remote `$ref`s. |
+| `--remote` | validate, mcp | Also fetch remote specs and remote `$ref`s. |
+| `--out-dir <path>` | mcp export | Where to write the project. Default `mcp-server`. |
+| `--force`, `-f` | mcp export | Write into a folder that isn't empty. |
+| `--arazzo <file>` | mcp | An Arazzo file whose workflows become tools too. |
+| `--server-name <name>` | mcp | The MCP server's name. Default: from the API title. |
+| `--base-url <url>` | mcp serve | Call the API here instead of the spec's server (for example `rapidoc mock`). |
 | `--help`, `-h` | all | Show the command's help instead of running it. |
 | `--quiet`, `-q` | all | Print errors and warnings only. |
 | `--yes`, `-y` | all | Don't ask anything: take the default answer to every question. |
@@ -81,6 +92,8 @@ The CLI loads the other packages only when a command needs them:
 | `dev`, `build`, `migrate`, `validate` (portal) | `@rapidoc/portal` |
 | `serve` | `@rapidoc/server` |
 | `mock` | `@rapidoc/mock` (and `@rapidoc/portal` for a portal folder) |
+| `preview`, `mcp export`, `doctor` | `@rapidoc/cli` only |
+| `mcp serve` | `@modelcontextprotocol/sdk` |
 
 ## Examples
 

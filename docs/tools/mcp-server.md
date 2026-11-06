@@ -48,6 +48,27 @@ The token is the reader's session (sealed like the cookies, never a copy of them
 
 The reader's access token fills `oauth2`, `openIdConnect` and HTTP `bearer` schemes. For an API that takes an API key or HTTP Basic, set the credential in the environment of `rapidoc serve`, named like the exported project's: the scheme id in upper snake case (`PARTNER_KEY`), `<SCHEME>_USERNAME` and `<SCHEME>_PASSWORD` for Basic, or `API_KEY` for any scheme. Every agent then calls that API with the same key.
 
+## From the command line
+
+For an API that isn't in a portal, or to try its tools before building one, the CLI turns any spec into an MCP server:
+
+```bash
+npx rapidoc mcp export openapi.yaml --out-dir orders-mcp   # writes the server project
+npx rapidoc mcp serve openapi.yaml                         # runs it over stdio, no files
+```
+
+`mcp serve` is what an agent's config can run directly (it needs `@modelcontextprotocol/sdk` installed next to the CLI):
+
+```json
+{
+  "mcpServers": {
+    "orders": { "command": "npx", "args": ["rapidoc", "mcp", "serve", "./specs/orders.yaml"] }
+  }
+}
+```
+
+Credentials come from the environment, one variable per security scheme as in the exported project (`BEARER_AUTH` for a scheme `BearerAuth`). `--base-url http://localhost:4010/orders` sends the calls to [`rapidoc mock`](/docs/tools/mock-server/) instead of the spec's server, and `--arazzo flows.arazzo.yaml` adds the workflows as tools.
+
 ## Exported servers
 
 Readers can also download a standalone MCP server for one API from its reference page (**Export MCP server**, with `rapidoc.mcp: true`): a small stdio server with the same manifest and runtime, for agents that run where the portal can't be reached.
