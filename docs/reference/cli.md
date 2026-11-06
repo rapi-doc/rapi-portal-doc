@@ -18,6 +18,7 @@ rapidoc <command> [options]
 | `preview <spec>` | Shows one spec (a file or URL) in `<rapi-doc>` on `http://localhost:4000`, reloading when a file in its folder changes. No portal needed. |
 | `mock [dir \| spec...]` | Mock server for a portal's APIs, a folder of specs, or spec files, each under `/<api id>`. |
 | `validate [spec \| dir]` | Validates one spec (a file or URL), or every spec and workflow file in a portal ([Validate](/docs/tools/validate/)). |
+| `bundle <spec>` | Writes a spec split over several files as one: other-file `$ref`s become components ([Bundle](/docs/tools/bundle/)). |
 | `mcp export <spec>` | Writes an MCP server project for the spec ([MCP server](/docs/tools/mcp-server/#from-the-command-line)). |
 | `mcp serve <spec>` | Runs that MCP server over stdio, without writing files. |
 | `migrate [--from <src>]` | Writes `rapidoc.config.yaml` from a `zudoku` or `redocly` project (found in the folder when `--from` is left out). |
@@ -46,9 +47,13 @@ Options and arguments can come in any order (`rapidoc build --out-dir public ./p
 | `--starter-spec` | init | Use the starter spec instead of the OpenAPI files found. |
 | `--force`, `-f` | init | Overwrite existing files (in a terminal, lists them and asks first). |
 | `--no-install` | init | Skip `npm install`. |
-| `--format <format>` | validate, doctor | `pretty` (default), `json`, or `sarif` (validate). |
+| `--format <format>` | validate, doctor, bundle | validate, doctor: `pretty` (default), `json`, or `sarif` (validate). bundle: `yaml` or `json` (default: by the output file's extension). |
 | `--strict` | validate | Fail on warnings too. |
-| `--remote` | validate, mcp | Also fetch remote specs and remote `$ref`s. |
+| `--remote` | validate, mcp, bundle | Also fetch remote specs and remote `$ref`s. |
+| `--output <file>`, `-o` | bundle | Write the bundle here instead of stdout. |
+| `--dereference` | bundle | Inline every `$ref`, in-file ones too. |
+| `--no-validate` | bundle | Don't check the result against the OpenAPI Specification. |
+| `--api <id>` | bundle | The spec of this API from `rapidoc.config.*`, instead of a file. |
 | `--out-dir <path>` | mcp export | Where to write the project. Default `mcp-server`. |
 | `--force`, `-f` | mcp export | Write into a folder that isn't empty. |
 | `--arazzo <file>` | mcp | An Arazzo file whose workflows become tools too. |
@@ -92,7 +97,8 @@ The CLI loads the other packages only when a command needs them:
 | `dev`, `build`, `migrate`, `validate` (portal) | `@rapidoc/portal` |
 | `serve` | `@rapidoc/server` |
 | `mock` | `@rapidoc/mock` (and `@rapidoc/portal` for a portal folder) |
-| `preview`, `mcp export`, `doctor` | `@rapidoc/cli` only |
+| `preview`, `bundle <spec>`, `mcp export`, `doctor` | `@rapidoc/cli` only |
+| `bundle --api` | `@rapidoc/portal` |
 | `mcp serve` | `@modelcontextprotocol/sdk` |
 
 ## Examples
@@ -105,5 +111,6 @@ rapidoc serve dist --port 8080
 rapidoc mock --issuer https://example.us.auth0.com/ --audience https://api.example.com
 rapidoc mock ./specs --port 4011
 rapidoc validate ./specs/orders-api.yaml
+rapidoc bundle ./specs/orders-api.yaml -o dist/orders-api.json
 rapidoc migrate --from zudoku
 ```
