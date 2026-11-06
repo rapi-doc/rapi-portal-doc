@@ -141,6 +141,15 @@ See [Workflows](/docs/configuration/workflows/).
 
 An allow is `public`, `signed-in`, or `{ groups?, emails? }`.
 
+## `lint`
+
+Settings for [`rapidoc lint`](/docs/tools/lint/); the build ignores them.
+
+| Key | Type | Default |
+| :--- | :--- | :--- |
+| `lint.rules` | `{ <rule>: error \| warn \| off }` | each rule's own default |
+| `lint.apis` | `{ <api id>: { <rule>: severity } }`, wins over `rules` | |
+
 ## JSON Schema
 
 The full schema ships as `@rapidoc/portal/schema.json`. Point your editor at it for autocomplete:

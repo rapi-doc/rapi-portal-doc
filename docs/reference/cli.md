@@ -18,6 +18,7 @@ rapidoc <command> [options]
 | `preview <spec>` | Shows one spec (a file or URL) in `<rapi-doc>` on `http://localhost:4000`, reloading when a file in its folder changes. No portal needed. |
 | `mock [dir \| spec...]` | Mock server for a portal's APIs, a folder of specs, or spec files, each under `/<api id>`. |
 | `validate [spec \| dir]` | Validates one spec (a file or URL), or every spec and workflow file in a portal ([Validate](/docs/tools/validate/)). |
+| `lint [spec \| dir]` | Checks what a spec needs to make a good portal: operationIds, summaries, examples, security, declared tags ([Lint](/docs/tools/lint/)). |
 | `bundle <spec>` | Writes a spec split over several files as one: other-file `$ref`s become components ([Bundle](/docs/tools/bundle/)). |
 | `mcp export <spec>` | Writes an MCP server project for the spec ([MCP server](/docs/tools/mcp-server/#from-the-command-line)). |
 | `mcp serve <spec>` | Runs that MCP server over stdio, without writing files. |
@@ -47,9 +48,11 @@ Options and arguments can come in any order (`rapidoc build --out-dir public ./p
 | `--starter-spec` | init | Use the starter spec instead of the OpenAPI files found. |
 | `--force`, `-f` | init | Overwrite existing files (in a terminal, lists them and asks first). |
 | `--no-install` | init | Skip `npm install`. |
-| `--format <format>` | validate, doctor, bundle | validate, doctor: `pretty` (default), `json`, or `sarif` (validate). bundle: `yaml` or `json` (default: by the output file's extension). |
-| `--strict` | validate | Fail on warnings too. |
-| `--remote` | validate, mcp, bundle | Also fetch remote specs and remote `$ref`s. |
+| `--format <format>` | validate, lint, doctor, bundle | validate, lint, doctor: `pretty` (default), `json`, or `sarif` (validate, lint). bundle: `yaml` or `json` (default: by the output file's extension). |
+| `--strict` | validate, lint | Fail on warnings too. |
+| `--rule <name>=<severity>` | lint | A rule's severity: `error`, `warn` or `off`; repeatable. |
+| `--rules` | lint | List the rules and their defaults. |
+| `--remote` | validate, lint, mcp, bundle | Also fetch remote specs and remote `$ref`s. |
 | `--output <file>`, `-o` | bundle | Write the bundle here instead of stdout. |
 | `--dereference` | bundle | Inline every `$ref`, in-file ones too. |
 | `--no-validate` | bundle | Don't check the result against the OpenAPI Specification. |
@@ -93,8 +96,8 @@ The CLI loads the other packages only when a command needs them:
 
 | Command | Needs |
 | :--- | :--- |
-| `init`, `validate <spec>` | `@rapidoc/cli` only |
-| `dev`, `build`, `migrate`, `validate` (portal) | `@rapidoc/portal` |
+| `init`, `validate <spec>`, `lint <spec>` | `@rapidoc/cli` only |
+| `dev`, `build`, `migrate`, `validate` and `lint` of a portal folder | `@rapidoc/portal` |
 | `serve` | `@rapidoc/server` |
 | `mock` | `@rapidoc/mock` (and `@rapidoc/portal` for a portal folder) |
 | `preview`, `bundle <spec>`, `mcp export`, `doctor` | `@rapidoc/cli` only |
@@ -111,6 +114,7 @@ rapidoc serve dist --port 8080
 rapidoc mock --issuer https://example.us.auth0.com/ --audience https://api.example.com
 rapidoc mock ./specs --port 4011
 rapidoc validate ./specs/orders-api.yaml
+rapidoc lint --strict
 rapidoc bundle ./specs/orders-api.yaml -o dist/orders-api.json
 rapidoc migrate --from zudoku
 ```
