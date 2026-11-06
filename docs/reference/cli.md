@@ -16,7 +16,7 @@ rapidoc <command> [options]
 | `build [dir]` | Builds the static portal into `dist/`. |
 | `serve [dist]` | Serves a built portal, with sign-in and access rules. Default folder `dist`. |
 | `mock [dir \| spec...]` | Mock server for a portal's APIs, a folder of specs, or spec files, each under `/<api id>`. |
-| `validate [spec \| dir]` | Validates one spec, or every spec in a portal's `apis:`. |
+| `validate [spec \| dir]` | Validates one spec (a file or URL), or every spec and workflow file in a portal ([Validate](/docs/tools/validate/)). |
 | `migrate --from <src>` | Writes `rapidoc.config.yaml` from a `zudoku` or `redocly` project. |
 | `help [command]` | Shows help, or one command's options and examples (same as `rapidoc <command> --help`). |
 | `--version`, `-v` | Shows the version. |
@@ -39,6 +39,9 @@ Options and arguments can come in any order (`rapidoc build --out-dir public ./p
 | `--force`, `-f` | init | Overwrite existing files. |
 | `--yes`, `-y` | init | Accept the defaults without asking. |
 | `--no-install` | init | Skip `npm install`. |
+| `--format <format>` | validate | `pretty` (default), `json` or `sarif`. |
+| `--strict` | validate | Fail on warnings too. |
+| `--remote` | validate | Also check remote specs and remote `$ref`s. |
 | `--help`, `-h` | all | Show the command's help instead of running it. |
 | `--quiet`, `-q` | all | Print errors and warnings only. |
 
