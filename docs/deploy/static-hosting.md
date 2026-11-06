@@ -7,7 +7,7 @@ Without `auth`, `rapidoc build` writes a plain static site to `dist/`. Host it a
 
 ```bash
 npx rapidoc build                 # dist/
-npx rapidoc build --outDir public # another folder
+npx rapidoc build --out-dir public # another folder
 ```
 
 Set `site.url` to the portal's public URL, for canonical links and the sitemap. To host the portal in a folder of another site, put the folder in the URL (`https://acme.com/developers`): links are built with `/developers` in front, and you upload `dist/` into that folder ([Serving under a path](/docs/configuration/site/#serving-under-a-path)).
