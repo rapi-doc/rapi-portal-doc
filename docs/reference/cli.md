@@ -17,7 +17,7 @@ rapidoc <command> [options]
 | `serve [dist]` | Serves a built portal, with sign-in and access rules. Default folder `dist`. |
 | `mock [dir \| spec...]` | Mock server for a portal's APIs, a folder of specs, or spec files, each under `/<api id>`. |
 | `validate [spec \| dir]` | Validates one spec (a file or URL), or every spec and workflow file in a portal ([Validate](/docs/tools/validate/)). |
-| `migrate --from <src>` | Writes `rapidoc.config.yaml` from a `zudoku` or `redocly` project. |
+| `migrate [--from <src>]` | Writes `rapidoc.config.yaml` from a `zudoku` or `redocly` project (found in the folder when `--from` is left out). |
 | `help [command]` | Shows help, or one command's options and examples (same as `rapidoc <command> --help`). |
 | `--version`, `-v` | Shows the version. |
 
@@ -35,15 +35,30 @@ Options and arguments can come in any order (`rapidoc build --out-dir public ./p
 | `--audience <id>` | mock | Audience tokens must be issued for. Default `$RAPIDOC_MOCK_AUDIENCE`. |
 | `--seed <number>` | mock | Seed for generated data. Default `1`. |
 | `--debug` | dev, build | Keep the temporary build workspace and print its path. |
-| `--title <title>` | init | Site title. Asked for in a terminal when omitted. |
-| `--force`, `-f` | init | Overwrite existing files. |
-| `--yes`, `-y` | init | Accept the defaults without asking. |
+| `--title <title>` | init | Site title. |
+| `--spec <file>` | init | An OpenAPI file to include; repeat for more. Default: every one found in the folder. |
+| `--starter-spec` | init | Use the starter spec instead of the OpenAPI files found. |
+| `--force`, `-f` | init | Overwrite existing files (in a terminal, lists them and asks first). |
 | `--no-install` | init | Skip `npm install`. |
 | `--format <format>` | validate | `pretty` (default), `json` or `sarif`. |
 | `--strict` | validate | Fail on warnings too. |
 | `--remote` | validate | Also check remote specs and remote `$ref`s. |
 | `--help`, `-h` | all | Show the command's help instead of running it. |
 | `--quiet`, `-q` | all | Print errors and warnings only. |
+| `--yes`, `-y` | all | Don't ask anything: take the default answer to every question. |
+
+## Questions
+
+In a terminal, commands ask for what their options don't say, and `rapidoc` alone shows a menu of the common commands. When the output is piped, `CI` is set, or `--yes` is given, they never ask: they use the defaults, or stop and name the option to pass. Every question has an option, so any run can be scripted.
+
+| Command | Asks | Option that answers it |
+| :--- | :--- | :--- |
+| `init` | The site title, which of the OpenAPI files found to include, whether to run `npm install`. Then prints the command that does the same without questions. | `--title`, `--spec` / `--starter-spec`, `--no-install` |
+| `init --force` | Whether to replace the existing files it lists. | `--yes` |
+| `migrate` | Which project to migrate, when `--from` is left out (it looks for `redocly.yaml` and `zudoku.config.*`); whether to replace an existing `rapidoc.config.yaml`. | `--from`, `--yes` |
+| `dev`, `serve`, `mock` | Whether to use the next free port when the port is taken. Without a terminal, `serve` and `mock` stop (`dev` moves to a free port by itself). | `--port`, `--yes` |
+
+`Ctrl+C` on a question cancels the command (exit code `130`).
 
 ## Output and exit codes
 
@@ -54,6 +69,7 @@ On a terminal the CLI prints icons; when its output is piped or `NO_COLOR` is se
 | `0` | Success. |
 | `1` | A problem in the input: an invalid spec or config, a failed build, a missing package. |
 | `2` | A wrong command line: an unknown command or option, a missing or malformed value. |
+| `130` | Cancelled at a question (`Ctrl+C`). |
 
 ## Which packages each command needs
 

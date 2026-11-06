@@ -20,7 +20,7 @@ The RapiDoc Portal packages are not on npm yet. Until they are, run the CLI from
 npm create rapidoc@latest my-portal
 ```
 
-In a repository that already has OpenAPI files, run `npx rapidoc init` there instead. It finds the specs and lists them under `apis:` in the new config. Options: `--title "Acme Developers"`, `--yes` to accept the defaults, `--no-install`, and `--force` to overwrite existing files.
+In a repository that already has OpenAPI files, run `npx rapidoc init` there instead. It finds the specs and asks which to list under `apis:`, the site title, and whether to install the dependencies, then prints the command that does the same without questions. Options: `--title "Acme Developers"`, `--spec <file>` (repeatable), `--no-install`, `--force` to overwrite existing files, and `--yes` to take the defaults without asking.
 {% /step %}
 
 {% step title="Start the dev server" %}
