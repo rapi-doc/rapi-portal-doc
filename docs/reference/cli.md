@@ -24,6 +24,7 @@ rapidoc <command> [options]
 | `mcp serve <spec>` | Runs that MCP server over stdio, without writing files. |
 | `migrate [--from <src>]` | Writes `rapidoc.config.yaml` from a `zudoku` or `redocly` project (found in the folder when `--from` is left out). |
 | `doctor [dir]` | Checks Node, the packages' versions, the portal config and the browser bundle; `--format json` for bug reports. |
+| `completion <zsh \| bash \| fish>` | Prints a completion script for the shell ([Shell completion](#shell-completion)). |
 | `help [command]` | Shows help, or one command's options and examples (same as `rapidoc <command> --help`). |
 | `--version`, `-v` | Shows the version. |
 
@@ -103,6 +104,27 @@ The CLI loads the other packages only when a command needs them:
 | `preview`, `bundle <spec>`, `mcp export`, `doctor` | `@rapidoc/cli` only |
 | `bundle --api` | `@rapidoc/portal` |
 | `mcp serve` | `@modelcontextprotocol/sdk` |
+
+## Shell completion
+
+`rapidoc completion <shell>` prints a script that completes commands, options, their values (`--format pretty|json|sarif`, `mcp export|serve`) and file names. It is generated from the commands themselves, so it matches the installed version; regenerate it after updating.
+
+```bash
+# zsh: a folder in $fpath, before compinit runs (or: eval "$(rapidoc completion zsh)" in ~/.zshrc)
+rapidoc completion zsh > ~/.zsh/completions/_rapidoc
+```
+
+```bash
+# bash: in ~/.bashrc
+eval "$(rapidoc completion bash)"
+```
+
+```bash
+# fish
+rapidoc completion fish > ~/.config/fish/completions/rapidoc.fish
+```
+
+With `npx` instead of a global install, use `npx rapidoc completion zsh` once to write the file; `eval` on every shell start would run npx each time.
 
 ## Examples
 
