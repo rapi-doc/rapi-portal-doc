@@ -15,7 +15,7 @@ rapidoc:
   font-size: largest
 ```
 
-Values are strings, numbers or booleans. Every attribute is described in the [RapiDoc API reference](https://rapidocweb.com/api.html).
+Values are strings, numbers or booleans. Every attribute is described in the [RapiDoc API reference](https://rapidocui.com/api).
 
 ## Portal defaults
 

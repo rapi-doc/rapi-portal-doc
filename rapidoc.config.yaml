@@ -2,6 +2,7 @@
 # The RapiDoc Portal documentation, built with RapiDoc Portal.
 site:
   title: RapiDoc Portal
+  url: https://portal.rapidocui.com
   description: Turn OpenAPI specs and Markdown guides into a developer portal. Docs as code, static output, optional sign-in.
   logo:
     src:
@@ -25,7 +26,7 @@ header:
     - label: Ecosystem
       items:
         - label: RapiDoc web component
-          href: https://rapidocweb.com
+          href: https://rapidocui.com
           icon: puzzle-piece
           description: The <rapi-doc> element behind every API reference page
         - label: Mock server
@@ -137,7 +138,7 @@ footer:
     - title: Project
       links:
         - label: RapiDoc
-          href: https://rapidocweb.com
+          href: https://rapidocui.com
         - label: GitHub
           href: https://github.com/rapi-doc/rapi-portal-doc
   social:

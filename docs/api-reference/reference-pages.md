@@ -3,7 +3,7 @@ title: Reference pages
 description: What each API's reference page shows, its URLs, and how to link to an operation.
 ---
 
-Every API in `apis:` gets an interactive reference page, rendered by the [RapiDoc](https://rapidocweb.com) web component. See one: [the example Bookstore API](/apis/bookstore/).
+Every API in `apis:` gets an interactive reference page, rendered by the [RapiDoc](https://rapidocui.com) web component. See one: [the example Bookstore API](/apis/bookstore/).
 
 ## URLs
 

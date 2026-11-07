@@ -9,7 +9,7 @@ A portal has:
 
 - **A home page** from `docs/index.md`, `.mdx` or `.markdoc`.
 - **Guides** under `/docs/...`, written in Markdown, MDX or Markdoc.
-- **An interactive API reference** for each spec at `/apis/<id>`, rendered by the [RapiDoc](https://rapidocweb.com) web component.
+- **An interactive API reference** for each spec at `/apis/<id>`, rendered by the [RapiDoc](https://rapidocui.com) web component.
 - **An API catalog** at `/catalog`, with every API grouped by category.
 - **Full-text search** across guides and API operations.
 - **A header with tabs**, where each documentation tab has its own sidebar, plus a footer, a banner and light and dark themes.

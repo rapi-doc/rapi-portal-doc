@@ -1,0 +1,74 @@
+name: Deploy to GitHub Pages
+
+# Builds the portal docs and publishes them at https://portal.rapidocui.com
+# (public/CNAME keeps the custom domain on every deploy).
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # The portal packages are not on npm yet: the scripts in package.json run the CLI
+      # from ../rapidoc, so check out both repositories side by side.
+      - name: Checkout this repository
+        uses: actions/checkout@v4
+        with:
+          path: rapi-portal-doc
+
+      - name: Checkout the RapiDoc monorepo
+        uses: actions/checkout@v4
+        with:
+          repository: rapi-doc/RapiDoc
+          ref: master
+          path: rapidoc
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: rapidoc/package-lock.json
+
+      - name: Install and build the RapiDoc packages
+        working-directory: rapidoc
+        run: |
+          npm ci
+          npm run build:rapidoc
+          npm run build:mcp
+          npm run build:prerender
+
+      - name: Build the portal
+        working-directory: rapi-portal-doc
+        run: npm run build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: rapi-portal-doc/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
