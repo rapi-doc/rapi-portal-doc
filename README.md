@@ -4,15 +4,10 @@ The documentation site for [RapiDoc Portal](https://github.com/rapi-doc/RapiDoc)
 
 ## Run it locally
 
-The portal packages are not on npm yet, so this repository runs the CLI from a checkout of the RapiDoc monorepo next to it:
-
-```text
-work/
-├── rapidoc/    # https://github.com/rapi-doc/RapiDoc (npm install, npm run build:rapidoc)
-└── rapi-portal-doc/    # this repository
-```
+Node.js 22.12 or later. The site uses the published packages (`@rapidoc/cli`, `@rapidoc/portal`, `@rapidoc/server`, `@rapidoc/mock`):
 
 ```bash
+npm install
 npm run dev       # http://localhost:4321
 npm run build     # static site in dist/
 npm run serve     # serves dist/ on http://localhost:8080 (PORT=8090 npm run serve for another port)
@@ -21,7 +16,9 @@ npm run validate  # checks specs/bookstore.yaml
 npm run mock      # mock server for the example API on http://localhost:4010
 ```
 
-Once the packages are published, the scripts become `rapidoc dev`, `rapidoc build`, ... with `@rapidoc/cli` and `@rapidoc/portal` as dev dependencies.
+Pushes to `main` deploy the site to https://portal.rapidocui.com (`.github/workflows/deploy.yml`).
+
+To try unreleased portal changes, install from a checkout of the [RapiDoc monorepo](https://github.com/rapi-doc/RapiDoc) next to this one, e.g. `npm install -D ../rapidoc/packages/rapidoc-portal`, and don't commit that change.
 
 ## Layout
 

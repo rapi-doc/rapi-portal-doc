@@ -102,4 +102,4 @@ site:
     color: '#000000'          # optional: text color
 ```
 
-The banner sits above the header on every page. This site uses one to say the packages are in preview.
+The banner sits above the header on every page.

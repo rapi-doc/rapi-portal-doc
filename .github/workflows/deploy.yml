@@ -21,37 +21,19 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # The portal packages are not on npm yet: the scripts in package.json run the CLI
-      # from ../rapidoc, so check out both repositories side by side.
-      - name: Checkout this repository
+      - name: Checkout
         uses: actions/checkout@v4
-        with:
-          path: rapi-portal-doc
-
-      - name: Checkout the RapiDoc monorepo
-        uses: actions/checkout@v4
-        with:
-          repository: rapi-doc/RapiDoc
-          ref: master
-          path: rapidoc
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: rapidoc/package-lock.json
 
-      - name: Install and build the RapiDoc packages
-        working-directory: rapidoc
-        run: |
-          npm ci
-          npm run build:rapidoc
-          npm run build:mcp
-          npm run build:prerender
+      - name: Install
+        run: npm ci
 
       - name: Build the portal
-        working-directory: rapi-portal-doc
         run: npm run build
 
       - name: Setup Pages
@@ -60,7 +42,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: rapi-portal-doc/dist
+          path: dist
 
   deploy:
     needs: build

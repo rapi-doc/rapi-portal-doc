@@ -3,10 +3,6 @@ title: Quickstart
 description: Create a portal, preview it, and build it for production.
 ---
 
-{% callout type="caution" title="Preview" %}
-The RapiDoc Portal packages are not on npm yet. Until they are, run the CLI from a checkout of the [RapiDoc monorepo](https://github.com/rapi-doc/RapiDoc): `node <monorepo>/packages/rapidoc-cli/src/index.js <command>` instead of `npx rapidoc <command>`.
-{% /callout %}
-
 ## Prerequisites
 
 - Node.js 22.12 or later

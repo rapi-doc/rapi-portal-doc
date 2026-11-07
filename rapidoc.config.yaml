@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=../rapidoc/packages/rapidoc-portal/schema.json
+# yaml-language-server: $schema=./node_modules/@rapidoc/portal/schema.json
 # The RapiDoc Portal documentation, built with RapiDoc Portal.
 site:
   title: RapiDoc Portal
@@ -10,11 +10,6 @@ site:
       dark: /rapidoc-lockup-dark.svg
     text: Portal
   favicon: /rapidoc-leaves.svg
-  banner:
-    message: RapiDoc Portal is in preview. Packages are not on npm yet.
-    href: /docs/getting-started/quickstart
-    background: "#ff791a"
-    color: "#1c1917"
 theme:
   primary: "#ff791a"
   mode: auto

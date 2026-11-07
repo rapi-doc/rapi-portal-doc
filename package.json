@@ -5,11 +5,17 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "node ../rapidoc/packages/rapidoc-cli/src/index.js dev",
-    "build": "node ../rapidoc/packages/rapidoc-cli/src/index.js build",
-    "serve": "node ../rapidoc/packages/rapidoc-cli/src/index.js serve",
+    "dev": "rapidoc dev",
+    "build": "rapidoc build",
+    "serve": "rapidoc serve",
     "preview": "npm run build && npm run serve",
-    "validate": "node ../rapidoc/packages/rapidoc-cli/src/index.js validate",
-    "mock": "node ../rapidoc/packages/rapidoc-cli/src/index.js mock"
+    "validate": "rapidoc validate",
+    "mock": "rapidoc mock"
+  },
+  "devDependencies": {
+    "@rapidoc/cli": "^0.1.0",
+    "@rapidoc/mock": "^0.1.0",
+    "@rapidoc/portal": "^0.1.1",
+    "@rapidoc/server": "^0.1.0"
   }
 }
