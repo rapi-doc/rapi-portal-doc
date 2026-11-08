@@ -16,6 +16,19 @@ RAPIDOC_SESSION_SECRET=... RAPIDOC_AUTH_CLIENT_SECRET=... RAPIDOC_PUBLIC_URL=htt
 - **Small**: it needs only Node, the CLI, `@rapidoc/server` and the build. Not `@rapidoc/portal`.
 - **Agents too**: the APIs and workflows are MCP tools at `/mcp`, under the same rules. See [MCP server for agents](/docs/tools/mcp-server/).
 
+You need it only for per-page or per-group access rules. A public portal, or one that is private as a whole behind your SSO proxy, is plain static files: see [Static hosting](/docs/deploy/static-hosting/#need-sign-in-sso).
+
+## Availability and scaling
+
+The server is a small Node process that reads the build from disk. It keeps nothing in memory between requests that another instance would need, so run it like any stateless web service:
+
+- **Two or more instances** behind a load balancer, with the same `RAPIDOC_SESSION_SECRET`. Readers stay signed in whichever instance answers, and through restarts and deploys.
+- **Health check**: `GET /_rapidoc/health` for the load balancer, Kubernetes or ECS.
+- **Rolling deploys**: on `SIGTERM` the server stops taking new connections and exits, so the orchestrator can replace instances one at a time.
+- **A CDN in front**: build assets (`_rapidoc/assets/`) are sent as `immutable` for a year and public pages revalidate, while anything that depends on the session is `private, no-store` and never cached.
+
+A new release of the portal is a new build: build it in CI, ship `dist/` in the image, and roll the instances. There is no database to migrate.
+
 ## Environment variables
 
 | Variable | Required | Meaning |

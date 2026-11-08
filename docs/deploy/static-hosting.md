@@ -60,6 +60,21 @@ The portal's links start at `/`, so serve it from the root of a domain: a custom
 
 Copy `dist/` to the server's web root (Nginx, Apache, Caddy, S3 with CloudFront). Every page is a folder with an `index.html`, so the server needs no rewrite rules.
 
-## Need sign-in?
+## Need sign-in (SSO)?
 
-A static host can't check who is reading. With `auth` and `access`, deploy with [`rapidoc serve`](/docs/deploy/rapidoc-serve/) instead.
+A static host can't check who is reading. There are two ways to put a portal behind your company's single sign-on.
+
+### The whole portal behind your SSO
+
+When every signed-in employee may read everything, keep the plain static build and let the layer in front of it handle sign-in. No portal server runs:
+
+- **Cloudflare Access** in front of Cloudflare Pages or any origin.
+- **AWS**: an Application Load Balancer with OpenID Connect authentication in front of the files, or CloudFront with an authenticating edge function.
+- **Your own server**: [oauth2-proxy](https://oauth2-proxy.github.io/oauth2-proxy/) in front of Nginx or Caddy.
+- **Your host's own protection**, such as Vercel or Netlify on plans that offer SSO for deployments.
+
+Leave `auth` and `access` out of the config: the portal doesn't know about the sign-in, so it shows no sign-in button or user menu, Try doesn't get the reader's token, and there is no MCP endpoint for agents.
+
+### Some pages for some readers
+
+For per-page and per-group rules, a sign-in button, Try with the reader's own token and MCP tools under the same rules, configure [`auth` and `access`](/docs/access/overview/) and deploy with [`rapidoc serve`](/docs/deploy/rapidoc-serve/). Public pages can still be cached by a CDN in front of it.

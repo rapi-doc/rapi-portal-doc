@@ -3,7 +3,7 @@
 site:
   title: RapiDoc Portal
   url: https://portal.rapidocui.com
-  description: Turn OpenAPI specs and Markdown guides into a developer portal. Docs as code, static output, optional sign-in.
+  description: Turn OpenAPI specs and Markdown guides into a developer portal. Docs as code, static output, optional single sign-on (SSO).
   logo:
     src:
       light: /rapidoc-lockup-light.svg
@@ -28,10 +28,10 @@ header:
           href: /docs/tools/mock-server
           icon: test-tube
           description: Serve your specs with examples and real token checks
-        - label: Sign-in and access
+        - label: Single sign-on (SSO)
           href: /docs/access/overview
           icon: lock
-          description: OpenID Connect sign-in and per-page access rules
+          description: Sign-in with Okta, Entra ID or any OpenID Connect provider, and per-page access rules
     - label: GitHub
       href: https://github.com/rapi-doc/rapi-portal-doc
       icon: github-logo
@@ -50,6 +50,7 @@ navigation:
         icon: sliders-horizontal
         items:
           - { slug: configuration/overview, icon: list-checks }
+          - { slug: configuration/customizing, icon: paint-brush }
           - { slug: configuration/site, icon: globe }
           - { slug: configuration/theme, icon: palette }
           - { slug: configuration/header, icon: browser }
@@ -74,13 +75,14 @@ navigation:
           - { slug: api-reference/versions, icon: git-branch }
           - { slug: api-reference/catalog, icon: squares-four }
           - { slug: api-reference/rapidoc-attributes, icon: sliders }
-      - label: Sign-in and access
+      - label: SSO and access
         icon: lock
         items:
           - { slug: access/overview, icon: sign-in }
+          - { slug: access/entra-id, icon: building-office }
+          - { slug: access/providers, icon: identification-card }
           - { slug: access/access-rules, icon: shield-check }
           - { slug: access/try-it, icon: key }
-          - { slug: access/providers, icon: identification-card }
       - label: Tools
         icon: wrench
         items:

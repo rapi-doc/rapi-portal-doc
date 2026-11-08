@@ -1,9 +1,11 @@
 ---
-title: Sign-in and access
-description: Optional OpenID Connect sign-in, and rules for who may read which pages and APIs.
+title: Single sign-on (SSO) and access
+description: Put the portal behind your company's single sign-on (SSO) with OpenID Connect (Okta, Microsoft Entra ID, Google, Keycloak, Auth0), and decide who may read which pages and APIs.
 ---
 
-Most portals are public. When some guides or APIs are only for partners, customers or your own staff, add two keys to the config:
+Most portals are public. When some guides or APIs are only for partners, customers or your own staff, readers can sign in with your company's single sign-on (SSO): Okta, Microsoft Entra ID (Azure AD), Google Workspace, Keycloak, Auth0, Ping or any other OpenID Connect provider. SAML-only providers work through a broker ([Identity providers](/docs/access/providers/#saml-only-providers)).
+
+Add two keys to the config:
 
 - `auth`: readers sign in through your OpenID Connect provider.
 - `access`: rules that decide who may read which pages, APIs and files.
@@ -22,6 +24,21 @@ access:
     - path: /apis/billing/**
       allow: { groups: [billing-team] }
 ```
+
+## Choose your setup
+
+| You need | Setup |
+| :--- | :--- |
+| Some pages or APIs public, others only for some readers or groups | `auth` and `access`, served by `rapidoc serve` (this page) |
+| The whole portal behind SSO, every signed-in employee sees everything | Either `auth` with `access.default: signed-in`, or a plain static build behind your SSO proxy, with no portal server ([Static hosting](/docs/deploy/static-hosting/#the-whole-portal-behind-your-sso)) |
+
+Step by step for one provider: [SSO with Microsoft Entra ID](/docs/access/entra-id/).
+
+## Why a server for per-page rules?
+
+A static site can show a sign-in button and hide links in the browser, but its files are still there for anyone who asks for them: pages, OpenAPI specs, attachments and the search index can be downloaded with their URL, signed in or not. That is fine for a portal whose content is public anyway, and not enough when partner APIs or internal guides must stay private.
+
+`rapidoc serve` checks the reader's session before it sends a protected page, spec, file or search result. Content a reader may not see never leaves the server: protected pages are kept apart from public ones at build time (`dist/protected/`), and search results are filtered per reader. The public part stays plain static files, sent with cache headers so a CDN in front can hold the scripts, styles and fonts.
 
 ## How it works
 

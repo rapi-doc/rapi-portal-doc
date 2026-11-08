@@ -1,6 +1,6 @@
 ---
 title: Developer portals from OpenAPI
-description: Turn OpenAPI specs and Markdown guides into a developer portal. Docs as code, static output, optional sign-in.
+description: Turn OpenAPI specs and Markdown guides into a developer portal. Docs as code, static output, optional single sign-on (SSO).
 template: splash
 hero:
   title: Your APIs and guides<br><mark>one developer portal</mark>
@@ -28,8 +28,8 @@ Markdown, MDX and Markdoc pages in a `docs/` folder. Callouts, tabs, steps, card
 {% card title="Search built in" icon="magnifying-glass" href="/docs/configuration/docs-search-redirects" %}
 Full-text search across guides and API operations, indexed at build time. No search service to run.
 {% /card %}
-{% card title="Sign-in and access rules" icon="lock" href="/docs/access/overview" %}
-Optional OpenID Connect sign-in. Decide who may read which pages, APIs and files, by group or email.
+{% card title="Single sign-on and access rules" icon="lock" href="/docs/access/overview" %}
+Optional SSO with Okta, Entra ID, Google or any OpenID Connect provider. Decide who may read which pages, APIs and files, by group or email.
 {% /card %}
 {% card title="Mock server" icon="test-tube" href="/docs/tools/mock-server" %}
 Serve your specs with their examples, validate requests, and check real OAuth scopes, so Try works before the API does.

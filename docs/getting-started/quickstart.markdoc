@@ -64,3 +64,7 @@ npx rapidoc validate
 ```
 
 It checks every local spec in `apis:` against the OpenAPI schema and exits with code 1 on an error. See [Validate](/docs/tools/validate/).
+
+## Keep it private
+
+To put the portal, or some of its pages and APIs, behind your company's single sign-on (Okta, Microsoft Entra ID, Google, Keycloak), see [Single sign-on (SSO) and access](/docs/access/overview/).

@@ -1,9 +1,9 @@
 ---
 title: Identity providers
-description: Notes for Okta, Microsoft Entra ID, Auth0, Keycloak, Google and others.
+description: SSO setup notes for Okta, Microsoft Entra ID (Azure AD), Auth0, Keycloak, Google and others, and SAML-only providers.
 ---
 
-Sign-in works with any OpenID Connect provider: Okta, Microsoft Entra ID, Google Workspace, Keycloak, Authentik, Zitadel, Auth0, Ping and AWS Cognito.
+Single sign-on works with any OpenID Connect provider: Okta, Microsoft Entra ID (Azure AD), Google Workspace, Keycloak, Authentik, Zitadel, Auth0, Ping and AWS Cognito. For a full walkthrough with one provider, see [SSO with Microsoft Entra ID](/docs/access/entra-id/).
 
 Everywhere, create a web application with the authorization code flow and register:
 
