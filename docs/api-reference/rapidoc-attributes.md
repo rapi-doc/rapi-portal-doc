@@ -25,7 +25,7 @@ Without a `rapidoc:` key, the portal uses:
 | :--- | :--- |
 | `render-style` | `read` |
 | `schema-style` | `table` |
-| `scale` | `lg` |
+| `scale` | `default` |
 | `allow-try` | `true` |
 | `allow-authentication` | `true` |
 | `allow-server-selection` | `false` |
