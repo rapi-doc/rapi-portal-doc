@@ -97,6 +97,7 @@ navigation:
         items:
           - { slug: deploy/static-hosting, icon: hard-drives }
           - { slug: deploy/rapidoc-serve, icon: cloud-check }
+          - { slug: deploy/cloud-platforms, icon: rocket }
   - label: Reference
     icon: list-bullets
     items:
