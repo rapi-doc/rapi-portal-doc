@@ -11,7 +11,7 @@ The [starter repository](https://github.com/rapi-doc/rapidoc-portal-starter) dep
 
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/rapi-doc/rapidoc-portal-starter)
 [![Deploy to DO](https://www.deploytodo.com/do-btn-blue.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/rapi-doc/rapidoc-portal-starter/tree/main)
-[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/RAILWAY_TEMPLATE_CODE)
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/eq5i1k?referralCode=tI_nkc)
 
 To publish your own APIs, click **Use this template** on the starter's GitHub page, edit your copy, and deploy it as below.
 
