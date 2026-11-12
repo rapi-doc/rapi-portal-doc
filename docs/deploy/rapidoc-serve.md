@@ -8,9 +8,10 @@ A portal with `auth` is served by `rapidoc serve` (`@rapidoc/server`). It serves
 ```bash
 npm install -D @rapidoc/cli @rapidoc/portal @rapidoc/server
 npx rapidoc build
-RAPIDOC_SESSION_SECRET=... RAPIDOC_AUTH_CLIENT_SECRET=... RAPIDOC_PUBLIC_URL=https://developers.acme.com \
-  npx rapidoc serve dist --port 8080
+npx rapidoc serve dist   # port 8080, or $PORT
 ```
+
+Set its [environment variables](#environment-variables) (`RAPIDOC_SESSION_SECRET`, `RAPIDOC_PUBLIC_URL`, and `RAPIDOC_AUTH_CLIENT_SECRET` for a confidential client) in the host's secret or environment settings, not on the command line, where they would end up in the shell history. To run it on your computer, see [Set up sign-in](/docs/access/setup/#3-test-on-your-computer).
 
 - **Stateless**: the session is an encrypted cookie, so any number of instances can run behind a load balancer. No database.
 - **Small**: it needs only Node, the CLI, `@rapidoc/server` and the build. Not `@rapidoc/portal`.

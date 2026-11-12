@@ -78,6 +78,7 @@ navigation:
         icon: lock
         items:
           - { slug: access/overview, label: Single sign-on (SSO), icon: sign-in }
+          - { slug: access/setup, icon: list-checks }
           - { slug: access/entra-id, icon: building-office }
           - { slug: access/providers, icon: identification-card }
           - { slug: access/access-rules, icon: shield-check }

@@ -5,7 +5,11 @@ description: Step by step - put the portal behind Microsoft Entra ID (Azure AD) 
 
 This guide puts a portal behind your company's Microsoft Entra ID (formerly Azure AD) sign-in: everyone in the company can read the portal, and only the billing team can read the billing API. Other providers work the same way; their differences are in [Identity providers](/docs/access/providers/).
 
-You need a portal that builds (`npx rapidoc build`), the URL it will run at (here `https://developers.acme.com`), and the right to register applications in your Entra tenant.
+It follows the same steps as [Set up sign-in](/docs/access/setup/), with every Entra ID screen. Before you begin, you need:
+
+- a portal that builds (`npx rapidoc build`),
+- the address it will have, here `https://developers.acme.com`,
+- the right to register applications in your Entra tenant.
 
 ## 1. Register the portal in Entra ID
 
@@ -36,7 +40,7 @@ Under **App roles**, choose **Create app role**:
 
 Then open **Identity → Applications → Enterprise applications → Developer portal → Users and groups**, choose **Add user/group**, and assign the billing team's Entra group (or single users) to the **Billing team** role.
 
-To let only assigned users sign in at all, set **Properties → Assignment required?** to *Yes* on the same enterprise application.
+Optional: to let only the users and groups you assign sign in at all, set **Properties → Assignment required?** to *Yes* on the same enterprise application. Then assign everyone who should read the portal, not only the billing team.
 
 ## 3. Configure the portal
 
@@ -81,9 +85,17 @@ npx rapidoc build
 npx rapidoc serve dist   # port 8080, or $PORT
 ```
 
-To try it on your computer first, put the same variables in a `.env` file with `RAPIDOC_PUBLIC_URL=http://localhost:8080`, as in [Testing locally](/docs/access/overview/#testing-locally).
+To try it on your computer first, put the same variables in a `.env` file with `RAPIDOC_PUBLIC_URL=http://localhost:8080`, as in [Set up sign-in](/docs/access/setup/#3-test-on-your-computer).
 
-Open the portal: you are sent to the Microsoft sign-in page, then back to the page you asked for. Someone without the **Billing team** role sees an access-denied page under `/apis/billing/`.
+## 5. Check that it works
+
+| As | You should see |
+| :--- | :--- |
+| Signed out | The Microsoft sign-in page, then the page you asked for. |
+| A user with the **Billing team** role | Every page, including the billing API under `/apis/billing/`. |
+| A user without it | Every page except the billing API: an "access denied" page there. |
+
+Role changes apply at the user's next sign-in.
 
 To run it in a container or behind a load balancer, see [Deploy with rapidoc serve](/docs/deploy/rapidoc-serve/).
 
