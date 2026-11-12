@@ -45,7 +45,6 @@ navigation:
           - { slug: getting-started/introduction, icon: book-open-text }
           - { slug: getting-started/quickstart, icon: lightning }
           - { slug: getting-started/project-structure, icon: tree-structure }
-          - { slug: getting-started/how-it-works, icon: gear-six }
       - label: Configuration
         icon: sliders-horizontal
         items:
@@ -104,6 +103,7 @@ navigation:
       - { slug: reference/cli, icon: terminal-window }
       - { slug: reference/config, icon: list-dashes }
       - { slug: reference/programmatic-api, icon: code }
+      - { slug: reference/how-it-works, icon: gear-six }
   - label: Example API
     icon: code
     api: bookstore
@@ -115,6 +115,8 @@ workflows:
   - file: ./workflows/bookstore.arazzo.yaml
 docs:
   editUrl: https://github.com/rapi-doc/rapi-portal-doc/edit/main/docs/
+redirects:
+  - { from: /docs/getting-started/how-it-works, to: /docs/reference/how-it-works }
 footer:
   columns:
     - title: Get started

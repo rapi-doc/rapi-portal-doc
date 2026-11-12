@@ -6,13 +6,22 @@ description: Deploy the built portal to GitHub Pages, Netlify, Vercel, Cloudflar
 Without `auth`, `rapidoc build` writes a plain static site to `dist/`. Host it anywhere that serves files.
 
 ```bash
-npx rapidoc build                 # dist/
-npx rapidoc build --out-dir public # another folder
+npm run build                       # writes dist/
+npx rapidoc build --out-dir site    # or another folder
 ```
+
+Don't build into `public/`: that is the [folder of static files](/docs/getting-started/project-structure/#public) the build copies into the site.
 
 Set `site.url` to the portal's public URL, for canonical links and the sitemap. To host the portal in a folder of another site, put the folder in the URL (`https://acme.com/developers`): links are built with `/developers` in front, and you upload `dist/` into that folder ([Serving under a path](/docs/configuration/site/#serving-under-a-path)).
 
 ## GitHub Pages
+
+1. In the repository's **Settings → Pages**, set **Source** to **GitHub Actions**.
+2. Set `site.url` to the address GitHub Pages gives the site:
+   - a project repository is served under its name, so include it: `https://<user>.github.io/<repo>`;
+   - a `<user>.github.io` repository, or a custom domain, is served at the root: `https://<user>.github.io`.
+3. Commit a `package-lock.json` (`npm install` writes it): the workflow installs with `npm ci`, which needs it.
+4. Add this workflow. Each push to `main` builds and deploys the portal; the run's summary shows its address.
 
 ```yaml title=".github/workflows/deploy.yml"
 name: Deploy portal
@@ -30,7 +39,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 22 # the latest 22.x, at least 22.12
       - run: npm ci
       - run: npx rapidoc validate
       - run: npx rapidoc build
@@ -46,15 +55,15 @@ jobs:
       - uses: actions/deploy-pages@v4
 ```
 
-The portal's links start at `/`, so serve it from the root of a domain: a custom domain, or a `<user>.github.io` repository.
+`npx rapidoc validate` stops the deploy when a spec is invalid.
 
 ## Netlify, Vercel, Cloudflare Pages
 
 | Setting | Value |
 | :--- | :--- |
-| Build command | `npx rapidoc build` |
+| Build command | `npm run build` |
 | Output folder | `dist` |
-| Node.js version | 22 or later |
+| Node.js version | 22.12 or later |
 
 ## Any web server
 
