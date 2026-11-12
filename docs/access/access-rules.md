@@ -37,6 +37,8 @@ Rules are checked top to bottom, and **the first rule whose path matches decides
 
 `groups` and `emails` can be combined; a reader who matches either may read.
 
+An email is verified when the provider says so in the token: `email_verified: true`, or `xms_edov: true` on Microsoft Entra ID. Entra ID sends neither by default; add `xms_edov` as an optional claim, or use app roles ([SSO with Microsoft Entra ID](/docs/access/entra-id/)). `rapidoc serve` logs a hint when a reader's email can't match email rules.
+
 Groups come from the claim named in `auth.claims.groups` (default `groups`). See [Identity providers](/docs/access/providers/) for how each provider sends them.
 
 ## APIs and their specs

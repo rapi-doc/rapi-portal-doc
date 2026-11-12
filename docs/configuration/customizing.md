@@ -25,6 +25,7 @@ From the one accent color, the portal derives its text and button variants so th
 ## Components in guides
 
 - **MDX**: callouts, cards, tabs, steps, badges, buttons and icons, with no imports. See [MDX](/docs/writing/mdx/).
+- **Your own components**: `.mdx` pages can import Astro components (`.astro`) from your project, such as `components/Hello.astro`. See [Your own components](/docs/writing/mdx/#your-own-components).
 - **Markdoc**: the same building blocks as tags, for pages that stay plain text. See [Markdoc](/docs/writing/markdoc/).
 - **Live API operations** inside a guide, with Try. See [Embedding operations](/docs/writing/embedding-operations/).
 - **Arazzo workflows** drawn as diagrams. See [Workflows](/docs/configuration/workflows/).

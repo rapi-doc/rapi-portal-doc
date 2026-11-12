@@ -52,6 +52,36 @@ import { CardGrid, LinkCard, Icon } from '@rapidoc/portal/components';
 
 `Icon` draws a [Phosphor](https://phosphoricons.com) icon at 24px; `size={16}` makes it smaller. The portal uses Phosphor icons only, so icons in guides match the header and sidebar.
 
+## Your own components
+
+An `.mdx` page can import Astro components (`.astro` files) and JavaScript modules from your project, for example from a `components/` folder next to `docs/`. Import them with a path relative to the page:
+
+```astro title="components/Hello.astro"
+---
+const { name = "world" } = Astro.props;
+---
+
+<p class="hello">Hello, {name}!</p>
+
+<style>
+  .hello { font-weight: 600; }
+</style>
+```
+
+```mdx title="docs/welcome.mdx"
+---
+title: Welcome
+---
+
+import Hello from '../components/Hello.astro';
+
+<Hello name="developer" />
+```
+
+A component can import other components and use the portal's, and its `<style>` is scoped to it as in any Astro project. `rapidoc dev` reloads the page when you edit the component.
+
+React, Vue and Svelte components (`.jsx`, `.tsx`, `.vue`, `.svelte`) are not supported: the build stops with an error that names the page and the import. Write the markup as an `.astro` component instead; a `<script>` in it can add behaviour in the browser.
+
 ## Migrated Zudoku pages
 
 Imports from `zudoku/ui/...` and the `<Stepper>` component are rewritten automatically, so MDX pages from a Zudoku project work as-is. See [Migrating](/docs/tools/migrate/).
