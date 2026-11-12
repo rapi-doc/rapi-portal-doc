@@ -75,10 +75,10 @@ navigation:
           - { slug: api-reference/versions, icon: git-branch }
           - { slug: api-reference/catalog, icon: squares-four }
           - { slug: api-reference/rapidoc-attributes, icon: sliders }
-      - label: SSO and access
+      - label: Authentication
         icon: lock
         items:
-          - { slug: access/overview, icon: sign-in }
+          - { slug: access/overview, label: Single sign-on (SSO), icon: sign-in }
           - { slug: access/entra-id, icon: building-office }
           - { slug: access/providers, icon: identification-card }
           - { slug: access/access-rules, icon: shield-check }
