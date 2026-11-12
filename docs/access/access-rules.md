@@ -22,7 +22,7 @@ access:
 | `default` | Who may read what no rule matches: any `allow` value below. Default `public`. |
 | `rules` | A list of `{ path, allow }`, checked top to bottom. |
 | `rules[].path` | A URL path pattern, see below. |
-| `rules[].allow` | Who may read what the path matches, see [Who](#who-allow). |
+| `rules[].allow` | Who may read what the path matches, see [Who may read](#who-may-read-allow). |
 
 :::caution[A rule must match something]
 A rule whose path matches no page or file **fails the build**, so a typo can't leave content public by accident. Write rules only for paths your portal has.
@@ -39,7 +39,7 @@ Rules are checked top to bottom, and **the first rule whose path matches decides
 
 Guides in `docs/internal/` are at `/docs/internal/...`, so the folder and the path match ([Project structure](/docs/getting-started/project-structure/#docs)).
 
-## Who: `allow`
+## Who may read: `allow`
 
 | `allow` | Who may read |
 | :--- | :--- |

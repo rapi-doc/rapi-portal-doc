@@ -27,7 +27,7 @@ A wrong issuer stops `rapidoc serve` at start, with the address it couldn't reac
 
 ## Groups
 
-[Access rules](/docs/access/access-rules/) by group read the claim named in `auth.claims.groups` (default `groups`) from the ID token or the provider's user info. It must be a list of names, or names separated by spaces or commas. A dot in `claims.groups` means a nested field (`realm_access.roles`), so a claim name can't contain one.
+[Access rules](/docs/access/access-rules/) by group read the claim named in `auth.claims.groups` (default `groups`) from the ID token or the provider's user info. It must be a list of names, or names separated by spaces or commas. A dot in `auth.claims.groups` means a nested field (`realm_access.roles`), so a claim name can't contain one.
 
 | Provider | Setting |
 | :--- | :--- |
@@ -37,7 +37,7 @@ A wrong issuer stops `rapidoc serve` at start, with the address it couldn't reac
 | Keycloak | Realm roles: `claims: { groups: realm_access.roles }`. In **Client scopes → roles → Mappers → realm roles**, turn on **Add to ID token** or **Add to userinfo**. |
 | Google | No groups. Use `emails` rules instead (`*@acme.com`); see [Google Workspace](#google-workspace). |
 | AWS Cognito | User pool groups arrive as `cognito:groups`: `claims: { groups: "cognito:groups" }`. |
-| Ping, Authentik, Zitadel | Add a claim with the reader's groups as a list of names, and set `claims.groups` to its name. Zitadel's own roles claim is an object, which rules can't read: map it to a list in an Action. |
+| Ping, Authentik, Zitadel | Add a claim with the reader's groups as a list of names, and set `auth.claims.groups` to its name. Zitadel's own roles claim is an object, which rules can't read: map it to a list in an Action. |
 
 The Auth0 Action, under **Actions → Library → Create Action → Login / Post Login**, then added to the Login flow:
 

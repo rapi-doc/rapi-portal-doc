@@ -26,11 +26,15 @@ From the app's **Overview**, note:
 - **Application (client) ID**, for `auth.clientId`.
 - **Directory (tenant) ID**, for the issuer: `https://login.microsoftonline.com/<tenant ID>/v2.0`.
 
-Under **Certificates & secrets**, create a **client secret** and copy its value. It is shown only once.
+Under **Certificates & secrets**, create a **client secret** and copy its **Value** (not its Secret ID).
+
+:::caution[Copy the secret now]
+Entra ID shows the secret's value only once. Store it in your secret manager right away; if it's lost, create a new one.
+:::
 
 ## 2. Create app roles for your groups
 
-Entra ID's `groups` claim holds group IDs, not names, and is left out for users in many groups. App roles avoid both problems.
+Entra ID's `groups` claim holds group IDs, not names, and is left out for users in more than 200 groups. App roles avoid both problems.
 
 Under **App roles**, choose **Create app role**:
 
@@ -66,7 +70,7 @@ access:
 
 `signed-in` admits every account your tenant lets sign in to the app, including guest users. To limit the portal to people you choose, set **Assignment required?** to *Yes* (step 2) and assign them. A rule whose path matches no page fails the build, so keep only the rules for paths your portal has.
 
-The issuer and client ID are not secrets, so they can live in the committed config. To use one build against a test and a production tenant, set `RAPIDOC_AUTH_ISSUER` and `RAPIDOC_AUTH_CLIENT_ID` instead.
+The issuer and client ID are not secrets, so they can live in the committed config. To use one build against a staging and a production tenant, set `RAPIDOC_AUTH_ISSUER` and `RAPIDOC_AUTH_CLIENT_ID` instead.
 
 ## 4. Build and run
 
@@ -105,5 +109,5 @@ To run it in a container or behind a load balancer, see [Deploy with rapidoc ser
 | :--- | :--- |
 | `AADSTS50011`: the redirect URI does not match | The redirect URI in the app registration must equal `<RAPIDOC_PUBLIC_URL>/_rapidoc/auth/callback`, including `https` and any path the portal is served under. |
 | `AADSTS7000215`: invalid client secret | Use the secret's **Value**, not its **Secret ID**, and check that it hasn't expired. |
-| Signed in, but group rules deny access | Check that the user or their group is assigned to the app role, and that `claims.groups` is `roles`. `rapidoc serve` logs a hint when rules use groups and a sign-in carries none. Role changes apply at the next sign-in. |
-| Email rules never match | Email rules need a verified email, and Entra ID sends no `email_verified`. Under **Token configuration**, add the optional claim `xms_edov` to the ID token (true when the email's domain is verified in your tenant). Entra ID also sends `email` only for users with an email address in their profile. Prefer app roles for access. |
+| Signed in, but group rules deny access | Check that the user or their group is assigned to the app role, and that `auth.claims.groups` is `roles`. The server's log says when a sign-in carries no roles. Role changes apply at the next sign-in. |
+| Email rules never match | Use app roles instead. Email rules need the optional claim `xms_edov` in the ID token (**Token configuration**), and match only users who have an email address in their Entra ID profile ([Access rules](/docs/access/access-rules/#who-may-read-allow)). |

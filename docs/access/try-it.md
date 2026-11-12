@@ -36,9 +36,9 @@ The token expires on the provider's schedule, often after an hour, which can be 
 
 The access token has to be for your API, not for the portal. Okta: use your API's authorization server as `issuer`. Auth0: set `audience` to the API's identifier. Microsoft Entra ID: add your API's scope to `scopes`, such as `api://<API's application ID>/access_as_user`. Every provider: [Audience for Try](/docs/access/providers/#audience-for-try).
 
-## Try it with the mock server
+## Before your API exists: the mock server
 
-Before the API exists, point the spec's server at [`rapidoc mock`](/docs/tools/mock-server/), which checks each token's signature, audience and scopes the way your API would:
+Point the spec's server at [`rapidoc mock`](/docs/tools/mock-server/), which checks each token's signature, audience and scopes the way your API would:
 
 ```yaml title="specs/billing.yaml"
 servers:
