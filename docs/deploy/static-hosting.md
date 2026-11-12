@@ -64,6 +64,8 @@ Copy `dist/` to the server's web root (Nginx, Apache, Caddy, S3 with CloudFront)
 
 A static host can't check who is reading. There are two ways to put a portal behind your company's single sign-on.
 
+If only calls to your API need a sign-in, and the documentation stays public, you need neither: readers sign in to your API from the API page itself, in the browser. See [OAuth 2 sign-in for Try](/docs/api-reference/reference-pages/#oauth-2-sign-in-for-try).
+
 ### The whole portal behind your SSO
 
 When every signed-in employee may read everything, keep the plain static build and let the layer in front of it handle sign-in. No portal server runs:

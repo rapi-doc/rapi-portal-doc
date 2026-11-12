@@ -41,9 +41,57 @@ Without an `operationId`, the anchor is built from the summary and changes when 
 
 ## OAuth 2 sign-in for Try
 
-RapiDoc's **Authorize** button sends readers to your OAuth provider and back to `/oauth-receiver.html`, a page every portal build has. Register `<portal URL>/oauth-receiver.html` as a redirect URL at the provider: one URL for the whole portal.
+Readers can sign in to your API from the API reference page and call it with **Try**, using their own account. The sign-in runs in the browser, so it works on a plain [static](/docs/deploy/static-hosting/) portal: no `auth` key and no `rapidoc serve`. It covers calls to your API only; the documentation stays public.
 
-With [portal sign-in](/docs/access/overview/), readers don't need to authorize separately: see [Try with the reader's token](/docs/access/try-it/).
+### How it works
+
+1. The spec declares an `oauth2` or `openIdConnect` security scheme. RapiDoc shows it in the page's **Authentication** section.
+2. The reader presses **Authorize**. RapiDoc opens your provider's sign-in in a popup, using the authorization code flow with PKCE.
+3. The provider redirects the popup to `/oauth-receiver.html`, a page every portal build has. It hands the code back to the API page, and RapiDoc exchanges it for an access token at the `tokenUrl`.
+4. **Try** sends `Authorization: Bearer <token>` to your API. The token stays in the page's memory and is gone on reload.
+
+### Declare the scheme
+
+Use a standard OpenAPI `oauth2` scheme. For a public client, pre-fill the client ID with `x-client-id` and set `x-pkce-only: true`, which hides the client secret fields, so readers only press **Authorize**:
+
+```yaml title="specs/orders.yaml"
+components:
+  securitySchemes:
+    OAuth:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://acme.okta.com/oauth2/default/v1/authorize
+          tokenUrl: https://acme.okta.com/oauth2/default/v1/token
+          scopes:
+            orders:read: Read your orders
+            orders:write: Create and change orders
+          x-client-id: portal-try
+          x-pkce-only: true
+          x-default-scopes: [orders:read]
+security:
+  - OAuth: [orders:read]
+```
+
+More extensions, such as `x-authorize-params` and `x-token-params` for an `audience`, are in RapiDoc's [OAuth guide](https://rapidocui.com/docs/authentication/oauth/).
+
+### At your provider
+
+- Register a **single-page application** (a public client: authorization code with PKCE, no client secret). A secret in a static page is readable by anyone.
+- Add `<portal URL>/oauth-receiver.html` as a redirect URL: one URL for the whole portal. For local testing, add `http://localhost:4321/oauth-receiver.html` too.
+- Allow the portal's origin for CORS on the token endpoint: the browser calls it directly. Most providers do this for single-page-app clients.
+- Your API must also allow the portal's origin for CORS, as for any **Try** request.
+
+### Browser sign-in or portal sign-in
+
+| | Browser sign-in (this section) | [Portal sign-in](/docs/access/overview/) with [`tryIt`](/docs/access/try-it/) |
+| :--- | :--- | :--- |
+| Hosting | Any static host | `rapidoc serve` |
+| Provider set in | The spec's security scheme | The portal config (`auth`) |
+| Protects the documentation | No | Yes, with `access` rules |
+| Readers sign in | Once per API, with **Authorize** | Once for the whole portal; **Try** has their token |
+
+With portal sign-in and `tryIt`, readers don't need to authorize separately.
 
 ## Customizing
 
