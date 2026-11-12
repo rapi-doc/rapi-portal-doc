@@ -31,7 +31,7 @@ Rules are checked top to bottom, and **the first rule whose path matches decides
 | `allow` | Who may read |
 | :--- | :--- |
 | `public` | Everyone, signed in or not. |
-| `signed-in` | Anyone who has signed in. |
+| `signed-in` | Anyone who has signed in: everyone your provider lets sign in, which may be more than your staff ([who counts as signed in](/docs/access/overview/#choose-your-setup)). |
 | `{ groups: [a, b] }` | Signed-in readers in any of these groups. |
 | `{ emails: ['*@acme.com', 'jo@partner.io'] }` | Signed-in readers whose **verified** email matches any of these. |
 

@@ -14,11 +14,13 @@ auth:
 
 ## How it works
 
-1. At sign-in, `rapidoc serve` keeps the reader's access token, in its own encrypted cookie. The ID and refresh tokens never leave the server.
+1. At sign-in, `rapidoc serve` keeps the reader's access token in its own encrypted, `HttpOnly` cookie. The ID and refresh tokens are not kept at all.
 2. Reference pages and embedded operations ask the server for the token and fill it into the Authentication section of the spec's first `oauth2` or `openIdConnect` scheme, or else its first HTTP `bearer` scheme.
 3. **Try** sends `Authorization: Bearer <token>` to the API.
 
-The token lives in page memory only, never in local storage. Only same-origin page scripts can fetch it.
+The page keeps the token in memory only, never in local storage. It is handed only to pages of the portal itself (same origin), but every script running on those pages can fetch it, including analytics or other scripts you add with [`head`](/docs/configuration/site/#head-tags). Add only scripts you trust to a portal with `tryIt`.
+
+The token expires on the provider's schedule, often after an hour, which can be well before the sign-in ends (`session.maxAge`). From then on, **Try** sends no token until the reader signs in again. A shorter `session.maxAge` keeps the two closer.
 
 ## The audience
 

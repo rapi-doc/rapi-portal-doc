@@ -52,27 +52,36 @@ auth:
     groups: roles # app roles arrive in the roles claim
 
 access:
-  default: signed-in # every employee who signs in
+  default: signed-in # everyone the tenant lets sign in, guests included
   rules:
     - path: /apis/billing/**
       allow: { groups: [billing-team] }
-    - path: /docs/billing/**
+    - path: /docs/billing/** # only if you have guides under docs/billing/
       allow: { groups: [billing-team] }
 ```
+
+`signed-in` admits every account your tenant lets sign in to the app, including guest users. To limit the portal to people you choose, set **Assignment required?** to *Yes* (step 2) and assign them. A rule whose path matches no page fails the build, so keep only the rules for paths your portal has.
 
 The issuer and client ID are not secrets, so they can live in the committed config. To use one build against a test and a production tenant, set `RAPIDOC_AUTH_ISSUER` and `RAPIDOC_AUTH_CLIENT_ID` instead.
 
 ## 4. Build and run
 
+Set three environment variables where the portal runs, from your secret manager or the host's environment settings, never in the repository or on the command line:
+
+| Variable | Value |
+| :--- | :--- |
+| `RAPIDOC_SESSION_SECRET` | Generate once with `openssl rand -base64 32` and keep it: the same on every instance and across restarts, or everyone is signed out. |
+| `RAPIDOC_AUTH_CLIENT_SECRET` | The client secret's **Value** from step 1. |
+| `RAPIDOC_PUBLIC_URL` | `https://developers.acme.com`, the address in the redirect URI. |
+
+Then build and serve:
+
 ```bash
 npx rapidoc build
-RAPIDOC_SESSION_SECRET="$(openssl rand -base64 32)" \
-RAPIDOC_AUTH_CLIENT_SECRET="<client secret value>" \
-RAPIDOC_PUBLIC_URL=https://developers.acme.com \
-  npx rapidoc serve dist --port 8080
+npx rapidoc serve dist   # port 8080, or $PORT
 ```
 
-Keep `RAPIDOC_SESSION_SECRET` the same on every instance and across restarts, or everyone is signed out. Store both secrets in your secret manager, not in the repository.
+To try it on your computer first, put the same variables in a `.env` file with `RAPIDOC_PUBLIC_URL=http://localhost:8080`, as in [Testing locally](/docs/access/overview/#testing-locally).
 
 Open the portal: you are sent to the Microsoft sign-in page, then back to the page you asked for. Someone without the **Billing team** role sees an access-denied page under `/apis/billing/`.
 
