@@ -39,6 +39,7 @@ A new release of the portal is a new build: build it in CI, ship `dist/` in the 
 | `RAPIDOC_PUBLIC_URL` | recommended | The portal's external URL: the redirect URL, and whether cookies are `Secure`. Default `site.url`, else the request's host. |
 | `RAPIDOC_AUTH_ISSUER`, `RAPIDOC_AUTH_CLIENT_ID`, `RAPIDOC_AUTH_AUDIENCE` | no | Override `auth.issuer`, `auth.clientId`, `auth.audience`. |
 | `RAPIDOC_MOUNT_PATH` | no | Path requests arrive under, when a proxy strips part of the portal's path. `--mount-path` wins. Default: the path of `site.url`. |
+| `RAPIDOC_MCP` | no | `off` turns off the [MCP endpoint](/docs/tools/mcp-server/): no `/mcp`, no agent tokens, and no "connect an AI agent" section in the user menu. Default `on`. Any other value stops the server. |
 | `PORT`, `HOST` | no | Default `8080` and `0.0.0.0`. `--port` and `--host` win. |
 | `<SCHEME>`, `API_KEY` | no | API keys and HTTP Basic credentials for `/mcp` tool calls, named by the spec's security scheme id. See [MCP server for agents](/docs/tools/mcp-server/#credentials-of-other-kinds). |
 

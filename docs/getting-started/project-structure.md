@@ -47,10 +47,13 @@ Copied to the site root as-is: `public/logo.svg` is `/logo.svg`. Put the logo, f
 
 ## What a build leaves behind
 
-Only the output folder, `dist/`. While it runs, a build works in a temporary folder, `.rapidoc-temp/`, inside the project, and removes it at the end, even when the build fails. Keep both out of Git; the starter's `.gitignore` does:
+Only the output folder, `dist/`. While it runs, a build works in a temporary folder, `.rapidoc-temp/`, inside the project, and removes it at the end, even when the build fails. Keep both out of Git, together with `.env`, where the [sign-in secrets](/docs/access/setup/#3-test-on-your-computer) go for local testing. The starter's `.gitignore` lists them:
 
 ```text
 node_modules/
 dist/
 .rapidoc-temp/
+.DS_Store
+.env
+.env.*
 ```

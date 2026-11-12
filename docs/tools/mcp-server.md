@@ -72,3 +72,9 @@ Credentials come from the environment, one variable per security scheme as in th
 ## Exported servers
 
 Readers can also download a standalone MCP server for one API from its reference page (**Export MCP server**, with `rapidoc.mcp: true`): a small stdio server with the same manifest and runtime, for agents that run where the portal can't be reached.
+
+## Static hosting, and turning it off
+
+The `/mcp` endpoint needs `rapidoc serve`: a static host only returns files, so a portal on GitHub Pages, Netlify or S3 has no endpoint. Agents can still use its APIs through [exported servers](#exported-servers) or [`rapidoc mcp serve`](#from-the-command-line), which run on the agent's machine.
+
+To serve a portal with `rapidoc serve` but without the endpoint, set `RAPIDOC_MCP=off` in its environment: no `/mcp`, no agent tokens, and no "connect an AI agent" section in the user menu. `rapidoc serve` prints `MCP: off` when it starts.

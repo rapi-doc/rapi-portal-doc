@@ -112,7 +112,7 @@ my-portal/
 │   └── guides/overview.markdoc
 ├── render.yaml           # one-click deploy on Render (optional)
 ├── README.md
-└── .gitignore            # node_modules/, dist/, .rapidoc-temp/
+└── .gitignore            # node_modules/, dist/, .rapidoc-temp/, .env
 ```
 
 What each folder is for: [Project structure](/docs/getting-started/project-structure/). `render.yaml` is only for [Render](/docs/deploy/cloud-platforms/); delete it if you deploy elsewhere.

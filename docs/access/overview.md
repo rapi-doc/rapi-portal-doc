@@ -59,7 +59,7 @@ A static host serves every file it has, so `dist/protected/` would be readable b
 
 The pages stay static. When a page loads, the header's sign-in button and the lock icons ask the server who the reader is.
 
-`rapidoc serve` also hosts your APIs as tools for AI agents, at `/mcp` ([Model Context Protocol](/docs/tools/mcp-server/)). It is always on. An agent without a token sees only the tools of public APIs. A signed-in reader can copy a token for their agent from the user menu: with it, the agent sees the tools of the APIs that reader may see, and calls them as that reader. The token lasts as long as a sign-in (`session.maxAge`). To revoke all tokens, change `RAPIDOC_SESSION_SECRET`, which also signs everyone out.
+`rapidoc serve` also hosts your APIs as tools for AI agents, at `/mcp` ([Model Context Protocol](/docs/tools/mcp-server/)). It is on unless you set `RAPIDOC_MCP=off`. An agent without a token sees only the tools of public APIs. A signed-in reader can copy a token for their agent from the user menu: with it, the agent sees the tools of the APIs that reader may see, and calls them as that reader. The token lasts as long as a sign-in (`session.maxAge`). To revoke all tokens, change `RAPIDOC_SESSION_SECRET`, which also signs everyone out.
 
 
 ## The `auth` key

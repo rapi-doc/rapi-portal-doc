@@ -60,7 +60,7 @@ The issuer and client ID are not secrets: they belong in the committed config. T
 
 ## 3. Test on your computer
 
-1. Put the secrets in a `.env` file in the project folder, and add `.env` to `.gitignore`:
+1. Put the secrets in a `.env` file in the project folder. Make sure `.gitignore` lists `.env` (the starter's does):
 
    ```bash title=".env"
    RAPIDOC_SESSION_SECRET=<output of: openssl rand -base64 32>

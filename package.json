@@ -13,9 +13,9 @@
     "mock": "rapidoc mock"
   },
   "devDependencies": {
-    "@rapidoc/cli": "^0.1.6",
-    "@rapidoc/mock": "^0.1.6",
-    "@rapidoc/portal": "^0.1.6",
-    "@rapidoc/server": "^0.1.6"
+    "@rapidoc/cli": "^0.1.7",
+    "@rapidoc/mock": "^0.1.7",
+    "@rapidoc/portal": "^0.1.7",
+    "@rapidoc/server": "^0.1.7"
   }
 }
