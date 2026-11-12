@@ -9,6 +9,8 @@ sidebar:
 rapidoc <command> [options]
 ```
 
+The command comes from the npm package `@rapidoc/cli`. In a project that has it installed, run it as `npx rapidoc <command>` or through the `npm run` scripts. Without it, run `npx @rapidoc/cli <command>`: `npx rapidoc` would look for the npm package `rapidoc`, the `<rapi-doc>` web component, which has no command.
+
 | Command | Does |
 | :--- | :--- |
 | `init [dir]` | Scaffolds a portal in `dir` (default: the current folder), using the OpenAPI files already there. |

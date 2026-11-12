@@ -6,12 +6,12 @@ description: Move a Zudoku or Redocly portal to RapiDoc Portal.
 `rapidoc migrate` reads your existing portal's config and writes a `rapidoc.config.yaml` next to it.
 
 ```bash
-npx rapidoc migrate                  # finds redocly.yaml or zudoku.config.* and asks to confirm
-npx rapidoc migrate --from zudoku
-npx rapidoc migrate --from redocly
+npx @rapidoc/cli migrate                  # finds redocly.yaml or zudoku.config.* and asks to confirm
+npx @rapidoc/cli migrate --from zudoku
+npx @rapidoc/cli migrate --from redocly
 ```
 
-Run it in the project folder. Without `--from` it looks for a Redocly (`redocly.yaml`) or Zudoku (`zudoku.config.*`) config and asks before migrating it; in CI or a script, pass `--from` (or `--yes` to take the one found). An existing `rapidoc.config.yaml` is replaced, after asking in a terminal. It lists anything it could not convert; fix those before you build.
+Run it in the project folder. Use `npx @rapidoc/cli`, not `npx rapidoc`: before the CLI is installed, `npx rapidoc` looks for the npm package `rapidoc`, the `<rapi-doc>` web component, which has no command. Without `--from` it looks for a Redocly (`redocly.yaml`) or Zudoku (`zudoku.config.*`) config and asks before migrating it; in CI or a script, pass `--from` (or `--yes` to take the one found). An existing `rapidoc.config.yaml` is replaced, after asking in a terminal. It lists anything it could not convert; fix those before you build.
 
 :::caution
 It overwrites an existing `rapidoc.config.yaml`. Commit or copy yours first.
@@ -39,7 +39,10 @@ Reads `redocly.yaml`, plus `sidebars.yaml` if it is there.
 
 ## After migrating
 
+Install the CLI and the portal engine in the project, then check and preview the result:
+
 ```bash
+npm install -D @rapidoc/cli @rapidoc/portal
 npx rapidoc validate
 npx rapidoc dev
 ```

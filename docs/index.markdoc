@@ -41,17 +41,18 @@ Serve your specs with their examples, validate requests, and check real OAuth sc
 ```bash
 npm create rapidoc@latest my-portal
 cd my-portal
+npm install
 npm run dev
 ```
 
-The starter finds the OpenAPI files already in the folder, writes a `rapidoc.config.yaml` and a first guide, and opens the portal on `http://localhost:4321`. [Read the quickstart](/docs/getting-started/quickstart/).
+The starter is a portal with an example API, a `rapidoc.config.yaml` and two guides, running on `http://localhost:4321`. Then point it at your own spec. Already have a repository with OpenAPI files? Run `npx @rapidoc/cli init` there instead. [Read the quickstart](/docs/getting-started/quickstart/).
 
 ## A live operation, right in a guide
 
-Guides can embed any operation from your specs. This one comes from the [example Bookstore API](/apis/bookstore/). Run `npm run mock` in this site's repository and **Try** answers from the mock server.
+Guides can embed any operation from your specs. This one comes from the [example Bookstore API](/apis/bookstore/). Its **Try** button sends a real request: run the [mock server](/docs/tools/mock-server/) to get answers before your API exists.
 
 {% api-operation spec="bookstore" path="/books" method="get" /%}
 
 {% callout type="rocket" title="Moving from Zudoku or Redocly?" %}
-`rapidoc migrate --from zudoku` or `--from redocly` writes a `rapidoc.config.yaml` from your existing project. [See migrating](/docs/tools/migrate/).
+`npx @rapidoc/cli migrate` writes a `rapidoc.config.yaml` from your existing Zudoku or Redocly project. [See migrating](/docs/tools/migrate/).
 {% /callout %}
