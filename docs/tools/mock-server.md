@@ -27,7 +27,7 @@ This site's [example API](/apis/bookstore/) does exactly that: run `npm run mock
 ## What it answers
 
 - **Examples first**: the response's example from the spec, else data generated from the schema (patterns, formats, enums, ranges). Generated data is the same on every run for a given `--seed`.
-- **Validated requests**: parameters and JSON, form and multipart bodies are checked against the spec. A bad request gets `400` with the list of problems.
+- **Validated requests**: parameters and JSON, form and multipart bodies are checked against the spec. A bad request gets `400` with the list of problems (`422` when the operation documents `422` and not `400`).
 - **CORS** for any origin, so a portal on another port can call it.
 
 ## Choosing a response

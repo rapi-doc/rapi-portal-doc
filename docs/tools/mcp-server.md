@@ -14,7 +14,23 @@ Nothing to configure: a build has the manifests whenever it has specs on disk (a
 
 ## Connect an agent
 
-With [`rapidoc serve`](/docs/deploy/rapidoc-serve/), the portal's MCP endpoint is `https://<your portal>/mcp` (Streamable HTTP). A client that speaks stdio only, such as Claude Desktop, connects through [mcp-remote](https://www.npmjs.com/package/mcp-remote):
+With [`rapidoc serve`](/docs/deploy/rapidoc-serve/), the portal's MCP endpoint is `https://<your portal>/mcp` (Streamable HTTP).
+
+An app that supports Streamable HTTP connects to that URL directly. In Cursor, add it to `.cursor/mcp.json`; in Claude Code, run one command:
+
+```json title=".cursor/mcp.json"
+{
+  "mcpServers": {
+    "acme-portal": { "url": "https://developers.acme.com/mcp" }
+  }
+}
+```
+
+```bash
+claude mcp add --transport http acme-portal https://developers.acme.com/mcp
+```
+
+An app that speaks stdio only, such as Claude Desktop, connects through [mcp-remote](https://www.npmjs.com/package/mcp-remote), a small program the app starts that forwards to the URL. This goes in Claude Desktop's own settings file:
 
 ```json title="claude_desktop_config.json"
 {
@@ -27,7 +43,9 @@ With [`rapidoc serve`](/docs/deploy/rapidoc-serve/), the portal's MCP endpoint i
 }
 ```
 
-Without a token, the agent sees the public APIs and calls them without credentials.
+Other stdio-only apps take the same `mcpServers` entry in their own configuration file.
+
+Without a token, the agent sees the public APIs and calls them without a reader's access token. A key set in the server's environment (see [Credentials of other kinds](#credentials-of-other-kinds)) is still sent, for every agent.
 
 ## Agents that sign in
 
@@ -44,9 +62,11 @@ With the token, the agent:
 
 The token is the reader's session (sealed like the cookies, never a copy of them) and lasts as long as the session. It opens exactly what the reader can see; a reader can't give an agent more than they have.
 
+The reader's access token inside it is not refreshed. It usually expires sooner than the session; after that the agent still sees its tools, but its calls go out without that token and the API answers `401`. The reader then gets a new token from the menu.
+
 ## Credentials of other kinds
 
-The reader's access token fills `oauth2`, `openIdConnect` and HTTP `bearer` schemes. For an API that takes an API key or HTTP Basic, set the credential in the environment of `rapidoc serve`, named like the exported project's: the scheme id in upper snake case (`PARTNER_KEY`), `<SCHEME>_USERNAME` and `<SCHEME>_PASSWORD` for Basic, or `API_KEY` for any scheme. Every agent then calls that API with the same key.
+The reader's access token fills `oauth2`, `openIdConnect` and HTTP `bearer` schemes. For an API that takes an API key or HTTP Basic, set the credential in the environment of `rapidoc serve`, named like the exported project's: the scheme id in upper snake case (`PARTNER_KEY`), `<SCHEME>_USERNAME` and `<SCHEME>_PASSWORD` for Basic. For an API with one security scheme, `API_KEY` also works; an API with several needs a variable per scheme. Every agent then calls that API with the same key, with or without a token.
 
 ## From the command line
 
