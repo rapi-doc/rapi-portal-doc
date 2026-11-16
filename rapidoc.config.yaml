@@ -11,11 +11,12 @@ site:
     text: Portal
   favicon: /rapidoc-leaves.svg
 theme:
-  primary: "#ff791a"
+  primary: "#f6a821" # amber, the API reference's `rapidoc.theme` below
   mode: auto
   fonts: # from Google Fonts, so the site looks the same on every OS
     sans: { family: Inter }
     mono: { family: JetBrains Mono }
+  css: ./styles/portal.css # amber surfaces, as in the API reference
 header:
   links:
     - label: Ecosystem
@@ -42,69 +43,69 @@ navigation:
       - label: Get started
         icon: rocket-launch
         items:
-          - { slug: getting-started/introduction, icon: book-open-text }
-          - { slug: getting-started/quickstart, icon: lightning }
-          - { slug: getting-started/project-structure, icon: tree-structure }
+          - { slug: getting-started/introduction }
+          - { slug: getting-started/quickstart }
+          - { slug: getting-started/project-structure }
       - label: Configuration
         icon: sliders-horizontal
         items:
-          - { slug: configuration/overview, icon: list-checks }
-          - { slug: configuration/customizing, icon: paint-brush }
-          - { slug: configuration/site, icon: globe }
-          - { slug: configuration/theme, icon: palette }
-          - { slug: configuration/header, icon: browser }
-          - { slug: configuration/navigation, icon: compass }
-          - { slug: configuration/apis, icon: plugs-connected }
-          - { slug: configuration/workflows, icon: flow-arrow }
-          - { slug: configuration/footer, icon: copyright }
-          - { slug: configuration/docs-search-redirects, icon: magnifying-glass }
-          - { slug: configuration/llms, icon: sparkle }
+          - { slug: configuration/overview }
+          - { slug: configuration/customizing }
+          - { slug: configuration/site }
+          - { slug: configuration/theme }
+          - { slug: configuration/header }
+          - { slug: configuration/navigation }
+          - { slug: configuration/apis }
+          - { slug: configuration/workflows }
+          - { slug: configuration/footer }
+          - { slug: configuration/docs-search-redirects }
+          - { slug: configuration/llms }
       - label: Writing guides
         icon: pencil-simple-line
         items:
-          - { slug: writing/markdown, icon: markdown-logo }
-          - { slug: writing/markdoc, icon: brackets-curly }
-          - { slug: writing/mdx, icon: file-jsx }
-          - { slug: writing/callouts, icon: chat-centered-text }
-          - { slug: writing/embedding-operations, icon: plug }
+          - { slug: writing/markdown }
+          - { slug: writing/markdoc }
+          - { slug: writing/mdx }
+          - { slug: writing/callouts }
+          - { slug: writing/embedding-operations }
       - label: API reference
         icon: code
         items:
-          - { slug: api-reference/reference-pages, icon: file-code }
-          - { slug: api-reference/versions, icon: git-branch }
-          - { slug: api-reference/catalog, icon: squares-four }
-          - { slug: api-reference/rapidoc-attributes, icon: sliders }
+          - { slug: api-reference/reference-pages }
+          - { slug: api-reference/versions }
+          - { slug: api-reference/catalog }
+          - { slug: api-reference/rapidoc-attributes }
       - label: Authentication
         icon: lock
         items:
-          - { slug: access/overview, label: Single sign-on (SSO), icon: sign-in }
-          - { slug: access/setup, icon: list-checks }
-          - { slug: access/entra-id, icon: building-office }
-          - { slug: access/providers, icon: identification-card }
-          - { slug: access/access-rules, icon: shield-check }
-          - { slug: access/try-it, icon: key }
+          - { slug: access/overview, label: Single sign-on (SSO) }
+          - { slug: access/setup }
+          - { slug: access/entra-id }
+          - { slug: access/providers }
+          - { slug: access/access-rules }
+          - { slug: access/try-it }
       - label: Tools
         icon: wrench
         items:
-          - { slug: tools/mock-server, icon: test-tube }
-          - { slug: tools/mcp-server, icon: robot }
-          - { slug: tools/validate, icon: check-circle }
-          - { slug: tools/lint, icon: magnifying-glass }
-          - { slug: tools/bundle, icon: package }
-          - { slug: tools/migrate, icon: arrows-left-right }
+          - { slug: tools/mock-server }
+          - { slug: tools/mcp-server }
+          - { slug: tools/validate }
+          - { slug: tools/lint }
+          - { slug: tools/bundle }
+          - { slug: tools/migrate }
       - label: Deploy
         icon: cloud-arrow-up
         items:
-          - { slug: deploy/static-hosting, icon: hard-drives }
-          - { slug: deploy/rapidoc-serve, icon: cloud-check }
-          - { slug: deploy/cloud-platforms, icon: rocket }
+          - { slug: deploy/static-hosting }
+          - { slug: deploy/rapidoc-serve }
+          - { slug: deploy/cloud-platforms }
   - label: Reference
     icon: list-bullets
     items:
-      - { slug: reference/cli, icon: terminal-window }
-      - { slug: reference/config, icon: list-dashes }
-      - { slug: reference/programmatic-api, icon: code }
-      - { slug: reference/how-it-works, icon: gear-six }
+      - { slug: reference/cli }
+      - { slug: reference/config }
+      - { slug: reference/programmatic-api }
+      - { slug: reference/how-it-works }
   - label: Example API
     icon: code
     api: bookstore
@@ -147,5 +148,6 @@ footer:
       href: https://github.com/rapi-doc/rapi-portal-doc
   copyright: © 2026 RapiDoc. MIT licensed.
 rapidoc:
+  theme: amber
   render-style: read
   schema-style: tree

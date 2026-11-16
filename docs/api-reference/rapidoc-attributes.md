@@ -15,7 +15,7 @@ rapidoc:
   font-size: largest
 ```
 
-Values are strings, numbers or booleans. Every attribute is described in the [RapiDoc API reference](https://rapidocui.com/api).
+Values are strings, numbers or booleans. Every attribute is described in the [RapiDoc API reference](https://rapidocui.com/api). `theme` picks one of RapiDoc's built-in themes for the reference pages (see [API reference colors](/docs/configuration/theme/#api-reference-colors)).
 
 ## Portal defaults
 
