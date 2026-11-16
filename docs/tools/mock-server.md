@@ -26,46 +26,17 @@ This site's [example API](/apis/bookstore/) does exactly that: run `npm run mock
 
 ## What it answers
 
-- **Examples first**: the response's example from the spec, else data generated from the schema (patterns, formats, enums, ranges). Generated data is the same on every run for a given `--seed`.
-- **Validated requests**: parameters and JSON, form and multipart bodies are checked against the spec. A bad request gets `400` with the list of problems (`422` when the operation documents `422` and not `400`).
-- **CORS** for any origin, so a portal on another port can call it.
-
-## Choosing a response
-
-| Request header | Effect |
-| :--- | :--- |
-| `Prefer: code=404` | The documented `404` response (else `4XX`, else `default`). |
-| `Prefer: example=empty` | The media type's example named `empty`. |
-| `Prefer: dynamic=true` | Generated data even when there is an example. |
-
-Applied preferences come back in `Preference-Applied`. `GET /` lists the APIs served.
+Examples from the spec first, else data generated from the schema; requests are validated against the spec; `Prefer` headers pick a documented response (`Prefer: code=404`); CORS is allowed for any origin. All of that, and the options (`--port`, `--host`, `--seed`), is on the [Mock Server](https://rapidocui.com/docs/mocking/mock-server/) page of the RapiDoc docs.
 
 ## Real token checks
 
-Each operation's `security` is enforced:
-
-| Scheme | Check |
-| :--- | :--- |
-| OAuth 2, OpenID Connect, HTTP bearer | The token must be a JWT signed by your issuer, unexpired and for your audience, else `401`. It must grant the operation's scopes in its `scope`, `scp` or `permissions` claim, else `403` with `WWW-Authenticate: Bearer error="insufficient_scope"`. |
-| API key | The header, query parameter or cookie must be present. |
-| HTTP basic | Credentials must be present. |
-| `security: []` or none | Open. |
+Each operation's `security` is enforced. Start the mock with your OpenID Connect issuer, and bearer tokens must be signed by it, unexpired, for your audience and carry the operation's scopes (else `401` or `403`):
 
 ```bash
 npx rapidoc mock --issuer https://acme.us.auth0.com/ --audience https://api.acme.com
 ```
 
-Without `--issuer`, any bearer token passes and scopes aren't checked. Combined with [Try with the reader's token](/docs/access/try-it/), signed-in readers see `200` or `403` depending on their own permissions.
-
-## Options
-
-| Option | Variable | Meaning |
-| :--- | :--- | :--- |
-| `--issuer <url>` | `RAPIDOC_MOCK_ISSUER` | OpenID Connect issuer whose access tokens are accepted. |
-| `--audience <id>` | `RAPIDOC_MOCK_AUDIENCE` | `aud` the tokens must have. |
-| `--port <number>` | | Default `4010`. |
-| `--host <host>` | | Default `0.0.0.0`. |
-| `--seed <number>` | | Seed for generated data. Default `1`. |
+`--issuer` and `--audience` can also come from `RAPIDOC_MOCK_ISSUER` and `RAPIDOC_MOCK_AUDIENCE`. Without `--issuer`, any bearer token passes and scopes aren't checked. Combined with [Try with the reader's token](/docs/access/try-it/), signed-in readers see `200` or `403` depending on their own permissions.
 
 ## Without a portal
 

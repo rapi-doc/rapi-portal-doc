@@ -77,17 +77,7 @@ npx rapidoc mcp export openapi.yaml --out-dir orders-mcp   # writes the server p
 npx rapidoc mcp serve openapi.yaml                         # runs it over stdio, no files
 ```
 
-`mcp serve` is what an agent's config can run directly (it needs `@modelcontextprotocol/sdk` installed next to the CLI):
-
-```json
-{
-  "mcpServers": {
-    "orders": { "command": "npx", "args": ["rapidoc", "mcp", "serve", "./specs/orders.yaml"] }
-  }
-}
-```
-
-Credentials come from the environment, one variable per security scheme as in the exported project (`BEARER_AUTH` for a scheme `BearerAuth`). `--base-url http://localhost:4010/orders` sends the calls to [`rapidoc mock`](/docs/tools/mock-server/) instead of the spec's server, and `--arazzo flows.arazzo.yaml` adds the workflows as tools.
+`--base-url http://localhost:4010/orders` sends the calls to [`rapidoc mock`](/docs/tools/mock-server/), and `--arazzo flows.arazzo.yaml` adds the workflows as tools. The options, the credentials it reads and the agent configuration are on the [rapidoc mcp](https://rapidocui.com/docs/cli/mcp/) and [MCP Server](https://rapidocui.com/docs/ai/mcp-server/) pages of the RapiDoc docs.
 
 ## Exported servers
 
