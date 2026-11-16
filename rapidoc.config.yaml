@@ -20,19 +20,39 @@ theme:
 header:
   links:
     - label: Ecosystem
-      items:
-        - label: RapiDoc web component
-          href: https://rapidocui.com
+      items: # RapiDoc's web components, then its tools (this portal aside)
+        - label: RapiDoc
+          href: https://rapidocui.com/docs/
+          icon: file-code
+          description: Interactive API reference from your OpenAPI spec
+        - label: RapiDoc Mini
+          href: https://rapidocui.com/rapidoc-mini/
           icon: puzzle-piece
-          description: The <rapi-doc> element behind every API reference page
+          description: A few endpoints, with Try, inside a post or guide
+        - label: RapiFlow
+          href: https://rapidocui.com/rapi-flow/
+          icon: path
+          description: Step through and run Arazzo workflows
+        - label: RapiPdf
+          href: https://rapidocui.com/rapipdf/
+          icon: file-pdf
+          description: Turn an OpenAPI spec into a PDF
+        - label: RapiDoc CLI
+          href: https://rapidocui.com/cli/
+          icon: terminal
+          description: Preview, validate, lint, bundle and export specs
         - label: Mock server
           href: /docs/tools/mock-server
-          icon: test-tube
-          description: Serve your specs with examples and real token checks
-        - label: Single sign-on (SSO)
-          href: /docs/access/overview
-          icon: lock
-          description: Sign-in with Okta, Entra ID or any OpenID Connect provider, and per-page access rules
+          icon: hard-drives
+          description: Answer requests from your specs, with real token checks
+        - label: MCP server
+          href: /docs/tools/mcp-server
+          icon: robot
+          description: Turn your API into tools for AI agents
+        - label: Pre-rendering
+          href: https://rapidocui.com/docs/performance/prerender/
+          icon: lightning
+          description: Server-rendered HTML for search engines and a fast first paint
     - label: GitHub
       href: https://github.com/rapi-doc/rapi-portal-doc
       icon: github-logo
