@@ -53,10 +53,25 @@ The supported way in is the portal's CSS variables, for example:
 :root {
   --portal-radius: 0.75rem;   /* corners of cards, callouts and code blocks */
 }
+:root[data-theme="dark"] {
+  --portal-bg: #30333c;          /* pages and sidebars */
+  --portal-header-bg: #2c2d35;   /* header rows (frosted) and footer */
+}
 ```
+
+This site uses that to put its pages in the colors of the `amber` theme of its API reference ([below](#api-reference-colors)).
 
 Other selectors work too, but the portal's markup can change between releases.
 
 ## API reference colors
 
-The API reference pages follow the portal theme: the same accent color, and light or dark with the rest of the page. To change more of RapiDoc's look, see [RapiDoc attributes](/docs/api-reference/rapidoc-attributes/).
+The API reference pages follow the portal theme: the same accent color, and light or dark with the rest of the page.
+
+To give them one of RapiDoc's [built-in themes](https://rapidocui.com/docs/theming/prebuilt-themes/) instead, with its own accent, surfaces and headings, name it under `rapidoc:`:
+
+```yaml title="rapidoc.config.yaml"
+rapidoc:
+  theme: amber   # ember | carbon | cobalt | jade | indigo | amber
+```
+
+The API reference pages then use the theme's colors, still light or dark with the rest of the site: the reference and its sidebar on the theme's background, the header and footer in its sidebar color, and its accent. The guides keep the portal's colors and `theme.primary`; to match them, set the same colors in [your own CSS](#your-own-css), as this site does. A `#hex` value sets only the accent, over the portal's colors. To change more of RapiDoc's look, see [RapiDoc attributes](/docs/api-reference/rapidoc-attributes/).
