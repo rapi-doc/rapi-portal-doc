@@ -42,6 +42,7 @@ A new release of the portal is a new build: build it in CI, ship `dist/` in the 
 | `RAPIDOC_MCP` | no | `off` turns off the [MCP endpoint](/docs/tools/mcp-server/): no `/mcp`, no agent tokens, and no "connect an AI agent" section in the user menu. Default `on`. Any other value stops the server. |
 | `PORT`, `HOST` | no | Default `8080` and `0.0.0.0`. `--port` and `--host` win. |
 | `<SCHEME>`, `API_KEY` | no | API keys and HTTP Basic credentials for `/mcp` tool calls, named by the spec's security scheme id. See [MCP server for agents](/docs/tools/mcp-server/#credentials-of-other-kinds). |
+| `EXTERNAL_HOSTS` | no | Hosts, comma-separated (`*` for any), that a workflow step's `x-operation` URL computed at run time may call from `/mcp`, besides the hosts the workflow names (its APIs' servers and URLs written out in its steps). |
 
 The server refuses to start, with the reason, when a required value is missing or the provider can't be discovered.
 
