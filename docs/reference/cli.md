@@ -19,55 +19,43 @@ The command comes from the npm package `@rapidoc/cli`. In a project that has it 
 | `serve [dist]` | Serves a built portal, with sign-in and access rules. Default folder `dist`. |
 | `preview <spec>` | Shows one spec (a file or URL) in `<rapi-doc>` on `http://localhost:4000`, reloading when a file in its folder changes. No portal needed. |
 | `mock [dir \| spec...]` | Mock server for a portal's APIs, a folder of specs, or spec files, each under `/<api id>`. |
-| `validate [spec \| dir]` | Validates one spec (a file or URL), or every spec and workflow file in a portal ([Validate](/docs/tools/validate/)). |
-| `lint [spec \| dir]` | Checks what a spec needs to make a good portal: operationIds, summaries, examples, security, declared tags ([Lint](/docs/tools/lint/)). |
-| `bundle <spec>` | Writes a spec split over several files as one: other-file `$ref`s become components ([Bundle](/docs/tools/bundle/)). |
-| `mcp export <spec>` | Writes an MCP server project for the spec ([MCP server](/docs/tools/mcp-server/#from-the-command-line)). |
+| `validate [spec \| dir]` | Validates one spec (a file or URL), or every spec and workflow file in a portal ([Validate](/docs/tools/validate/), [every option](https://rapidocui.com/docs/cli/validate/)). |
+| `lint [spec \| dir]` | Checks what a spec needs to make a good portal: operationIds, summaries, examples, security, declared tags ([Lint](/docs/tools/lint/), [every option](https://rapidocui.com/docs/cli/lint/)). |
+| `bundle <spec>` | Writes a spec split over several files as one: other-file `$ref`s become components ([Bundle](/docs/tools/bundle/), [every option](https://rapidocui.com/docs/cli/bundle/)). |
+| `pdf <spec>` | Writes the API reference of a spec as a PDF; `--api <id>` takes an API of the portal ([every option](https://rapidocui.com/docs/cli/pdf/)). Needs `rapipdf`. |
+| `mcp export <spec>` | Writes an MCP server project for the spec ([MCP server](/docs/tools/mcp-server/#from-the-command-line), [every option](https://rapidocui.com/docs/cli/mcp/)). |
 | `mcp serve <spec>` | Runs that MCP server over stdio, without writing files. |
 | `migrate [--from <src>]` | Writes `rapidoc.config.yaml` from a `zudoku` or `redocly` project (found in the folder when `--from` is left out). |
 | `doctor [dir]` | Checks Node, the packages' versions, the portal config and the browser bundle; `--format json` for bug reports. |
-| `completion <zsh \| bash \| fish>` | Prints a completion script for the shell ([Shell completion](#shell-completion)). |
+| `completion <zsh \| bash \| fish>` | Prints a completion script for the shell ([Shell completion](https://rapidocui.com/docs/cli/reference/#shell-completion)). |
 | `help [command]` | Shows help, or one command's options and examples (same as `rapidoc <command> --help`). |
 | `--version`, `-v` | Shows the version. |
 
 Options and arguments can come in any order (`rapidoc build --out-dir public ./portal`). A misspelled command or option is an error with a suggestion (`Unknown option --outdir. Did you mean --out-dir?`).
 
-## Options
+## Options of the portal commands
 
 | Option | Commands | Meaning |
 | :--- | :--- | :--- |
 | `--out-dir <path>` | build | Output folder. Default `dist`. |
-| `--port <number>` | dev, serve, mock, preview | dev: default `4321`; serve: `$PORT` or `8080`; mock: `4010`; preview: `4000`. |
-| `--host <host>` | serve, mock, preview | Address to listen on. Default `$HOST` (serve), `localhost` (preview), else `0.0.0.0`. |
-| `--open` | dev, preview | Open the page in the browser. |
-| `--theme <name>` | preview | `<rapi-doc>` theme. |
+| `--port <number>` | dev, serve, mock | dev: default `4321`; serve: `$PORT` or `8080`; mock: `4010`. |
+| `--host <host>` | serve, mock | Address to listen on. Default `$HOST` (serve), else `0.0.0.0`. |
+| `--open` | dev | Open the page in the browser. |
 | `--mount-path <path>` | serve | Path requests arrive under, when a proxy strips part of the portal's path. Default `$RAPIDOC_MOUNT_PATH`, else the path of `site.url`. |
-| `--issuer <url>` | mock | OpenID Connect issuer whose tokens are accepted. Default `$RAPIDOC_MOCK_ISSUER`. |
-| `--audience <id>` | mock | Audience tokens must be issued for. Default `$RAPIDOC_MOCK_AUDIENCE`. |
-| `--seed <number>` | mock | Seed for generated data. Default `1`. |
+| `--issuer <url>`, `--audience <id>` | mock | OpenID Connect issuer and audience of accepted tokens ([Mock server](/docs/tools/mock-server/#real-token-checks)). |
 | `--debug` | dev, build | Keep the temporary build workspace and print its path. |
 | `--title <title>` | init | Site title. |
 | `--spec <file>` | init | An OpenAPI file to include; repeat for more. Default: every one found in the folder. |
 | `--starter-spec` | init | Use the starter spec instead of the OpenAPI files found. |
 | `--force`, `-f` | init | Overwrite existing files (in a terminal, lists them and asks first). |
 | `--no-install` | init | Skip `npm install`. |
-| `--format <format>` | validate, lint, doctor, bundle | validate, lint, doctor: `pretty` (default), `json`, or `sarif` (validate, lint). bundle: `yaml` or `json` (default: by the output file's extension). |
-| `--strict` | validate, lint | Fail on warnings too. |
-| `--rule <name>=<severity>` | lint | A rule's severity: `error`, `warn` or `off`; repeatable. |
-| `--rules` | lint | List the rules and their defaults. |
-| `--remote` | validate, lint, mcp, bundle | Also fetch remote specs and remote `$ref`s. |
-| `--output <file>`, `-o` | bundle | Write the bundle here instead of stdout. |
-| `--dereference` | bundle | Inline every `$ref`, in-file ones too. |
-| `--no-validate` | bundle | Don't check the result against the OpenAPI Specification. |
-| `--api <id>` | bundle | The spec of this API from `rapidoc.config.*`, instead of a file. |
-| `--out-dir <path>` | mcp export | Where to write the project. Default `mcp-server`. |
-| `--force`, `-f` | mcp export | Write into a folder that isn't empty. |
-| `--arazzo <file>` | mcp | An Arazzo file whose workflows become tools too. |
-| `--server-name <name>` | mcp | The MCP server's name. Default: from the API title. |
-| `--base-url <url>` | mcp serve | Call the API here instead of the spec's server (for example `rapidoc mock`). |
+| `--from <src>` | migrate | `zudoku` or `redocly` ([Migrating](/docs/tools/migrate/)). |
+| `--format pretty \| json` | doctor | `json` for bug reports. |
 | `--help`, `-h` | all | Show the command's help instead of running it. |
 | `--quiet`, `-q` | all | Print errors and warnings only. |
 | `--yes`, `-y` | all | Don't ask anything: take the default answer to every question. |
+
+The options of `preview`, `validate`, `lint`, `bundle`, `pdf` and `mcp`, which work on any spec, are in the RapiDoc docs: [All Commands & Options](https://rapidocui.com/docs/cli/reference/).
 
 ## Questions
 
@@ -82,51 +70,9 @@ In a terminal, commands ask for what their options don't say, and `rapidoc` alon
 
 `Ctrl+C` on a question cancels the command (exit code `130`).
 
-## Output and exit codes
+## Exit codes, packages and shell completion
 
-On a terminal the CLI prints icons; when its output is piped or `NO_COLOR` is set, it prints plain text, with `error:` and `warning:` in front of problems. Errors and warnings go to stderr, everything else to stdout.
-
-| Exit code | Means |
-| :--- | :--- |
-| `0` | Success. |
-| `1` | A problem in the input: an invalid spec or config, a failed build, a missing package. |
-| `2` | A wrong command line: an unknown command or option, a missing or malformed value. |
-| `130` | Cancelled at a question (`Ctrl+C`). |
-
-## Which packages each command needs
-
-The CLI loads the other packages only when a command needs them:
-
-| Command | Needs |
-| :--- | :--- |
-| `init`, `validate <spec>`, `lint <spec>` | `@rapidoc/cli` only |
-| `dev`, `build`, `migrate`, `validate` and `lint` of a portal folder | `@rapidoc/portal` |
-| `serve` | `@rapidoc/server` |
-| `mock` | `@rapidoc/mock` (and `@rapidoc/portal` for a portal folder) |
-| `preview`, `bundle <spec>`, `mcp export`, `doctor` | `@rapidoc/cli` only |
-| `bundle --api` | `@rapidoc/portal` |
-| `mcp serve` | `@modelcontextprotocol/sdk` |
-
-## Shell completion
-
-`rapidoc completion <shell>` prints a script that completes commands, options, their values (`--format pretty|json|sarif`, `mcp export|serve`) and file names. It is generated from the commands themselves, so it matches the installed version; regenerate it after updating.
-
-```bash
-# zsh: a folder in $fpath, before compinit runs (or: eval "$(rapidoc completion zsh)" in ~/.zshrc)
-rapidoc completion zsh > ~/.zsh/completions/_rapidoc
-```
-
-```bash
-# bash: in ~/.bashrc
-eval "$(rapidoc completion bash)"
-```
-
-```bash
-# fish
-rapidoc completion fish > ~/.config/fish/completions/rapidoc.fish
-```
-
-With `npx` instead of a global install, use `npx rapidoc completion zsh` once to write the file; `eval` on every shell start would run npx each time.
+`0` success, `1` a problem in the input (an invalid spec or config, a failed build, a missing package), `2` a wrong command line, `130` cancelled at a question. The CLI loads `@rapidoc/portal`, `@rapidoc/server` and `@rapidoc/mock` only for the commands that need them, and `rapidoc completion zsh|bash|fish` prints a completion script. Each is described in [All Commands & Options](https://rapidocui.com/docs/cli/reference/).
 
 ## Examples
 
