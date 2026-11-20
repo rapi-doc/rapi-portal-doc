@@ -1,0 +1,3405 @@
+# Developer portals from OpenAPI
+
+> Turn OpenAPI specs and Markdown guides into a developer portal. Docs as code, static output, optional single sign-on (SSO).
+
+## What you get
+
+**[Interactive API reference](/docs/api-reference/reference-pages/)**
+
+Every OpenAPI 3.0, 3.1 or Swagger 2.0 spec gets a reference page rendered by RapiDoc, with Try, code samples and a sidebar that stays in view.
+
+**[Guides as code](/docs/writing/markdown/)**
+
+Markdown, MDX and Markdoc pages in a `docs/` folder. Callouts, tabs, steps, cards, and live API operations inside a guide.
+
+**[One config file](/docs/configuration/overview/)**
+
+`rapidoc.config.yaml` describes the header, tabs, sidebars, theme and footer. An unknown key fails the build with its path and a hint.
+
+**[Search built in](/docs/configuration/docs-search-redirects/)**
+
+Full-text search across guides and API operations, indexed at build time. No search service to run.
+
+**[Single sign-on (SSO)](/docs/access/overview/)**
+
+Optional SSO with Okta, Microsoft Entra ID, Google or any OpenID Connect provider. Decide who may read which pages, APIs and files, by group or email.
+
+**[Mock server](/docs/tools/mock-server/)**
+
+Serve your specs with their examples, validate requests, and check OAuth tokens and scopes, so you can use Try before your API is deployed.
+
+## From zero to portal
+
+```bash
+npm create rapidoc@latest my-portal
+cd my-portal
+npm install
+npm run dev
+```
+
+The starter is a portal with an example API, a `rapidoc.config.yaml` and two guides, running on `http://localhost:4321`. Then point it at your own spec. Already have a repository with OpenAPI files? Run `npx @rapidoc/cli init` there instead. [Read the quickstart](/docs/getting-started/quickstart/).
+
+## A live operation, right in a guide
+
+Guides can embed any operation from your specs. This one comes from the [example Bookstore API](/apis/bookstore/). Its **Try** button sends a real request: run the [mock server](/docs/tools/mock-server/) to get answers before your API exists.
+
+`GET /books` ([Bookstore API](/apis/bookstore))
+
+> **Note: Moving from Zudoku or Redocly?**
+> `npx @rapidoc/cli migrate` writes a `rapidoc.config.yaml` from your existing Zudoku or Redocly project. [See migrating](/docs/tools/migrate/).
+
+Source: https://portal.rapidocui.com/
+
+---
+
+# Introduction
+
+> What RapiDoc Portal is, what it builds, and which package does what.
+
+RapiDoc Portal is a docs-as-code developer portal framework. You keep your OpenAPI specs and your guides in a repository, describe the site in one `rapidoc.config.yaml`, and the `rapidoc` command builds a static portal from them.
+
+A portal has:
+
+- **A home page** from `docs/index.md`, `.mdx` or `.markdoc`.
+- **Guides** under `/docs/...`, written in Markdown, MDX or [Markdoc](https://markdoc.dev) (Markdown with tags, made by Stripe).
+- **An interactive API reference** for each spec at `/apis/<id>`, rendered by the [RapiDoc](https://rapidocui.com) web component. Each operation has a **Try** button that sends a real request to your API from the browser.
+- **An API catalog** at `/catalog`, with every API grouped by category.
+- **Full-text search** across guides and API operations.
+- **A header with tabs.** A documentation tab has its own sidebar of guides; an API tab opens an API's reference.
+- **A footer, a banner, and light and dark themes**, styled with your brand ([Customizing the portal](/docs/configuration/customizing/)).
+
+And, when you need them:
+
+- **API versions**, each with its own URLs and a version picker ([Versions](/docs/api-reference/versions/)).
+- **Arazzo workflows**: multi-step API journeys, in the OpenAPI Initiative's Arazzo format, drawn as diagrams you can run step by step ([Workflows](/docs/configuration/workflows/)).
+- **Single sign-on (SSO) and access rules**: Okta, Microsoft Entra ID, Google or any OpenID Connect provider, with pages and APIs per group ([Single sign-on (SSO)](/docs/access/overview/)). **Try** can call your API with the reader's own token.
+- **A mock server** that answers from your specs' examples and checks OAuth tokens and scopes, so you can use Try before your API is deployed ([Mock server](/docs/tools/mock-server/)).
+- **MCP tools for AI agents** (Model Context Protocol): your APIs and workflows as tools, exported or hosted at `/mcp` under the same access rules ([MCP server](/docs/tools/mcp-server/)).
+- **`llms.txt`**, an index of the site for AI assistants, and **Markdown copies** of every page ([LLM output](/docs/configuration/llms/)).
+- **Spec checks in CI**: [validate](/docs/tools/validate/), [lint](/docs/tools/lint/) and [bundle](/docs/tools/bundle/) your OpenAPI files.
+- **Migration** from Zudoku or Redocly with one command ([Migrate](/docs/tools/migrate/)).
+
+The output is plain HTML, CSS and JavaScript. Host it on GitHub Pages, Netlify, Vercel, Cloudflare Pages, S3 or any web server ([Static hosting](/docs/deploy/static-hosting/)).
+
+## The packages
+
+| Package | What it does |
+| :--- | :--- |
+| `@rapidoc/cli` | The `rapidoc` command you run, directly or through the `npm run` scripts: `init`, `dev`, `build`, `serve`, `mock`, `validate`, `lint`, `migrate` and [more](/docs/reference/cli/). |
+| `@rapidoc/portal` | The engine behind `rapidoc dev` and `rapidoc build`: config, layout, Markdoc tags, search. |
+| `@rapidoc/server` | Behind `rapidoc serve`: serves a built portal with single sign-on (OpenID Connect) and access rules. Optional. |
+| `@rapidoc/mock` | Behind `rapidoc mock`: a mock server for the portal's APIs, with request validation and token checks. Optional. |
+| `create-rapidoc` | `npm create rapidoc` scaffolds a new portal project. |
+| `rapidoc` | The `<rapi-doc>` web component that renders each API reference. |
+
+The CLI loads `@rapidoc/portal`, `@rapidoc/server` and `@rapidoc/mock` only for the commands that need them. `rapidoc init` and `rapidoc validate <spec>` work without `@rapidoc/portal` installed: run them as `npx @rapidoc/cli init` before anything is installed.
+
+## Why another portal framework?
+
+- **Docs as code.** Everything is a file in your repository: review it in pull requests, build it in CI.
+- **Static by default.** No database and no runtime to operate. Per-page sign-in is the one feature that needs a server, and it's opt-in. A portal that is private as a whole can sit behind your SSO proxy as static files ([Static hosting](/docs/deploy/static-hosting/#need-sign-in-sso)).
+- **Strict config.** An unknown key fails the build with its path and a hint, so a typo never disappears silently.
+- **Accessible.** The layout is tested against WCAG 2.1 AA in both themes and at phone width, and accent text colors are derived from your brand color so they keep 4.5:1 contrast.
+
+Next: [build your first portal](/docs/getting-started/quickstart/).
+
+Source: https://portal.rapidocui.com/docs/getting-started/introduction/
+
+---
+
+# Quickstart
+
+> Create a portal, see it running, add your own OpenAPI spec, and build it for production.
+
+In a few minutes you'll have a portal running on your computer with an example API, then with your own spec, and a static build ready to upload.
+
+## Prerequisites
+
+- [Node.js](https://nodejs.org/) 22.12 or later. Check with `node --version`.
+- Your OpenAPI 3.0, 3.1 or Swagger 2.0 file, if you have one. The starter includes an example, so you can add yours later.
+
+Already have a repository with OpenAPI files? Skip to [Add a portal to an existing repository](#add-a-portal-to-an-existing-repository).
+
+## Create a portal
+
+**Create the project**
+
+```bash
+npm create rapidoc@latest my-portal
+```
+
+It asks for the site title (press Enter to keep "My Portal") and creates the folder `my-portal` with the [starter files](#what-the-starter-contains). It doesn't install anything yet.
+
+**Install the dependencies**
+
+```bash
+cd my-portal
+npm install
+```
+
+This installs the `rapidoc` command and the portal engine into `node_modules/`. It takes a minute or two.
+
+**Start the dev server**
+
+```bash
+npm run dev
+```
+
+Open `http://localhost:4321` in your browser (or run `npm run dev -- --open`). You should see:
+
+- the home page with your site title,
+- the example API under the **Core API** tab (`/apis/core/`), with a **Try** button on each operation that sends a real request,
+- two starter guides under the **Documentation** tab.
+
+Leave the server running. A change to a guide in `docs/` shows up as soon as you save; a change to `rapidoc.config.yaml` or a spec restarts the server.
+
+**Add your own spec**
+
+Copy your OpenAPI file into `specs/`, then point the example API at it in `rapidoc.config.yaml`:
+
+```yaml title="rapidoc.config.yaml"
+apis:
+  - id: core
+    spec: ./specs/orders.yaml   # your file
+```
+
+Reload `/apis/core/`: it now shows your API. The tab is still called **Core API**: change its `label` under `navigation:`. The `id` is the page's address (`/apis/<id>`); to rename it, also change `api: core` under `navigation:` and the `/apis/core` link under `header:`.
+
+The starter guide `docs/guides/overview.markdoc` embeds the example's `GET /items` operation. Change it to one of your operations, or delete it. To add more APIs, add entries under `apis:` ([APIs](/docs/configuration/apis/)).
+
+**Make it yours**
+
+Change `site.title` in `rapidoc.config.yaml` and save: the header shows the new title once the server has restarted. The same file holds the logo, the theme color, the header links and the sidebar; guides are Markdown, MDX or Markdoc files in `docs/`. See [Configuration](/docs/configuration/overview/) and [Writing guides](/docs/writing/markdown/).
+
+**Build for production**
+
+Stop the dev server (Ctrl+C), then:
+
+```bash
+npm run build
+```
+
+The portal is written to `dist/` as plain static files: HTML pages, your specs and the search index. To look at the build before uploading it, run `npm run preview`. Then upload `dist/` to any static host: see [Static hosting](/docs/deploy/static-hosting/).
+
+## Add a portal to an existing repository
+
+In a repository that already has OpenAPI files, run this in its root folder:
+
+```bash
+npx @rapidoc/cli init
+```
+
+It finds the OpenAPI files, asks which ones to list in the portal, the site title, and whether to install the dependencies. Then it writes `rapidoc.config.yaml` and the [starter files](#what-the-starter-contains) next to your code. Each spec becomes an API whose id comes from its file name: `specs/orders-api.yaml` is `/apis/orders-api/`.
+
+- **No `package.json` yet:** init creates one with the `dev`, `build` and `validate` scripts. Continue with `npm install` (if you didn't let init install) and `npm run dev`, as in steps 2 and 3 above.
+- **A `package.json` already exists:** init keeps it and prints what to add. Install the CLI and the engine, then start the dev server:
+
+  ```bash
+  npm install -D @rapidoc/cli @rapidoc/portal
+  npx rapidoc dev
+  ```
+
+init never overwrites a file that exists, unless you pass `--force`. Its other options, such as `--spec <file>`, `--title` and `--yes` (no questions), are in the [CLI reference](/docs/reference/cli/).
+
+> **Note: npx rapidoc or npx @rapidoc/cli?**
+> The command is `rapidoc`, from the npm package `@rapidoc/cli`. Before the CLI is installed in a project, run it as `npx @rapidoc/cli <command>`: `npx rapidoc` would look for the npm package `rapidoc`, which is the `<rapi-doc>` web component and has no command. Once `@rapidoc/cli` is installed, `npx rapidoc <command>` and the `npm run` scripts both work.
+
+## What the starter contains
+
+```text
+my-portal/
+├── rapidoc.config.yaml   # site, header, navigation, theme, APIs
+├── package.json          # dev, build, start, validate and preview scripts
+├── specs/api.yaml        # the example API (id: core)
+├── docs/
+│   ├── index.markdoc     # the home page
+│   ├── getting-started.md
+│   └── guides/overview.markdoc
+├── render.yaml           # one-click deploy on Render (optional)
+├── README.md
+└── .gitignore            # node_modules/, dist/, .rapidoc-temp/, .env
+```
+
+What each folder is for: [Project structure](/docs/getting-started/project-structure/). `render.yaml` is only for [Render](/docs/deploy/cloud-platforms/); delete it if you deploy elsewhere.
+
+## Troubleshooting
+
+| What you see | What to do |
+| :--- | :--- |
+| `rapidoc: command not found` | Run `npm install` in the project folder first. |
+| `npm error could not determine executable to run` | You ran `npx rapidoc` before the CLI was installed. Use `npx @rapidoc/cli` instead. |
+| Port 4321 is in use | The dev server offers another port. To pick one yourself: `npm run dev -- --port 3000`. |
+| The build stops on `rapidoc.config.yaml` | The error names the key and its path, and suggests the right key for a typo. See [Configuration](/docs/configuration/overview/). |
+| Anything else | Run `npx rapidoc doctor`: it checks the Node version, the packages' versions and the config. |
+
+## Next steps
+
+- [Add more APIs](/docs/configuration/apis/), with categories and versions.
+- [Write guides](/docs/writing/markdown/), with live operations from your APIs.
+- [Set the theme, header and sidebar](/docs/configuration/overview/).
+- Check your specs in CI with `npm run validate` ([Validate](/docs/tools/validate/)).
+- [Deploy](/docs/deploy/static-hosting/) to any static host.
+- [Put the portal behind single sign-on (SSO)](/docs/access/overview/), or only some of its pages and APIs.
+
+Source: https://portal.rapidocui.com/docs/getting-started/quickstart/
+
+---
+
+# Project structure
+
+> Where the config, specs, guides and static files go, and how files become URLs.
+
+A portal is a folder with one config file and three folders. This is the starter from the [Quickstart](/docs/getting-started/quickstart/), plus a `public/` folder, which you create when you need one:
+
+```text
+my-portal/
+├── rapidoc.config.yaml        # site, header, navigation, theme, APIs
+├── package.json               # dev, build, start, validate and preview scripts
+├── specs/                     # OpenAPI 3.0, 3.1 or Swagger 2.0 files, YAML or JSON
+│   └── api.yaml
+├── docs/                      # guides: .md, .mdx or .markdoc
+│   ├── index.markdoc          # the home page (optional)
+│   ├── getting-started.md
+│   └── guides/
+│       └── overview.markdoc
+└── public/                    # optional: logo, favicon, images
+```
+
+## `rapidoc.config.yaml`
+
+The one config file: the site, the header, the navigation, the theme and the APIs. See [Configuration](/docs/configuration/overview/).
+
+## `docs/`
+
+Every file is a page. The path decides the URL:
+
+| File | URL |
+| :--- | :--- |
+| `docs/index.markdoc` | `/` (the home page) |
+| `docs/getting-started.md` | `/docs/getting-started` |
+| `docs/guides/overview.markdoc` | `/docs/guides/overview` |
+
+In the config's `navigation:`, a page is named by its path without the extension, its *slug*: `guides/overview`. Without a `docs/index.*`, `/` redirects to the first tab.
+
+Change the folder with `docs.dir` in the config. If both `page.md` and `page.mdx` exist, the `.mdx` one is used.
+
+## `specs/`
+
+OpenAPI files, listed under `apis:` in the config ([APIs](/docs/configuration/apis/)). Relative `$ref`s to other files resolve. A spec can also be a URL. Each API is published at `/specs/<api id>.<ext>`, so readers can download it.
+
+## `public/`
+
+Copied to the site root as-is: `public/logo.svg` is `/logo.svg`. Put the logo, favicon and images for guides here. Don't use it as the build's output folder.
+
+## What a build leaves behind
+
+Only the output folder, `dist/`. While it runs, a build works in a temporary folder, `.rapidoc-temp/`, inside the project, and removes it at the end, even when the build fails. Keep both out of Git, together with `.env`, where the [sign-in secrets](/docs/access/setup/#3-test-on-your-computer) go for local testing. The starter's `.gitignore` lists them:
+
+```text
+node_modules/
+dist/
+.rapidoc-temp/
+.DS_Store
+.env
+.env.*
+```
+
+Source: https://portal.rapidocui.com/docs/getting-started/project-structure/
+
+---
+
+# Configuration overview
+
+> How rapidoc.config.yaml is organized, its conventions, and editor autocomplete.
+
+Everything about the site lives in `rapidoc.config.yaml` at the project root. Only `site.title` is required, so the smallest config is:
+
+```yaml title="rapidoc.config.yaml"
+site:
+  title: Acme Developers
+```
+
+Every top-level key:
+
+```yaml
+# yaml-language-server: $schema=./node_modules/@rapidoc/portal/schema.json
+site:        # title, logo, favicon, URL, banner
+theme:       # accent color, light/dark mode, fonts
+head:        # extra tags in every page's <head> (analytics, fonts)
+header:      # row 1: links and menus right of the search
+navigation:  # row 2: one tab per entry; documentation tabs have a sidebar
+apis:        # your OpenAPI specs
+workflows:   # Arazzo workflow files
+docs:        # docs folder, table of contents, edit links
+footer:      # call to action, columns, social links, newsletter
+rapidoc:     # <rapi-doc> attributes for API reference pages
+search:      # full-text search on or off
+llms:        # llms.txt and Markdown copies for AI assistants
+redirects:   # old URLs to new ones
+lint:        # rules for rapidoc lint
+auth:        # single sign-on with OpenID Connect (optional)
+access:      # who may read what (optional)
+```
+
+## Conventions
+
+The same three words mean the same thing everywhere:
+
+- `label` is the text of anything clickable.
+- `href` is any URL: a path on this site (`/docs/intro`) or a full URL.
+- `items` are children: dropdown items, mega-menu links, sidebar groups.
+
+A navigation item's kind comes from its keys:
+
+- `slug` (or a plain string): a page in `docs/`, by its path without the extension;
+- `href`: a link;
+- `items`: a group;
+- `autogenerate`: every page in a folder of `docs/`;
+- `api`: an API's reference page;
+- `catalog`: the API catalog.
+
+See [Navigation](/docs/configuration/navigation/).
+
+## Strict by design
+
+The schema rejects unknown keys. A typo fails the build with its path and, where it can, the key you meant:
+
+```text
+navigation[0].items[2]: unknown key "path" (use href (links) or slug (doc pages))
+```
+
+## Autocomplete in your editor
+
+The starter's config already starts with this line. It points editors that understand YAML schemas (VS Code with the YAML extension, JetBrains IDEs) at the JSON Schema that ships as `@rapidoc/portal/schema.json`:
+
+```yaml title="rapidoc.config.yaml"
+# yaml-language-server: $schema=./node_modules/@rapidoc/portal/schema.json
+```
+
+You get completion, descriptions on hover, and errors as you type.
+
+## Other formats
+
+The engine also reads `rapidoc.config.yml`, `.json`, `.js`, `.mjs` and `.ts`. A JavaScript or TypeScript config default-exports the same object.
+
+## The sections
+
+- [Site](/docs/configuration/site/): title, logo, favicon, URL, banner
+- [Theme](/docs/configuration/theme/): accent color, mode, fonts
+- [Header](/docs/configuration/header/): links, dropdowns, mega-menus
+- [Navigation](/docs/configuration/navigation/): tabs and sidebars
+- [APIs](/docs/configuration/apis/): specs, ids, categories
+- [Workflows](/docs/configuration/workflows/): Arazzo files, drawn and runnable in the docs
+- [Footer](/docs/configuration/footer/): call to action, columns, social links, newsletter
+- [Docs, search and redirects](/docs/configuration/docs-search-redirects/): the docs folder, edit links, search, old URLs
+- [LLM output](/docs/configuration/llms/): `llms.txt` and Markdown copies of every page
+- [Single sign-on (SSO)](/docs/access/overview/): `auth` and `access`, for private pages and APIs
+
+Every key in one table: [Configuration keys](/docs/reference/config/).
+
+Source: https://portal.rapidocui.com/docs/configuration/overview/
+
+---
+
+# Customizing the portal
+
+> Every way to change how the portal looks and behaves - brand, layout, your own CSS, components in guides, API reference options and build scripts.
+
+A portal looks like your product without forking the framework. Each layer below has its own page; this one shows what goes where.
+
+## Brand and layout: `rapidoc.config.yaml`
+
+| Change | Where |
+| :--- | :--- |
+| Accent color, light and dark mode, fonts | [Theme](/docs/configuration/theme/) |
+| Logo (light and dark), favicon, link previews, announcement banner | [Site](/docs/configuration/site/) |
+| Header links, buttons, dropdowns and mega-menus | [Header](/docs/configuration/header/) |
+| Tabs and their sidebars, with icons and badges | [Navigation](/docs/configuration/navigation/) |
+| Call to action, link columns, newsletter sign-up, social links | [Footer](/docs/configuration/footer/) |
+| Analytics, site verification and other `<head>` tags | [Head tags](/docs/configuration/site/#head-tags) |
+
+From the one accent color, the portal derives its text and button variants so that accent text keeps 4.5:1 contrast in both themes.
+
+## Your own CSS
+
+`theme.css` loads your stylesheets on every page, after the portal's own, so plain selectors win. The portal's CSS variables are the stable way in: corners, colors and spacing. See [Your own CSS](/docs/configuration/theme/#your-own-css).
+
+## Components in guides
+
+- **MDX**: callouts, cards, tabs, steps, badges, buttons and icons, with no imports. See [MDX](/docs/writing/mdx/).
+- **Your own components**: `.mdx` pages can import Astro components (`.astro`) from your project, such as `components/Hello.astro`. See [Your own components](/docs/writing/mdx/#your-own-components).
+- **Markdoc**: the same building blocks as tags, for pages that stay plain text. See [Markdoc](/docs/writing/markdoc/).
+- **Live API operations** inside a guide, with Try. See [Embedding operations](/docs/writing/embedding-operations/).
+- **Arazzo workflows** drawn as diagrams. See [Workflows](/docs/configuration/workflows/).
+
+## API reference pages
+
+Each reference page is rendered by the [RapiDoc](https://rapidocui.com) web component. The `rapidoc` key sets its attributes for every reference page: render style, schema style and expand level, Try and server selection, font size, and anything else in the [RapiDoc API reference](https://rapidocui.com/api). See [RapiDoc attributes](/docs/api-reference/rapidoc-attributes/).
+
+## Build scripts
+
+`@rapidoc/portal` builds, serves and checks portals from your own Node.js scripts: generate specs or pages before a build, or run several portals from one CI job. See [Programmatic API](/docs/reference/programmatic-api/).
+
+Source: https://portal.rapidocui.com/docs/configuration/customizing/
+
+---
+
+# Site
+
+> Title, description, URL, logo, favicon, link previews, page titles, head tags and the announcement banner.
+
+```yaml title="rapidoc.config.yaml"
+site:
+  title: Acme Developers
+  description: Build on the Acme payments platform.
+  url: https://developers.acme.com
+  logo:
+    src:
+      light: /logo-light.svg   # on light backgrounds
+      dark: /logo-dark.svg     # on dark backgrounds
+    alt: Acme
+  favicon: /favicon.svg
+  image: /social-card.png
+  titleTemplate: '%s · Acme Developers'
+  banner:
+    message: API v2 is live!
+    href: /docs/changelog
+```
+
+| Key | Meaning |
+| :--- | :--- |
+| `title` | **Required.** The site name, in the browser tab and as the wordmark when there is no logo. |
+| `description` | Default meta description of the pages. |
+| `url` | Public URL of the portal, for canonical links and the sitemap. A path in it is where the portal is served; see [Serving under a path](#serving-under-a-path). `rapidoc serve` also uses it as the default external URL. |
+| `logo` | The header logo; see below. |
+| `favicon` | Icon in `public/`, e.g. `/favicon.svg`. |
+| `image` | Preview image for links shared in Slack, X or LinkedIn (`og:image`): a file in `public/` or a URL. A file needs `url`. 1200 × 630 works best. |
+| `titleTemplate` | Page titles in the browser tab and search results. `%s` is the page's own title. Default `'%s \| <title>'`. A page titled like the site shows the title alone. |
+| `noindex` | `true` keeps search engines out: a robots `noindex` tag on every page, a `robots.txt` that disallows everything, and no sitemap. For staging and internal portals. |
+| `banner` | An announcement bar above the header; see below. |
+
+## Logo
+
+One image for both themes:
+
+```yaml title="rapidoc.config.yaml"
+site:
+  logo:
+    src: /logo.svg          # an image in public/
+    text: ACME              # optional: wordmark next to the image
+    alt: Acme               # optional: default the site title
+    href: /                 # optional: where the logo links to (default /)
+```
+
+Or one image per theme, when the logo has dark text that would disappear on a dark background:
+
+```yaml title="rapidoc.config.yaml"
+site:
+  logo:
+    src:
+      light: /logo-light.svg   # shown in the light theme
+      dark: /logo-dark.svg     # shown in the dark theme
+    alt: Acme
+```
+
+The header and footer switch between the two as soon as the reader changes the theme, with no reload. This site does it: switch the theme and watch the logo.
+
+With an image and no `text`, only the image is shown, and `alt` names it for screen readers. Without an image, the site title is the wordmark. The header shows the logo 28px tall; a wide logo shrinks on narrow screens.
+
+The favicon is one file for both themes: pick an icon that reads on light and dark browser tabs.
+
+## Serving under a path
+
+When `url` has a path, the whole portal is served under it:
+
+```yaml title="rapidoc.config.yaml"
+site:
+  url: https://acme.com/developers   # every page is under /developers/
+```
+
+Keep writing paths as if the portal were at the root: `/docs/intro` in `navigation`, `header`, `footer`, `redirects`, `access` rules, and in links and images in your guides. The portal adds `/developers` when it builds the pages. That covers Markdown links and images, and `href`/`src` in HTML or MDX tags (`<img src="/ship.png">`). Full URLs are left alone, and so is a path built in an MDX expression (`src={...}`).
+
+With sign-in, register `https://acme.com/developers/_rapidoc/auth/callback` at your provider. Behind a proxy that strips part of the path, see [Deploy with rapidoc serve](/docs/deploy/rapidoc-serve/#behind-a-proxy-that-strips-part-of-the-path).
+
+## Head tags
+
+`head` (a top-level key, next to `site`) adds tags to the `<head>` of every page: analytics, site verification, preconnects.
+
+```yaml title="rapidoc.config.yaml"
+head:
+  - script: { src: https://plausible.io/js/script.js, defer: true, data-domain: acme.com }
+  - script: window.dataLayer = window.dataLayer || [];   # a string is an inline script
+  - meta: { name: google-site-verification, content: abc123 }
+  - link: { rel: preconnect, href: https://api.acme.com }
+```
+
+Each entry is one `script`, `link` or `meta` tag. Attribute values are strings, or `true` for an attribute without a value. A cookie-consent tool goes in the same way, as a script.
+
+## Banner
+
+```yaml title="rapidoc.config.yaml"
+site:
+  banner:
+    message: Inter-galactic shipping is live!
+    href: /docs/shipping      # optional: makes the message a link
+    dismissible: true         # optional: default true; readers can close it
+    background: '#f76b39'     # optional: any CSS color
+    color: '#000000'          # optional: text color
+```
+
+The banner sits above the header on every page.
+
+Source: https://portal.rapidocui.com/docs/configuration/site/
+
+---
+
+# Theme
+
+> Accent color, light and dark mode, and fonts.
+
+```yaml title="rapidoc.config.yaml"
+theme:
+  primary: '#f76b39'
+  mode: auto
+  fonts:
+    sans: { family: Inter }
+    mono: { family: JetBrains Mono }
+```
+
+## Accent color
+
+`primary` (default `#f76b39`) colors links, buttons, the active tab and sidebar item, and the API reference.
+
+You pick one color, and the portal keeps it readable. At build time it derives the text variants from it so that accent text keeps WCAG AA contrast (4.5:1) on both the light and the dark background. Text on accent-filled buttons is black or white, whichever reads better. So a light brand color like yellow still gives readable links.
+
+## Mode
+
+`mode` is the theme a visitor sees until they pick one with the theme switcher:
+
+- `auto` (default) follows the operating system.
+- `light` or `dark` forces one.
+
+Hide the switcher with `header.themeSwitcher: false`.
+
+## Fonts
+
+```yaml title="rapidoc.config.yaml"
+theme:
+  fonts:
+    sans: { family: Inter }                                  # loaded from Google Fonts, weights 400-700
+    mono: { family: JetBrains Mono, url: /fonts/mono.css }   # your own stylesheet
+```
+
+A `family` alone loads from Google Fonts. Add `url` to load it from another CDN or from a CSS file in `public/`. `sans` is the text font; `mono` is used for code.
+
+## Your own CSS
+
+```yaml title="rapidoc.config.yaml"
+theme:
+  css: ./styles/portal.css   # or a list of files
+```
+
+The files load on every page after the portal's own styles, so plain selectors win without `!important`. Paths are relative to `rapidoc.config.yaml`, and `rapidoc dev` reloads when they change.
+
+The supported way in is the portal's CSS variables, for example:
+
+```css title="styles/portal.css"
+:root {
+  --portal-radius: 0.75rem;   /* corners of cards, callouts and code blocks */
+}
+:root[data-theme="dark"] {
+  --portal-bg: #30333c;          /* pages and sidebars */
+  --portal-header-bg: #2c2d35;   /* header rows (frosted) and footer */
+}
+```
+
+This site uses that to put its pages in the colors of the `amber` theme of its API reference ([below](#api-reference-colors)).
+
+Other selectors work too, but the portal's markup can change between releases.
+
+## API reference colors
+
+The API reference pages follow the portal theme: the same accent color, and light or dark with the rest of the page.
+
+To give them one of RapiDoc's [built-in themes](https://rapidocui.com/docs/theming/prebuilt-themes/) instead, with its own accent, surfaces and headings, name it under `rapidoc:`:
+
+```yaml title="rapidoc.config.yaml"
+rapidoc:
+  theme: amber   # ember | carbon | cobalt | jade | indigo | amber
+```
+
+The API reference pages then use the theme's colors, still light or dark with the rest of the site: the reference and its sidebar on the theme's background, the header and footer in its sidebar color, and its accent. The guides keep the portal's colors and `theme.primary`; to match them, set the same colors in [your own CSS](#your-own-css), as this site does. A `#hex` value sets only the accent, over the portal's colors. To change more of RapiDoc's look, see [RapiDoc attributes](/docs/api-reference/rapidoc-attributes/).
+
+Source: https://portal.rapidocui.com/docs/configuration/theme/
+
+---
+
+# Header
+
+> The first header row - links, buttons, dropdowns, mega-menus and the theme switcher.
+
+The header has two rows:
+
+1. **Row 1**: the logo, the search, `header.links` and the theme switcher.
+2. **Row 2**: one tab per `navigation` entry. See [Navigation](/docs/configuration/navigation/).
+
+On narrow screens both rows collapse into the menu.
+
+```yaml title="rapidoc.config.yaml"
+header:
+  themeSwitcher: true
+  links:
+    - label: Status
+      href: https://status.acme.com
+    - label: Solutions
+      items:
+        - label: Tracking
+          icon: globe
+          description: Real-time tracking
+          href: /docs/tracking
+          items:
+            - { label: Webhooks, icon: webhooks-logo, href: /docs/webhooks }
+    - label: Sign up
+      href: https://dashboard.acme.com/signup
+      style: primary
+```
+
+## Links and buttons
+
+A link has a `label` and an `href`. `style` makes it a button:
+
+| `style` | Looks like |
+| :--- | :--- |
+| `link` (default) | Plain text link |
+| `button` | Outlined button |
+| `primary` | Filled button in the accent color |
+
+Add an `icon` to show a Phosphor icon before the label.
+
+## Dropdowns and mega-menus
+
+A link with `items` instead of `href` opens a dropdown. When any item has an `icon` or a `description`, the dropdown becomes a mega-menu with a card per item.
+
+Each mega-menu item can have its own `items`: shortcut links shown under it.
+
+| Item key | Meaning |
+| :--- | :--- |
+| `label`, `href` | **Required.** |
+| `icon` | Phosphor icon name. |
+| `description` | One line under the label. |
+| `badge` | Small label next to the item: `New`, or `{ text: Beta, variant: caution }`. |
+| `items` | Shortcut links: `{ label, href, icon }`. |
+
+The menus follow the WAI-ARIA disclosure pattern: they open on click or Enter, close on Escape, and focus alone never opens them.
+
+## Icons
+
+Every icon name in the config is a [Phosphor](https://phosphoricons.com) icon name: `book`, `code`, `rocket`, `package`, `lightning`, `github-logo`, and so on. An unknown name shows a question mark and a build warning.
+
+Source: https://portal.rapidocui.com/docs/configuration/header/
+
+---
+
+# Navigation
+
+> Header tabs and the sidebar of each documentation tab.
+
+`navigation` is the header's second row. Each entry is a tab, and the kind of tab comes from its keys.
+
+```yaml title="rapidoc.config.yaml"
+navigation:
+  - label: Documentation       # documentation tab with its own sidebar
+    icon: book
+    items:
+      - getting-started
+      - label: Shipping
+        items:
+          - guides/first-shipment
+          - { label: Ship states, href: /docs/ship-states }
+      - label: Support
+        collapsed: true
+        autogenerate: support
+  - label: Changelog           # documentation tab: every page in docs/changelog/
+    autogenerate: changelog
+  - label: Shipments           # API tab: one API's reference page
+    icon: code
+    api: shipments
+  - label: API Catalog         # the catalog
+    icon: squares-four
+    catalog: true
+  - label: Blog                # a link
+    href: https://example.com/blog
+```
+
+## Tab kinds
+
+| Key | Tab |
+| :--- | :--- |
+| `items` | Documentation tab; `items` is its sidebar. |
+| `autogenerate: <folder>` | Documentation tab whose sidebar is every page in that folder of `docs/`. |
+| `api: <id>` | The reference page of the API with that id, `/apis/<id>`. Add `version: <version>` to link to one of its [versions](/docs/api-reference/versions/) other than the default. |
+| `catalog: true` | The API catalog, `/catalog`. |
+| `href` | A link to another page or site. |
+
+Every tab has a `label`, and can have an `icon` and a `badge`. Each tab must have exactly one of these keys; the build tells you when there are none or several.
+
+## Sidebar items
+
+Inside a documentation tab's `items`:
+
+| Item | Meaning |
+| :--- | :--- |
+| `getting-started` | A doc page by its path in `docs/`, without the extension. The label is the page title. |
+| `{ label: Intro, slug: getting-started }` | The same, with your own label. |
+| `{ label: Status, href: https://... }` | A link. |
+| `{ label: Guides, items: [...] }` | A group. Groups nest. |
+| `{ label: Support, autogenerate: support }` | A group of every page in `docs/support/`. |
+| `{ label: Orders API, api: orders }` | A link to an API's reference page. Add `version: v1` for one of its [versions](/docs/api-reference/versions/). |
+
+Groups take `collapsed: true` to start closed, and any item can have a `badge` and an `icon`, a [Phosphor](https://phosphoricons.com) icon name shown before its label:
+
+```yaml title="rapidoc.config.yaml"
+navigation:
+  - label: Documentation
+    icon: book
+    items:
+      - label: Get started
+        icon: rocket-launch      # any Phosphor icon name
+        items:
+          - { slug: getting-started, icon: lightning }
+          - { label: Status, href: https://status.acme.com, icon: pulse }
+```
+
+A page needs the object form (`{ slug, icon }`) to have an icon. Pages of an `autogenerate` group have none; the group itself can.
+
+## Which tab is active
+
+The active tab is the one whose sidebar has the current page. Two rules decide the rest:
+
+- Docs pages that are in no tab's sidebar belong to the **first documentation tab**.
+- APIs without a tab of their own belong to the **catalog tab**.
+
+Previous and next links at the bottom of a page stay inside the current tab.
+
+## On small screens
+
+Below 800px the tabs row is hidden. The menu button opens a drawer with the tabs, the header links, and the current tab's sidebar.
+
+Source: https://portal.rapidocui.com/docs/configuration/navigation/
+
+---
+
+# APIs
+
+> Add OpenAPI specs to the portal - ids, titles, categories, versions and remote specs.
+
+```yaml title="rapidoc.config.yaml"
+apis:
+  - id: shipments
+    spec: ./specs/shipments.yaml
+    category: Core
+  - id: billing
+    spec: https://api.acme.com/billing/openapi.json
+    title: Billing
+    description: Invoices and payments.
+    category: Finance
+```
+
+| Key | Meaning |
+| :--- | :--- |
+| `id` | **Required.** Lowercase letters, digits and dashes. The reference page is `/apis/<id>`. Tabs (`api: <id>`) and embedded operations (`spec="<id>"`) refer to it. |
+| `spec` | An OpenAPI 3.0, 3.1 or Swagger 2.0 file, relative to the config, or a URL. YAML or JSON. Required unless the API has `versions`. |
+| `versions` | One spec per version, instead of `spec`. See [API versions](/docs/api-reference/versions/). |
+| `title` | Default: `info.title` of the spec. |
+| `description` | Default: `info.description` of the spec. Shown on the catalog card. |
+| `category` | The group on the [catalog page](/docs/api-reference/catalog/). Default `General`. |
+
+## What each API gets
+
+- A reference page at `/apis/<id>`, with one page per tag below it: `/apis/<id>/<tag>`. See [Reference pages](/docs/api-reference/reference-pages/).
+- A card in the catalog at `/catalog`.
+- Its spec published at `/specs/<id>.<ext>`, so readers and tools can download it.
+- Its operations in the site search.
+
+## Versions
+
+To publish several versions of one API, list a spec per version under `versions:`. The first is the default, at `/apis/<id>`; the others are at `/apis/<id>/<version>`, with a version picker on the reference page:
+
+```yaml title="rapidoc.config.yaml"
+apis:
+  - id: payments
+    versions:
+      - ./specs/payments-v3.yaml
+      - ./specs/payments-v2.yaml
+```
+
+See [API versions](/docs/api-reference/versions/).
+
+## Local or remote specs
+
+Local specs are read at build time. Relative `$ref`s to other files resolve, and the spec is published with the site.
+
+A remote spec (a URL) is loaded by the reader's browser from where it is hosted. The build doesn't read it, so:
+
+- Set `title` and `description` yourself; without them the catalog shows the id.
+- Its operations are not in the site search.
+- `rapidoc validate` and `rapidoc mock` skip it.
+- [Access rules](/docs/access/access-rules/) can't protect it. Protect it where it is hosted.
+
+## Changing an id
+
+The id is in every URL of the API. To keep old links working after you rename one, add a [redirect](/docs/configuration/docs-search-redirects/#redirects).
+
+Source: https://portal.rapidocui.com/docs/configuration/apis/
+
+---
+
+# Workflows
+
+> Add Arazzo workflow files to the portal - drawn as diagrams in your docs, runnable from the browser, and exported as MCP tools.
+
+```yaml title="rapidoc.config.yaml"
+workflows:
+  - file: ./workflows/checkout.arazzo.yaml
+  - id: returns
+    file: ./workflows/returns-and-refunds.arazzo.yaml
+    sources:
+      storeAPI: orders
+```
+
+| Key | Meaning |
+| :--- | :--- |
+| `file` | **Required.** An [Arazzo 1.x](https://spec.openapis.org/arazzo/latest.html) file, YAML or JSON, relative to the config. |
+| `id` | Lowercase letters, digits and dashes. Default: the file name without `.arazzo.yaml`. The `workflow` tag refers to it (`file="<id>"`), and the file is published at `/workflows/<id>.arazzo.yaml`. |
+| `sources` | Which API in `apis:` each of the file's source descriptions is: `<source name>: <api id>`. A source whose name is already an API id needs no entry. |
+
+## What a workflow file gets
+
+- Its workflows can be drawn in any docs page with [`{% workflow %}`](/docs/writing/markdoc/#workflow): a diagram of the steps, the values passed between them and the success and failure actions, generated at build time.
+- **Run workflow** on that diagram runs the steps from the reader's browser against the servers in the specs, with the credentials the reader types in.
+- The portal's MCP export turns each workflow into one tool, with the workflow's inputs as the tool's arguments.
+
+## Sources
+
+An Arazzo file names the APIs it uses in `sourceDescriptions`. The portal resolves each source to one of your APIs and reads the operations from that API's spec (its default [version](/docs/api-reference/versions/)), so the `url` in the file does not have to be reachable at build time:
+
+```yaml title="workflows/checkout.arazzo.yaml"
+sourceDescriptions:
+  - name: orders            # an API id: resolves to apis[].id "orders"
+    url: ../specs/orders.yaml
+    type: openapi
+  - name: storeAPI          # not an API id: map it in sources
+    url: https://example.com/store.json
+    type: openapi
+```
+
+The `url` still matters when a reader runs the workflow from a docs page: the first source is replaced by the API's published spec, and the others are fetched relative to the published workflow file. Writing them relative to the file (`../specs/orders.yaml`) works both on disk and once published.
+
+## Run against the mock
+
+**Run workflow** sends each step's request to the first server of that step's API, from the reader's browser. List [`rapidoc mock`](/docs/tools/mock-server/) first in each spec's `servers`, and every workflow on your docs pages runs with no backend:
+
+```yaml title="specs/orders.yaml"
+servers:
+  - url: http://localhost:4010/orders
+    description: Mock server (rapidoc mock)
+  - url: https://api.acme.com/v1
+```
+
+```bash
+npx rapidoc mock
+```
+
+A workflow that spans several APIs works the same way: each API answers under its own `/<api id>`.
+
+- **Credentials**: the run panel has one field per security scheme of the workflow's APIs. Values stay in the page. Started with `--issuer`, the mock checks a pasted token's signature, audience and scopes, so a step the reader isn't allowed to call fails with `403`, and the workflow follows its `onFailure` actions.
+- **Failure paths**: the mock answers each operation's documented success response. To walk a failure branch, open **Mock Response Status** in the run panel and give a step the status it should get (`404`, or `503, 200` for a first attempt that fails and a retry that succeeds); the run sends it to the mock as `Prefer: code=<status>`.
+- **Before you publish**: move the real server first, or the published portal runs workflows against `localhost`.
+
+## Checks
+
+`rapidoc validate`, `rapidoc dev` and `rapidoc build` warn about a workflow the runtime cannot run and leave it out of the MCP export: a step whose operation is not in the API's spec, a source that matches no API, a step that calls another workflow, or `regex`, `jsonpath` and `xpath` criteria (only simple conditions such as `$statusCode == 200` run for now). The diagram still draws such a workflow.
+
+## Access
+
+With [sign-in and access rules](/docs/access/overview/), a workflow file follows its APIs: it is public when every API it uses is public, else it is served from the zone of the first API that is not.
+
+Source: https://portal.rapidocui.com/docs/configuration/workflows/
+
+---
+
+# Footer
+
+> Call to action, link columns, newsletter sign-up, social links and copyright.
+
+```yaml title="rapidoc.config.yaml"
+footer:
+  cta:
+    title: Ready to ship?
+    description: Book your first shipment in minutes.
+    links:
+      - { label: Get started, href: /docs/quickstart }
+      - { label: Contact sales, href: /contact }
+  newsletter:
+    action: https://example.us1.list-manage.com/subscribe/post?u=...
+    field: EMAIL
+  columns:
+    - title: Company
+      links:
+        - { label: About, href: /about }
+        - { label: Careers, href: /careers }
+  social:
+    - { icon: github, href: https://github.com/acme }
+    - { icon: discord, href: https://discord.gg/acme }
+  copyright: © 2026 Acme, Inc.
+  branding: true
+```
+
+Set `footer: false` to have no footer.
+
+## Call to action
+
+`cta` is a band at the top of the footer with a `title`, an optional `description` and up to three `links`. The first link is a filled button and the others are outlined; set `style: primary` or `style: button` on a link to choose.
+
+## Newsletter
+
+`newsletter` adds an email sign-up form under the footer logo. The form posts to `action`, your newsletter service's form endpoint (Mailchimp, Buttondown, ConvertKit, ...).
+
+| Key | Default |
+| :--- | :--- |
+| `action` | **Required.** The URL the form posts to. |
+| `field` | `email`. The name of the email field your service expects. |
+| `title` | `Newsletter` |
+| `description` | none |
+| `button` | `Subscribe` |
+
+## Columns, social links, copyright
+
+- `columns`: groups of links, each with a `title`.
+- `social`: icons for `github`, `x`, `discord`, `linkedin` and `youtube`.
+- `copyright`: one line of text.
+- `branding`: shows "Powered by RapiDoc". Default `true`.
+
+Source: https://portal.rapidocui.com/docs/configuration/footer/
+
+---
+
+# Docs, search and redirects
+
+> The docs folder, table of contents, edit links, site search and redirects.
+
+## Docs
+
+```yaml title="rapidoc.config.yaml"
+docs:
+  dir: ./docs
+  toc: { minHeadingLevel: 2, maxHeadingLevel: 3 }
+  editUrl: https://github.com/acme/portal/edit/main/docs/
+```
+
+| Key | Meaning |
+| :--- | :--- |
+| `dir` | Folder with the `.md`, `.mdx` and `.markdoc` pages. Default `./docs`. |
+| `toc` | The headings shown in "On this page". Default levels 2 to 3. `false` hides it. |
+| `editUrl` | Base URL of the docs folder in your repository. Each page gets an "Edit page" link to `<editUrl><path of the page>`. |
+
+A page can override the table of contents in its frontmatter with the `tableOfContents` key (see [Markdown](/docs/writing/markdown/#title-and-frontmatter)).
+
+## Search
+
+```yaml title="rapidoc.config.yaml"
+search: true   # default
+```
+
+The search box in the header searches guides and API operations. Both indexes are built with the site, so there is no search service to run or pay for: guides are indexed by [Pagefind](https://pagefind.app), and every operation's method, path, summary and description go into a second index.
+
+Press `/` or `Ctrl K` (`⌘ K` on a Mac) to open it. With [access rules](/docs/access/access-rules/), readers only find what they may read.
+
+Set `search: false` to remove the search box.
+
+## Redirects
+
+```yaml title="rapidoc.config.yaml"
+redirects:
+  - { from: /old-page, to: /docs/new-page }
+  - { from: /docs/v1/auth, to: https://legacy.acme.com/auth }
+```
+
+Each redirect is a page at `from` that sends readers to `to`. Use them when you move a page or rename an API id. `rapidoc migrate` writes redirects for APIs that had a custom path in your old portal.
+
+Source: https://portal.rapidocui.com/docs/configuration/docs-search-redirects/
+
+---
+
+# LLM output
+
+> Every guide as Markdown, /llms.txt and /llms-full.txt for AI tools, and Copy page buttons.
+
+AI assistants and coding agents read documentation better as Markdown than as HTML. The portal publishes it for them, with nothing to configure:
+
+| URL | Content |
+| :--- | :--- |
+| `/docs/<page>.md` | Each guide as Markdown. The home page is `/index.md`. |
+| `/llms.txt` | An index ([llmstxt.org](https://llmstxt.org)): the site, then the pages of each documentation tab, then every API with its OpenAPI file. |
+| `/llms-full.txt` | Every guide's Markdown in one file. |
+
+Try it on this site: [/llms.txt](/llms.txt), or [this page as Markdown](/docs/configuration/llms.md).
+
+## Page actions
+
+Next to the title of each guide:
+
+- **Copy page** copies the page as Markdown, ready to paste into a chat.
+- **View as Markdown** opens the `.md` file.
+- **Open in ChatGPT** and **Open in Claude** start a conversation that reads the page.
+
+## Settings
+
+```yaml title="rapidoc.config.yaml"
+llms:
+  description: Build on the Acme payments platform.   # top of /llms.txt (default site.description)
+  pageActions: [copy, markdown, chatgpt, claude]      # default all four; false hides the buttons
+```
+
+`llms: false` turns all of it off: no `.md` files, no `llms.txt`, no buttons.
+
+## How guides become Markdown
+
+Guides are converted from their source, so the Markdown stays close to what you wrote:
+
+- Frontmatter and MDX `import` lines are removed; the title and description become the first lines.
+- Callouts (`:::note`, `{% callout %}`, `<Aside>`) become quotes: `> **Note:** ...`.
+- `{% api-operation %}` becomes the method and path, with a link to the API page.
+- Cards become linked titles, tabs and steps keep their labels, and other tags keep their text.
+- Code blocks and inline code are left exactly as written.
+
+## With sign-in
+
+- `/llms.txt` and `/llms-full.txt` list **public pages only**, and only public APIs.
+- A protected page's `.md` is protected like the page: an access rule for `/docs/internal/**` covers `/docs/internal/runbook.md`.
+- On protected pages, **Open in ChatGPT** and **Open in Claude** are hidden: an assistant can't sign in to read the page. **Copy page** and **View as Markdown** still work for the signed-in reader.
+
+Source: https://portal.rapidocui.com/docs/configuration/llms/
+
+---
+
+# Markdown
+
+> Write guides in plain Markdown - titles, frontmatter, links, images and code.
+
+Plain Markdown (`.md`) is the simplest way to write a guide. Every file in `docs/` is a page. Pick a format per page: Markdown, [Markdoc](/docs/writing/markdoc/) or [MDX](/docs/writing/mdx/) can sit side by side.
+
+## Title and frontmatter
+
+```markdown title="docs/authentication.md"
+---
+title: Authentication
+description: Get an access token and send it with every request.
+---
+
+Every request needs an access token...
+```
+
+Without a `title` in the frontmatter, a first `# Heading` becomes the page title. So a README-style file works as-is:
+
+```markdown title="docs/authentication.md"
+# Authentication
+
+Every request needs an access token...
+```
+
+These frontmatter keys work too:
+
+| Key | Does |
+| :--- | :--- |
+| `description` | The page's description, used by search engines and link previews. |
+| `sidebar` | The page's sidebar link: `label`, `order` and `badge`. |
+| `tableOfContents` | Overrides `docs.toc` for this page. `false` hides "On this page". |
+| `template: splash` | A full-width page without sidebars, for a landing page. |
+| `hero` | A title block with a tagline, an image and action links, for a landing page. See [Landing pages](#landing-pages). |
+| `draft` | `true` leaves the page out of `rapidoc build`. |
+| `pagefind` | `false` keeps the page out of search. |
+
+## Landing pages
+
+A page with `template: splash` and a `hero` is a landing page, like this site's home page. Any page in `docs/` can be one; point a [link tab](/docs/configuration/navigation/) at it to give it its own tab.
+
+```markdown title="docs/solutions.md"
+---
+title: Solutions
+template: splash
+hero:
+  layout: stacked
+  title: Ship faster with<br><mark>our APIs</mark>
+  tagline: Prices, bookings and tracking for every parcel.
+  image:
+    html: <img src="/images/hero.png" alt="A booked shipment and its tracking timeline" width="520" height="460">
+  actions:
+    - text: Get started
+      link: /docs/getting-started/quickstart/
+    - text: Browse the APIs
+      link: /catalog/
+      variant: secondary
+---
+```
+
+| Key | Does |
+| :--- | :--- |
+| `hero.title` | The large heading; without it, the page `title`. Inline HTML works: `<br>` breaks the line, `<mark>` shows gradient text. |
+| `hero.tagline` | The text under the heading. Inline HTML works. |
+| `hero.image` | `html`: an `<img>` of a file in `public/`, or an inline SVG. Starlight's `file`, `dark` and `light` keys take a path relative to the page. |
+| `hero.actions` | Buttons: `text`, `link`, `variant` (`primary`, `secondary` or `minimal`) and `icon`. |
+| `hero.layout` | `split` (default): the text left and the image right; without an image the text takes the full width. `stacked`: the text and buttons centred, the image below them. |
+
+On phones both layouts are one column, with the image below the text.
+
+## Links
+
+Link to other guides by URL: `[Errors](/docs/errors/)`. Link to an API reference page with `/apis/<id>`, to one tag with `/apis/<id>/<tag>`, and to one operation with its anchor:
+
+```markdown
+See [Create a shipment](/apis/shipments/shipments#create-shipment).
+```
+
+## Images
+
+Put images in `public/` and use their path from the site root:
+
+```markdown
+![Label example](/images/label.png)
+```
+
+## Code
+
+Fenced code blocks are highlighted by [Expressive Code](https://expressive-code.com), with a copy button. Add a title, mark lines, or show a terminal frame:
+
+````markdown
+```js title="client.js" {2}
+const res = await fetch('https://api.acme.com/v1/orders', {
+  headers: { Authorization: `Bearer ${token}` },
+});
+```
+
+```bash
+npm install @acme/sdk
+```
+````
+
+## Callouts
+
+Highlight a note, tip or warning with a `:::` block:
+
+```markdown
+:::tip[Use idempotency keys]
+Retrying a POST with the same key never creates a second order.
+:::
+```
+
+> **Tip: Use idempotency keys**
+> Retrying a POST with the same key never creates a second order.
+
+More types and options: [Callouts](/docs/writing/callouts/).
+
+## Tables, lists, and the rest
+
+GitHub-flavored Markdown works: tables, task lists, strikethrough, autolinks and footnotes.
+
+Source: https://portal.rapidocui.com/docs/writing/markdown/
+
+---
+
+# Markdoc
+
+> Markdoc tags for callouts, tabs, steps, cards, badges and live API operations.
+
+[Markdoc](https://markdoc.dev) is Markdown with tags. Name the file `.markdoc`. Headings, the table of contents and code blocks work as in Markdown, and these tags add components. Each example below shows the source, then the result.
+
+## Callout
+
+```markdoc
+{% callout type="tip" title="Good to know" %}
+Sandbox keys start with `sk_test_`.
+{% /callout %}
+```
+
+> **Tip: Good to know**
+> Sandbox keys start with `sk_test_`.
+
+`type` is one of `note`, `info`, `tip`, `success`, `caution`, `warning`, `danger`, `sparkles`, `rocket`, `settings`, `zap`, `lock`, `megaphone`. `icon` picks any other [Phosphor](https://phosphoricons.com) icon. See [Callouts](/docs/writing/callouts/).
+
+## Tabs
+
+````markdoc
+{% tabs %}
+{% tab name="npm" %}
+```bash
+npm install @acme/sdk
+```
+{% /tab %}
+{% tab name="pnpm" %}
+```bash
+pnpm add @acme/sdk
+```
+{% /tab %}
+{% /tabs %}
+````
+
+**npm**
+
+```bash
+npm install @acme/sdk
+```
+
+**pnpm**
+
+```bash
+pnpm add @acme/sdk
+```
+
+## Steps
+
+```markdoc
+{% steps %}
+{% step title="Get a key" %}
+Create an API key in the dashboard.
+{% /step %}
+{% step title="Call the API" %}
+Send it in the `Authorization` header.
+{% /step %}
+{% /steps %}
+```
+
+**Get a key**
+
+Create an API key in the dashboard.
+
+**Call the API**
+
+Send it in the `Authorization` header.
+
+## Cards
+
+```markdoc
+{% card-grid columns=2 %}
+{% card title="Quickstart" icon="rocket" href="/docs/getting-started/quickstart" %}
+A portal in five minutes.
+{% /card %}
+{% card title="Example API" icon="code" href="/apis/bookstore" %}
+See a reference page.
+{% /card %}
+{% /card-grid %}
+```
+
+**[Quickstart](/docs/getting-started/quickstart)**
+
+A portal in five minutes.
+
+**[Example API](/apis/bookstore)**
+
+See a reference page.
+
+`columns` defaults to 3. `href` makes the whole card a link; `icon` is a Phosphor icon name.
+
+## Badge
+
+```markdoc
+Webhooks {% badge text="Beta" variant="caution" /%}
+```
+
+Webhooks Beta
+
+## API operation
+
+```markdoc
+{% api-operation spec="bookstore" path="/books/{bookId}" method="get" /%}
+```
+
+`GET /books/{bookId}` ([Bookstore API](/apis/bookstore))
+
+Embeds one live operation from an API in `apis:`. See [Embedding operations](/docs/writing/embedding-operations/).
+
+## Workflow
+
+```markdoc
+{% workflow file="bookstore" id="findBook" title="Find a book" /%}
+```
+
+Draws one workflow of a file in [`workflows:`](/docs/configuration/workflows/): `file` is the entry's id, `id` the `workflowId` in the file (default: its first workflow), `view` is `expanded` (the default) or `compact`, and `title` a caption. The tag shows the workflow runner: the diagram with a panel for the inputs and credentials, and **Run workflow** executes the steps from the browser. The same diagram is also generated at build time, so it shows while the runner loads and without JavaScript.
+
+## More tags
+
+| Tag | Does |
+| :--- | :--- |
+| `aside` | The same as `callout`. |
+| `linkcard` | A card that links to a page: `title`, `href` and an optional `description`. |
+| `linkbutton` | A link drawn as a button: `href`, and `variant` (`primary`, `secondary`, `minimal`). |
+| `filetree` | A folder tree, drawn from the nested list inside it. |
+
+## Showing tag source in a code block
+
+A code fence shows its content as text, tags included, so the examples on this page are plain fences. Markdoc still checks the tags inside a fence, though: an unknown tag or attribute fails the build even inside a code block.
+
+To show tags that aren't valid here, such as a tag from another site or a made-up example, turn the check off with Markdoc's `process=false` annotation after the language:
+
+````markdoc {% process=false %}
+```markdoc {% process=false %}
+{% my-own-tag color="teal" %}Shown as text, never checked.{% /my-own-tag %}
+```
+````
+
+Code fences in `markdoc` are highlighted as Markdown.
+
+Source: https://portal.rapidocui.com/docs/writing/markdoc/
+
+---
+
+# MDX
+
+> Use components in guides with MDX - no imports needed for the portal components.
+
+[MDX](https://mdxjs.com) is Markdown with JSX components. Name the file `.mdx`.
+
+## Components without imports
+
+These portal components work in any `.mdx` page without an `import`: the build adds it for you.
+
+| Component | Use |
+| :--- | :--- |
+| `<Callout type="tip" title="...">` | A callout; same types as [Callouts](/docs/writing/callouts/). |
+| `<Card>`, `<CardHeader>`, `<CardTitle>`, `<CardDescription>`, `<CardContent>`, `<CardFooter>` | Card building blocks. |
+| `<Badge text="Beta" variant="caution" />` | A small label. |
+| `<Button href="/docs/quickstart" variant="default">` | A link styled as a button. Variants: `default`, `outline`, `secondary`, `ghost`; sizes `sm`, `md`, `lg`. |
+| `<Link href="...">` | A link. |
+| `<Steps>` | Numbered steps around an ordered list. |
+| `<Tabs>`, `<TabItem label="...">` | Tabs. |
+| `<OpenPlaygroundButton>` | A button that opens an API playground. |
+
+```mdx title="docs/webhooks.mdx"
+---
+title: Webhooks
+---
+
+<Callout type="caution" title="Verify every request">
+  Check the signature header before you trust a webhook.
+</Callout>
+
+<Tabs>
+  <TabItem label="Node.js">...</TabItem>
+  <TabItem label="Python">...</TabItem>
+</Tabs>
+```
+
+## Components and icons
+
+The components `Aside`, `CardGrid`, `LinkCard`, `LinkButton`, `FileTree` and `Icon` are exported from `@rapidoc/portal/components`. Import the ones you use:
+
+```mdx
+import { CardGrid, LinkCard, Icon } from '@rapidoc/portal/components';
+
+<Icon name="rocket" /> Ready?
+
+<CardGrid>
+  <LinkCard title="Quickstart" href="/docs/getting-started/quickstart" />
+  <LinkCard title="Example API" href="/apis/bookstore" />
+</CardGrid>
+```
+
+`Icon` draws a [Phosphor](https://phosphoricons.com) icon at 24px; `size={16}` makes it smaller. The portal uses Phosphor icons only, so icons in guides match the header and sidebar.
+
+## Your own components
+
+An `.mdx` page can import Astro components (`.astro` files) and JavaScript modules from your project, for example from a `components/` folder next to `docs/`. Import them with a path relative to the page:
+
+```astro title="components/Hello.astro"
+---
+const { name = "world" } = Astro.props;
+---
+
+<p class="hello">Hello, {name}!</p>
+
+<style>
+  .hello { font-weight: 600; }
+</style>
+```
+
+```mdx title="docs/welcome.mdx"
+---
+title: Welcome
+---
+
+import Hello from '../components/Hello.astro';
+
+<Hello name="developer" />
+```
+
+A component can import other components and use the portal's, and its `<style>` is scoped to it as in any Astro project. `rapidoc dev` reloads the page when you edit the component.
+
+React, Vue and Svelte components (`.jsx`, `.tsx`, `.vue`, `.svelte`) are not supported: the build stops with an error that names the page and the import. Write the markup as an `.astro` component instead; a `<script>` in it can add behaviour in the browser.
+
+## Migrated Zudoku pages
+
+Imports from `zudoku/ui/...` and the `<Stepper>` component are rewritten automatically, so MDX pages from a Zudoku project work as-is. See [Migrating](/docs/tools/migrate/).
+
+## Markdown or MDX?
+
+If both `page.md` and `page.mdx` exist, the `.mdx` one is used. Prefer Markdown or Markdoc for prose: they don't break when a `<` or `{` appears in the text, which MDX treats as code.
+
+Source: https://portal.rapidocui.com/docs/writing/mdx/
+
+---
+
+# Callouts
+
+> Notes, tips and warnings - one look whether you write them in Markdown, MDX or Markdoc.
+
+A callout looks the same whichever way you write it, so pick the syntax of the page's format.
+
+| Format | Syntax |
+| :--- | :--- |
+| Markdown, MDX | `:::tip` ... `:::` |
+| MDX | `<Callout type="tip">` or `<Aside type="tip">` |
+| Markdoc | `{% callout type="tip" %}` or `{% aside type="tip" %}` |
+
+## Markdown blocks
+
+```markdown
+:::note
+A plain note.
+:::
+
+:::caution[Rate limits]
+More than 100 requests a second get a 429.
+:::
+
+:::danger{title="Irreversible"}
+Deleting an account removes all its data.
+:::
+```
+
+> **Note:**
+> A plain note.
+
+> **Caution: Rate limits**
+> More than 100 requests a second get a 429.
+
+> **Danger: Irreversible**
+> Deleting an account removes all its data.
+
+The title goes in square brackets, `:::tip[Title]`, or in braces, `:::tip{title="Title"}`.
+
+## Types
+
+| Type | Icon |
+| :--- | :--- |
+| `note`, `info` | info |
+| `tip` | lightbulb |
+| `success` | check circle |
+| `caution`, `warning` | warning |
+| `danger` | shield warning |
+| `sparkles` | sparkle |
+| `rocket` | rocket |
+| `settings` | gear |
+| `zap` | lightning |
+| `lock` | lock |
+| `megaphone` | megaphone |
+
+Zudoku's names (`info`, `warning`, `sparkles`, ...) work too, so migrated pages render as they did.
+
+> **Note: New in v2**
+> The `rocket`, `sparkles`, `zap` and `megaphone` types suit announcements.
+
+## Another icon
+
+`icon` picks any [Phosphor](https://phosphoricons.com) icon:
+
+```mdx
+<Callout type="info" icon="clock" title="Takes a few minutes">
+  Label generation runs in the background.
+</Callout>
+```
+
+Source: https://portal.rapidocui.com/docs/writing/callouts/
+
+---
+
+# Embedding operations
+
+> Put a live, interactive API operation inside a guide.
+
+A guide that explains an endpoint can show the endpoint itself: its parameters, request body, responses, and a **Try** console. Embed one with the `api-operation` Markdoc tag:
+
+```markdoc
+{% api-operation spec="bookstore" path="/orders" method="post" title="Place an order" /%}
+```
+
+`POST /orders` Place an order ([Bookstore API](/apis/bookstore))
+
+## Attributes
+
+| Attribute | Meaning |
+| :--- | :--- |
+| `spec` | **Required.** The `id` of an API in `apis:`. |
+| `path` | **Required.** The path as written in the spec, with its `{parameters}`. |
+| `method` | `get` (default), `post`, `put`, `patch`, `delete`, ... |
+| `title` | A heading for the embed. Default: the operation's summary. |
+| `version` | One of the API's [versions](/docs/api-reference/versions/). Default: its default version. |
+| `collapsed` | `true` shows only the method and path; the reader clicks them to open the operation. Default `false`. |
+
+An unknown `spec` id shows a notice on the page and a build warning, so a typo doesn't go unnoticed.
+
+## Collapsed embeds
+
+A guide that lists several operations stays short with `collapsed=true`. Each one shows its method and path, and opens in place when clicked:
+
+```markdoc
+{% api-operation spec="bookstore" path="/books" title="List books" collapsed=true /%}
+```
+
+`GET /books` List books ([Bookstore API](/apis/bookstore))
+
+## How it works
+
+The embed is RapiDoc's `<rapi-doc-mini>` element showing one operation of the spec. It follows the portal theme and accent color.
+
+Only pages with an embed load the RapiDoc bundle. Other docs pages stay light.
+
+## Try from a guide
+
+**Try** sends a real request to the spec's server. In this site's example spec, the server is the local mock: run `npm run mock:portal-site` in the [RapiDoc repository](https://github.com/rapi-doc/RapiDoc), where this site's source is (`sites/rapi-portal`), and the console above answers. See [Mock server](/docs/tools/mock-server/).
+
+With sign-in and `auth.tryIt`, the embed fills in the signed-in reader's access token. See [Try with the reader's token](/docs/access/try-it/).
+
+## In MDX or Markdown
+
+The tag is Markdoc only. In an `.md` or `.mdx` guide, link to the operation on its reference page instead: `/apis/bookstore/orders#create-order`.
+
+Source: https://portal.rapidocui.com/docs/writing/embedding-operations/
+
+---
+
+# Reference pages
+
+> What each API's reference page shows, its URLs, and how to link to an operation.
+
+Every API in `apis:` gets an interactive reference page, rendered by the [RapiDoc](https://rapidocui.com) web component. See one: [the example Bookstore API](/apis/bookstore/).
+
+## URLs
+
+| URL | Shows |
+| :--- | :--- |
+| `/apis/<id>` | The API's overview: title, description, servers, authentication. |
+| `/apis/<id>/<tag>` | The operations of one tag. One page per tag keeps big APIs fast. |
+| `/apis/<id>/<tag>#<operation>` | One operation. The anchor is the `operationId` in kebab-case: `createOrder` is `#create-order`. |
+| `/apis` | Redirects to the [catalog](/docs/api-reference/catalog/). |
+| `/specs/<id>.yaml` | The spec itself (or `.json`, the file's own extension). |
+
+Tag slugs are the tag names in kebab-case: the tag `Shipment Management` is `/apis/shipments/shipment-management`.
+
+An API with [versions](/docs/api-reference/versions/) has these URLs for its default version, and the same below `/apis/<id>/<version>` for each other version.
+
+## The page
+
+- **A version picker** at the top of the sidebar, when the API has [several versions](/docs/api-reference/versions/).
+- **A sidebar** on the left lists the tags and their operations, with the HTTP method of each. It is static HTML, so it shows at once, before the reference has loaded, and it stays in view while the page scrolls. Its filter box narrows the list as you type.
+- **The reference** shows each operation's parameters, request body, responses and examples, with schemas as an expandable tree or a table.
+- **Try** sends a real request to the spec's server from the reader's browser and shows the response.
+- **Authentication** lets readers enter an API key, a bearer token, or sign in with OAuth 2 before they try.
+
+The page follows the portal: same header, footer, theme and accent color, and light or dark with the rest of the site.
+
+## Linking to an operation
+
+Give every operation an `operationId`. The anchor is then stable:
+
+```markdown
+[Create a shipment](/apis/shipments/shipments#create-shipment)
+```
+
+Without an `operationId`, the anchor is built from the summary and changes when the summary is edited, so `rapidoc dev` and `rapidoc build` warn about such operations. Every operation can also be linked by its method and path, which only changes with the endpoint: `#get-orders-orderid`.
+
+## OAuth 2 sign-in for Try
+
+Readers can sign in to your API from the API reference page and call it with **Try**, using their own account. The sign-in runs in the browser, so it works on a plain [static](/docs/deploy/static-hosting/) portal: no `auth` key and no `rapidoc serve`. It covers calls to your API only; the documentation stays public.
+
+### How it works
+
+1. The spec declares an `oauth2` or `openIdConnect` security scheme. RapiDoc shows it in the page's **Authentication** section.
+2. The reader presses **Authorize**. RapiDoc opens your provider's sign-in in a popup, using the authorization code flow with PKCE.
+3. The provider redirects the popup to `/oauth-receiver.html`, a page every portal build has. It hands the code back to the API page, and RapiDoc exchanges it for an access token at the `tokenUrl`.
+4. **Try** sends `Authorization: Bearer <token>` to your API. The token stays in the page's memory and is gone on reload.
+
+### Declare the scheme
+
+Use a standard OpenAPI `oauth2` scheme. For a public client, pre-fill the client ID with `x-client-id` and set `x-pkce-only: true`, which hides the client secret fields, so readers only press **Authorize**:
+
+```yaml title="specs/orders.yaml"
+components:
+  securitySchemes:
+    OAuth:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://acme.okta.com/oauth2/default/v1/authorize
+          tokenUrl: https://acme.okta.com/oauth2/default/v1/token
+          scopes:
+            orders:read: Read your orders
+            orders:write: Create and change orders
+          x-client-id: portal-try
+          x-pkce-only: true
+          x-default-scopes: [orders:read]
+security:
+  - OAuth: [orders:read]
+```
+
+More extensions, such as `x-authorize-params` and `x-token-params` for an `audience`, are in RapiDoc's [OAuth guide](https://rapidocui.com/docs/authentication/oauth/).
+
+### At your provider
+
+- Register a **single-page application** (a public client: authorization code with PKCE, no client secret). A secret in a static page is readable by anyone.
+- Add `<portal URL>/oauth-receiver.html` as a redirect URL: one URL for the whole portal. For local testing, add `http://localhost:4321/oauth-receiver.html` too.
+- Allow the portal's origin for CORS on the token endpoint: the browser calls it directly. Most providers do this for single-page-app clients.
+- Your API must also allow the portal's origin for CORS, as for any **Try** request.
+
+### Browser sign-in or portal sign-in
+
+| | Browser sign-in (this section) | [Portal sign-in](/docs/access/overview/) with [`tryIt`](/docs/access/try-it/) |
+| :--- | :--- | :--- |
+| Hosting | Any static host | `rapidoc serve` |
+| Provider set in | The spec's security scheme | The portal config (`auth`) |
+| Protects the documentation | No | Yes, with `access` rules |
+| Readers sign in | Once per API, with **Authorize** | Once for the whole portal; **Try** has their token |
+
+With portal sign-in and `tryIt`, readers don't need to authorize separately.
+
+## Customizing
+
+Change how RapiDoc renders, such as the schema style, the code sample languages or the font size, with the `rapidoc:` key. See [RapiDoc attributes](/docs/api-reference/rapidoc-attributes/).
+
+Source: https://portal.rapidocui.com/docs/api-reference/reference-pages/
+
+---
+
+# API versions
+
+> Publish several versions of one API, each with its own URLs, and a version picker on the reference page.
+
+An API can have one spec per version. Each version gets its own reference pages, and a version picker at the top of the API's sidebar switches between them. Readers land on the current version; older ones stay one click away.
+
+```yaml title="rapidoc.config.yaml"
+apis:
+  - id: payments
+    title: Payments API
+    versions:
+      - spec: ./specs/payments-v3.yaml
+        version: v3
+        label: v3 (latest)
+      - spec: ./specs/payments-v2.yaml
+        version: v2
+      - ./specs/payments-v1.yaml
+```
+
+Use `versions:` instead of `spec:`: an API has one or the other. **The first version is the default.**
+
+| Key | Meaning |
+| :--- | :--- |
+| `spec` | **Required.** The OpenAPI file of this version, relative to the config, or a URL. |
+| `version` | The version's part of the URL: lowercase letters, digits, dots and dashes (`v2`, `2.1.0`, `2024-06-01`). Default: `info.version` of the spec. Required when `spec` is a URL. |
+| `label` | The text in the version picker. Default: `info.version` of the spec. |
+
+A version can also be just the path of its spec, like `./specs/payments-v1.yaml` above: its `version` and `label` both come from the spec's `info.version`. If that isn't a valid URL part (`Version 1`, say), the build asks you to set `version`.
+
+`title`, `description` and `category` belong to the API, not a version. Their defaults come from the spec of the default version.
+
+## URLs
+
+| URL | Shows |
+| :--- | :--- |
+| `/apis/<id>`, `/apis/<id>/<tag>` | The default version. |
+| `/apis/<id>/<version>`, `/apis/<id>/<version>/<tag>` | Every other version. |
+| `/apis/<id>/<default version>/...` | Redirects to the same page without the version, and keeps the `#operation`. |
+
+So `/apis/payments` always shows the current version, and existing links keep working when you add versions. A link that names a version, such as `/apis/payments/v3/charges`, keeps working too: while v3 is the default it redirects to `/apis/payments/charges`, and once v4 takes over it is v3's own page.
+
+A version can't have the same name as a tag page of the default version: `version: refunds` next to a default version with a `Refunds` tag would share `/apis/payments/refunds`, and the build stops with an error.
+
+## The version picker
+
+The picker sits at the top of the API's sidebar, above the endpoint filter, when the API has more than one version. Choosing a version opens the same tag, and the same operation, in that version when it has the tag, and the version's overview when it doesn't.
+
+Pages of a version other than the default start with a note that names the current version and links to it.
+
+## Specs
+
+The default version's spec is published at `/specs/<id>.<ext>`, as for an API with one spec. Every version is also at `/specs/<id>/<version>.<ext>`, so a tool that needs one version, such as a client generator, has a URL that doesn't change when the default does.
+
+## Navigation, catalog, search and embeds
+
+- **Navigation**: `api: payments` links to the default version. Add `version:` to link to another one, for example a tab for an older version that many readers still use:
+
+  ```yaml
+  navigation:
+    - label: Payments
+      api: payments
+    - label: Payments v2
+      api: payments
+      version: v2
+  ```
+
+  A tab for one version is the current tab on that version's pages; the API's other pages belong to its main tab.
+- **Catalog**: one card per API, linking to the default version and showing its label and how many versions there are.
+- **Search**: finds operations of every version. Results from a version other than the default say which version they are from.
+- **Embedded operations**: `{% api-operation spec="payments" ... /%}` shows the operation from the default version; add `version="v2"` for another one. See [Embedding operations](/docs/writing/embedding-operations/).
+
+## Access rules
+
+A rule on `/apis/<id>/**` covers every version of the API and every version's spec. To protect only one version, for example a beta, write a rule for its URLs:
+
+```yaml title="rapidoc.config.yaml"
+access:
+  rules:
+    - path: /apis/payments/v4-beta/**
+      allow:
+        groups: [beta-testers]
+```
+
+Each spec follows the pages of its version, so `/specs/payments/v4-beta.yaml` is protected with them. See [Access rules](/docs/access/access-rules/).
+
+## Coming from Zudoku
+
+`rapidoc migrate --from zudoku` turns an `input` list into `versions:`: plain paths stay paths, and `{ path, label, input }` becomes `{ version, label, spec }`. Old version URLs get redirects. A `?prefix=` input, which shows part of one file as a version, isn't supported: the migration drops the query and warns. See [Migrate](/docs/tools/migrate/).
+
+Source: https://portal.rapidocui.com/docs/api-reference/versions/
+
+---
+
+# API catalog
+
+> The /catalog page - every API, grouped by category.
+
+`/catalog` lists every API of the portal as a card, grouped by `category`. Each card shows the API's title, version and description, and links to its reference page.
+
+```yaml title="rapidoc.config.yaml"
+apis:
+  - id: shipments
+    spec: ./specs/shipments.yaml
+    category: Shipping
+  - id: tracking
+    spec: ./specs/tracking.yaml
+    category: Shipping
+  - id: billing
+    spec: ./specs/billing.yaml
+    category: Finance
+```
+
+| Card | Comes from |
+| :--- | :--- |
+| Title | `title` in `apis:`, else `info.title` of the spec |
+| Version | `info.version` of the spec. For an API with [versions](/docs/api-reference/versions/): the default version's label and how many versions there are. |
+| Description | `description` in `apis:`, else `info.description` of the spec |
+| Group | `category` in `apis:`, default `General` |
+
+## A tab for the catalog
+
+```yaml title="rapidoc.config.yaml"
+navigation:
+  - label: API Catalog
+    icon: squares-four
+    catalog: true
+```
+
+APIs that don't have a tab of their own belong to the catalog tab: on their reference pages, the catalog tab is the active one.
+
+`/apis` always redirects to `/catalog`.
+
+## With access rules
+
+APIs a reader may not open stay in the catalog with a lock icon, so readers know they exist and can sign in. See [Access rules](/docs/access/access-rules/).
+
+Source: https://portal.rapidocui.com/docs/api-reference/catalog/
+
+---
+
+# RapiDoc attributes
+
+> Change how API reference pages render with the rapidoc key.
+
+The reference pages are the `<rapi-doc>` web component. The `rapidoc:` key sets its attributes for every API reference page:
+
+```yaml title="rapidoc.config.yaml"
+rapidoc:
+  render-style: read        # read | view | focused
+  schema-style: tree        # tree | table
+  default-schema-tab: example
+  schema-expand-level: 2
+  allow-server-selection: true
+  font-size: largest
+```
+
+Values are strings, numbers or booleans. Every attribute is described in the [RapiDoc API reference](https://rapidocui.com/api). `theme` picks one of RapiDoc's built-in themes for the reference pages (see [API reference colors](/docs/configuration/theme/#api-reference-colors)).
+
+## Portal defaults
+
+Without a `rapidoc:` key, the portal uses:
+
+| Attribute | Default |
+| :--- | :--- |
+| `render-style` | `read` |
+| `schema-style` | `table` |
+| `scale` | `default` |
+| `allow-try` | `true` |
+| `allow-authentication` | `true` |
+| `allow-server-selection` | `false` |
+| `show-method-in-nav-bar` | `as-colored-text` |
+| `use-path-in-nav-bar` | `false` |
+
+Your `rapidoc:` values replace these.
+
+## The API sidebar
+
+The sidebar of an API reference page is drawn by the portal, not by `<rapi-doc>` (its own navigation is hidden). Two navigation attributes still apply to it:
+
+```yaml title="rapidoc.config.yaml"
+rapidoc:
+  show-method-in-nav-bar: as-colored-block  # as-colored-text (default) | as-colored-block | as-plain-text | false
+  use-path-in-nav-bar: true                 # show each operation's path instead of its summary
+```
+
+| `show-method-in-nav-bar` | Shows |
+| :--- | :--- |
+| `as-colored-text` | The method in its color: `GET`, `POST`, `DELETE`. |
+| `as-colored-block` | A colored three-letter badge: `GET`, `POS`, `DEL`. |
+| `as-plain-text` | The method in the text color. |
+| `false` | No method. |
+
+Other navigation attributes, such as `nav-item-spacing` or `nav-bg-color`, have no effect: change the sidebar's look with [your own CSS](/docs/configuration/theme/#your-own-css).
+
+## Attributes the portal sets itself
+
+Some attributes are part of the portal's layout, so setting them under `rapidoc:` is an error. The message names the key to use instead:
+
+| Attribute | Use instead |
+| :--- | :--- |
+| `spec-url` | `apis[].spec` |
+| `primary-color` | `theme.primary` |
+| `color-scheme` | `theme.mode` |
+| `show-header`, `show-side-nav` | (the portal draws its own header and sidebar) |
+| `update-route`, `goto-path`, `auto-height`, `oauth-receiver` | (set by the page) |
+
+Source: https://portal.rapidocui.com/docs/api-reference/rapidoc-attributes/
+
+---
+
+# Single sign-on (SSO)
+
+> Put the portal behind your company's single sign-on (SSO) with OpenID Connect (Okta, Microsoft Entra ID, Google, Keycloak, Auth0), and decide who may read which pages and APIs.
+
+When some guides or APIs are only for partners, customers or your own staff, readers can sign in with your company's single sign-on (SSO): Okta, Microsoft Entra ID, Google Workspace, Keycloak, Auth0, AWS Cognito, Ping, Authentik, Zitadel or any other OpenID Connect provider. SAML-only providers work through a broker ([Identity providers](/docs/access/providers/#saml-only-providers)).
+
+This page explains the parts and how to choose. To set it up, follow [Set up sign-in](/docs/access/setup/), or [SSO with Microsoft Entra ID](/docs/access/entra-id/) for every Entra ID screen.
+
+Add two keys to `rapidoc.config.yaml`:
+
+- `auth`: readers sign in through your OpenID Connect provider.
+- `access`: rules that decide who may read which pages, APIs and files.
+
+```yaml title="rapidoc.config.yaml"
+auth:
+  issuer: https://acme.okta.com/oauth2/default
+  clientId: portal-web
+  scopes: [openid, profile, email, groups]
+
+access:
+  default: public
+  rules:
+    - path: /docs/partners/**
+      allow: signed-in
+    - path: /apis/billing/**
+      allow: { groups: [billing-team] }
+```
+
+## Choose your setup
+
+| You need | Setup |
+| :--- | :--- |
+| Some pages or APIs public, others only for some readers or groups | `auth` and `access`, served by `rapidoc serve`. |
+| The whole portal private, every signed-in reader sees everything, with a sign-in button, per-reader search, and **Try** or agents using the reader's token | `auth` with `access.default: signed-in`, served by `rapidoc serve`. |
+| The whole portal private, nothing more | A plain static build behind your SSO proxy, with no portal server ([Static hosting](/docs/deploy/static-hosting/#the-whole-portal-behind-your-sso)). |
+| Only calls to your API need a sign-in; the docs stay public | No `auth`: readers sign in from the API page ([OAuth 2 sign-in for Try](/docs/api-reference/reference-pages/#oauth-2-sign-in-for-try)). |
+
+[Try with the reader's token](/docs/access/try-it/) is optional: it is for portals whose API accepts tokens from the same provider.
+
+> **Caution: Who counts as "signed in"**
+> `signed-in` lets in everyone your provider lets sign in, not only your employees. Depending on how the provider is set up, that can include anyone with an account: self sign-up in Auth0 or Cognito, any Google account when the client isn't limited to your Workspace domain, other organizations in a multi-tenant Entra ID app, and guest users. Limit sign-in at the provider (in Entra ID, set **Assignment required?** to *Yes*; in Okta, assign the app to groups; turn off self sign-up), or use [group rules](/docs/access/access-rules/) instead of `signed-in`.
+
+## How it works
+
+A static site can show a sign-in button and hide links in the browser, but its files are still there for anyone who asks: pages, OpenAPI specs, attachments and the search index can be downloaded with their URL. So a portal with `auth` is served by `rapidoc serve`, which checks the reader before it sends anything protected:
+
+1. `rapidoc build` sorts the output by the rules: `dist/public/` (no protected content), `dist/protected/`, and `dist/rapidoc-server.json` with the rules.
+2. `rapidoc serve dist` serves all three. On every request it reads the reader's session from an encrypted cookie, sends signed-out readers to your provider to sign in, and answers a reader the rules don't allow with "access denied". Search results are filtered per reader.
+
+The contents of protected pages, specs and files never leave the server for a reader who may not see them. The public part stays plain static files, with cache headers so a CDN in front can hold the scripts, styles and fonts; `rapidoc serve` marks every protected answer as not cacheable.
+
+What stays visible: the titles and paths of protected pages. Locked links keep their place in the header, sidebars and catalog, with a lock icon, so readers know there is more behind sign-in. Don't put anything confidential in a page title, a sidebar label or a URL.
+
+> **Danger: Never upload all of dist/ to a static host**
+> A static host serves every file it has, so `dist/protected/` would be readable by anyone. Run `rapidoc serve` on the whole `dist/`, or put only `dist/public/` on a static host or CDN.
+
+The pages stay static. When a page loads, the header's sign-in button and the lock icons ask the server who the reader is.
+
+`rapidoc serve` also hosts your APIs as tools for AI agents, at `/mcp` ([Model Context Protocol](/docs/tools/mcp-server/)). It is on unless you set `RAPIDOC_MCP=off`. An agent without a token sees only the tools of public APIs. A signed-in reader can copy a token for their agent from the user menu: with it, the agent sees the tools of the APIs that reader may see, and calls them as that reader. The token lasts as long as a sign-in (`session.maxAge`). To revoke all tokens, change `RAPIDOC_SESSION_SECRET`, which also signs everyone out.
+
+## The `auth` key
+
+| Key | Meaning |
+| :--- | :--- |
+| `issuer` | The OpenID Connect issuer URL. `RAPIDOC_AUTH_ISSUER` overrides it. |
+| `clientId` | The portal's client ID at the provider. `RAPIDOC_AUTH_CLIENT_ID` overrides it. |
+| `scopes` | Scopes to request. Default `openid`, `profile`, `email`. |
+| `claims.groups` | The claim with the reader's groups or roles, in the ID token or the provider's user info: a list, or names separated by spaces or commas. Default `groups`. Dotted paths work: `realm_access.roles`. |
+| `session.maxAge` | How long a sign-in lasts: `30m`, `8h` (default), `7d`. |
+| `logout` | `local` (default) signs out of the portal; `idp` also signs out at the provider, which then needs the portal URL as a post-logout redirect. |
+| `label` | Text of the sign-in button. Default `Sign in`. |
+| `audience` | The API the access token is for, sent as `audience` at sign-in (Auth0). `RAPIDOC_AUTH_AUDIENCE` overrides it. |
+| `tryIt` | `true` gives **Try** the reader's access token. Default `false`. See [Try with the reader's token](/docs/access/try-it/). |
+
+> **Caution: Secrets are never config keys**
+> The session secret and the client secret are environment variables of `rapidoc serve`, because the config is committed to your repository and secrets must not be:
+>
+> - `RAPIDOC_SESSION_SECRET` (required): 32 characters or more, for example from `openssl rand -base64 32`. It encrypts the session cookie. Generate it once and keep it the same on every instance and across restarts; a new value signs everyone out.
+> - `RAPIDOC_AUTH_CLIENT_SECRET`: only for a confidential client.
+>
+> Every variable: [Deploy with rapidoc serve](/docs/deploy/rapidoc-serve/#environment-variables).
+
+## Words used in these pages
+
+| Term | Meaning |
+| :--- | :--- |
+| Identity provider | The service your company signs in with (Okta, Entra ID, Google...). The portal speaks OpenID Connect to it. |
+| Issuer | The URL of the provider's sign-in service, for example `https://acme.okta.com/oauth2/default`. The portal reads the rest of the provider's settings from it. |
+| Client ID, client secret | The portal's application at the provider, and its password. A *confidential client* has a secret; a *public client* has none and proves itself with PKCE alone. |
+| Redirect URL | Where the provider sends the reader after sign-in: `<portal URL>/_rapidoc/auth/callback`. Some providers say redirect URI or callback URL. |
+| Portal URL | `RAPIDOC_PUBLIC_URL`, else `site.url`, else the address the request came to. |
+| ID token, access token | What the provider returns after sign-in. The ID token says who the reader is; the portal reads the name, email and groups from it, and from the provider's user info. The access token lets **Try** call your API ([Try with the reader's token](/docs/access/try-it/)). |
+| Claim | One field of a token, such as `email` or `groups`. |
+| Scopes | What the portal asks the provider for at sign-in: `openid profile email`, sometimes `groups`. |
+| Tenant | Your organization's own space at a provider, with its own users (Entra ID, Auth0). |
+
+## Next steps
+
+- [Set up sign-in](/docs/access/setup/): register, configure, test locally and deploy.
+- [Identity providers](/docs/access/providers/): the issuer, groups and audience for each provider.
+- [Access rules](/docs/access/access-rules/): who may read which pages, APIs and files.
+- [Deploy with rapidoc serve](/docs/deploy/rapidoc-serve/): containers, proxies and every environment variable.
+
+Source: https://portal.rapidocui.com/docs/access/overview/
+
+---
+
+# Set up sign-in
+
+> Step by step, for any OpenID Connect provider - register the portal, configure sign-in and access rules, test locally, and deploy.
+
+This page takes a portal that already builds (`npx rapidoc build`) to one that signs readers in with your company's identity provider. The example uses Okta; the provider-specific values are in [Identity providers](/docs/access/providers/), and [SSO with Microsoft Entra ID](/docs/access/entra-id/) is the same walkthrough with every Entra ID screen.
+
+Before you begin, you need:
+
+- the address the portal will have, here `https://developers.acme.com`,
+- permission to register applications at your identity provider,
+- a host that can run a Node.js server for `rapidoc serve` ([Deploy with rapidoc serve](/docs/deploy/rapidoc-serve/)): a static host can't check who is reading.
+
+## 1. Register the portal at your provider
+
+Create an OpenID Connect application for the portal, of the **web application** kind (authorization code flow):
+
+- **Redirect URLs** (also called sign-in redirect URIs or callback URLs):
+  - `https://developers.acme.com/_rapidoc/auth/callback`
+  - `http://localhost:8080/_rapidoc/auth/callback`, for testing on your computer
+- **Post-logout redirect URLs**, only if you'll set `logout: idp`: `https://developers.acme.com/` and `http://localhost:8080/`.
+
+Then note:
+
+- the **issuer** URL, the address of your provider's sign-in service (Okta: `https://acme.okta.com/oauth2/default`),
+- the **client ID** of the new application,
+- its **client secret**, if the provider gave it one.
+
+Most providers make a web application a *confidential client*: it has a client secret, which `rapidoc serve` keeps. If your provider offers a *public client* with PKCE only (a "single-page" or "native" app), that works too, with no secret to store. Either way the portal uses the authorization code flow with PKCE.
+
+For access rules by group, make the provider put the reader's groups in the sign-in token: see [Groups](/docs/access/providers/#groups) for your provider.
+
+## 2. Configure the portal
+
+In `rapidoc.config.yaml`, add `auth` (who signs readers in) and `access` (who may read what):
+
+```yaml title="rapidoc.config.yaml"
+site:
+  url: https://developers.acme.com
+
+auth:
+  issuer: https://acme.okta.com/oauth2/default
+  clientId: portal-web
+  scopes: [openid, profile, email, groups]
+
+access:
+  default: public
+  rules:
+    - path: /docs/partners/**
+      allow: signed-in
+    - path: /apis/billing/**
+      allow: { groups: [billing-team] }
+```
+
+Here everything is public except the partner guides (any signed-in reader) and the billing API (the `billing-team` group only). Use paths your portal has: a rule that matches no page fails the build. All keys: [The `auth` key](/docs/access/overview/#the-auth-key) and [Access rules](/docs/access/access-rules/).
+
+The issuer and client ID are not secrets: they belong in the committed config. The client secret does not.
+
+`rapidoc serve` comes from the package `@rapidoc/server`. A project made with `npm create rapidoc` already depends on it; otherwise add it: `npm install @rapidoc/server`.
+
+## 3. Test on your computer
+
+1. Put the secrets in a `.env` file in the project folder. Make sure `.gitignore` lists `.env` (the starter's does):
+
+   ```bash title=".env"
+   RAPIDOC_SESSION_SECRET=<output of: openssl rand -base64 32>
+   # Only for a confidential client:
+   RAPIDOC_AUTH_CLIENT_SECRET=<client secret>
+   RAPIDOC_PUBLIC_URL=http://localhost:8080
+   ```
+
+   `RAPIDOC_SESSION_SECRET` encrypts the reader's session cookie. `RAPIDOC_PUBLIC_URL` is the portal's address, which the redirect URL is built from: here it overrides `site.url` (your production address).
+
+2. Build, then serve with the `.env` file:
+
+   ```bash
+   npx rapidoc build
+   node --env-file=.env node_modules/.bin/rapidoc serve dist
+   ```
+
+`rapidoc dev` doesn't do any of this: it shows every page, with no sign-in button. Sign-in and the rules work only with `rapidoc serve`.
+
+## 4. Check that it works
+
+Open `http://localhost:8080`:
+
+| As | You should see |
+| :--- | :--- |
+| Signed out | Public pages open. Locked links show a lock icon. A partner guide sends you to Okta's sign-in, then back to that guide. |
+| Signed in | Your name in the header and the partner guides. |
+| Signed in, in `billing-team` | The billing API too. |
+| Signed in, not in `billing-team` | An "access denied" page under `/apis/billing/`. |
+
+If group rules never match, the server's log says so after each sign-in (`no "groups" claim for ...`): check [Groups](/docs/access/providers/#groups). For "redirect URI mismatch" errors, compare the provider's redirect URL with `RAPIDOC_PUBLIC_URL` + `/_rapidoc/auth/callback`, character for character.
+
+## 5. Deploy
+
+On the host, set the same environment variables in its secret or environment settings, with `RAPIDOC_PUBLIC_URL=https://developers.acme.com`:
+
+- generate `RAPIDOC_SESSION_SECRET` once and keep it: the same on every instance and across restarts, or every reader is signed out,
+- never put secrets in the repository or on the command line.
+
+Then run `npx rapidoc build` and `npx rapidoc serve dist` there. Containers, several instances, proxies and every environment variable: [Deploy with rapidoc serve](/docs/deploy/rapidoc-serve/).
+
+## Next steps
+
+- [Access rules](/docs/access/access-rules/): rules by group or email, API versions, what is protected.
+- [Try with the reader's token](/docs/access/try-it/): let **Try** call your API as the signed-in reader.
+- [MCP server for agents](/docs/tools/mcp-server/): the same rules for AI agents.
+
+Source: https://portal.rapidocui.com/docs/access/setup/
+
+---
+
+# SSO with Microsoft Entra ID
+
+> Step by step - put the portal behind Microsoft Entra ID (Azure AD) single sign-on, and give groups of employees access to their APIs with app roles.
+
+This guide puts a portal behind your company's Microsoft Entra ID (formerly Azure AD) sign-in: everyone in the company can read the portal, and only the billing team can read the billing API. Other providers work the same way; their differences are in [Identity providers](/docs/access/providers/).
+
+It follows the same steps as [Set up sign-in](/docs/access/setup/), with every Entra ID screen. Before you begin, you need:
+
+- a portal that builds (`npx rapidoc build`),
+- the address it will have, here `https://developers.acme.com`,
+- the right to register applications in your Entra tenant.
+
+## 1. Register the portal in Entra ID
+
+In the [Microsoft Entra admin center](https://entra.microsoft.com), open **Identity → Applications → App registrations** and choose **New registration**:
+
+- **Name**: `Developer portal`.
+- **Supported account types**: *Accounts in this organizational directory only*.
+- **Redirect URI**: platform **Web**, URL `https://developers.acme.com/_rapidoc/auth/callback`.
+
+For local testing, add `http://localhost:8080/_rapidoc/auth/callback` as a second redirect URI under **Authentication**.
+
+From the app's **Overview**, note:
+
+- **Application (client) ID**, for `auth.clientId`.
+- **Directory (tenant) ID**, for the issuer: `https://login.microsoftonline.com/<tenant ID>/v2.0`.
+
+Under **Certificates & secrets**, create a **client secret** and copy its **Value** (not its Secret ID).
+
+> **Caution: Copy the secret now**
+> Entra ID shows the secret's value only once. Store it in your secret manager right away; if it's lost, create a new one.
+
+## 2. Create app roles for your groups
+
+Entra ID's `groups` claim holds group IDs, not names, and is left out for users in more than 200 groups. App roles avoid both problems.
+
+Under **App roles**, choose **Create app role**:
+
+- **Display name**: `Billing team`
+- **Allowed member types**: *Users/Groups*
+- **Value**: `billing-team`. This is the name your access rules use.
+
+Then open **Identity → Applications → Enterprise applications → Developer portal → Users and groups**, choose **Add user/group**, and assign the billing team's Entra group (or single users) to the **Billing team** role.
+
+Optional: to let only the users and groups you assign sign in at all, set **Properties → Assignment required?** to *Yes* on the same enterprise application. Then assign everyone who should read the portal, not only the billing team.
+
+## 3. Configure the portal
+
+```yaml title="rapidoc.config.yaml"
+site:
+  url: https://developers.acme.com
+
+auth:
+  issuer: https://login.microsoftonline.com/<tenant ID>/v2.0
+  clientId: <application (client) ID>
+  scopes: [openid, profile, email]
+  claims:
+    groups: roles # app roles arrive in the roles claim
+
+access:
+  default: signed-in # everyone the tenant lets sign in, guests included
+  rules:
+    - path: /apis/billing/**
+      allow: { groups: [billing-team] }
+    - path: /docs/billing/** # only if you have guides under docs/billing/
+      allow: { groups: [billing-team] }
+```
+
+`signed-in` admits every account your tenant lets sign in to the app, including guest users. To limit the portal to people you choose, set **Assignment required?** to *Yes* (step 2) and assign them. A rule whose path matches no page fails the build, so keep only the rules for paths your portal has.
+
+The issuer and client ID are not secrets, so they can live in the committed config. To use one build against a staging and a production tenant, set `RAPIDOC_AUTH_ISSUER` and `RAPIDOC_AUTH_CLIENT_ID` instead.
+
+## 4. Build and run
+
+Set three environment variables where the portal runs, from your secret manager or the host's environment settings, never in the repository or on the command line:
+
+| Variable | Value |
+| :--- | :--- |
+| `RAPIDOC_SESSION_SECRET` | Generate once with `openssl rand -base64 32` and keep it: the same on every instance and across restarts, or everyone is signed out. |
+| `RAPIDOC_AUTH_CLIENT_SECRET` | The client secret's **Value** from step 1. |
+| `RAPIDOC_PUBLIC_URL` | `https://developers.acme.com`, the address in the redirect URI. |
+
+Then build and serve:
+
+```bash
+npx rapidoc build
+npx rapidoc serve dist   # port 8080, or $PORT
+```
+
+To try it on your computer first, put the same variables in a `.env` file with `RAPIDOC_PUBLIC_URL=http://localhost:8080`, as in [Set up sign-in](/docs/access/setup/#3-test-on-your-computer).
+
+## 5. Check that it works
+
+| As | You should see |
+| :--- | :--- |
+| Signed out | The Microsoft sign-in page, then the page you asked for. |
+| A user with the **Billing team** role | Every page, including the billing API under `/apis/billing/`. |
+| A user without it | Every page except the billing API: an "access denied" page there. |
+
+Role changes apply at the user's next sign-in.
+
+To run it in a container or behind a load balancer, see [Deploy with rapidoc serve](/docs/deploy/rapidoc-serve/).
+
+## Troubleshooting
+
+| Problem | Fix |
+| :--- | :--- |
+| `AADSTS50011`: the redirect URI does not match | The redirect URI in the app registration must equal `<RAPIDOC_PUBLIC_URL>/_rapidoc/auth/callback`, including `https` and any path the portal is served under. |
+| `AADSTS7000215`: invalid client secret | Use the secret's **Value**, not its **Secret ID**, and check that it hasn't expired. |
+| Signed in, but group rules deny access | Check that the user or their group is assigned to the app role, and that `auth.claims.groups` is `roles`. The server's log says when a sign-in carries no roles. Role changes apply at the next sign-in. |
+| Email rules never match | Use app roles instead. Email rules need the optional claim `xms_edov` in the ID token (**Token configuration**), and match only users who have an email address in their Entra ID profile ([Access rules](/docs/access/access-rules/#who-may-read-allow)). |
+
+Source: https://portal.rapidocui.com/docs/access/entra-id/
+
+---
+
+# Identity providers
+
+> The issuer URL, groups and Try audience for Okta, Microsoft Entra ID, Auth0, Keycloak, Google, AWS Cognito, Ping, Authentik and Zitadel, and SAML-only providers.
+
+Single sign-on works with any OpenID Connect provider. This page has what differs between them; the steps are the same everywhere ([Set up sign-in](/docs/access/setup/)). For every Entra ID screen, see [SSO with Microsoft Entra ID](/docs/access/entra-id/).
+
+At every provider, register a web application with the authorization code flow, its redirect URL `<portal URL>/_rapidoc/auth/callback`, and with `logout: idp` the portal URL as a post-logout redirect. A confidential client (with a client secret) and a public client (PKCE only) both work; set `RAPIDOC_AUTH_CLIENT_SECRET` only for a confidential client.
+
+## Issuer
+
+`auth.issuer` is the provider's sign-in service. Copy it exactly: with or without the trailing slash, as the provider shows it.
+
+| Provider | `issuer` |
+| :--- | :--- |
+| Okta | `https://<org>.okta.com/oauth2/default` (or another authorization server's URL) |
+| Microsoft Entra ID | `https://login.microsoftonline.com/<tenant ID>/v2.0` |
+| Auth0 | `https://<tenant>.<region>.auth0.com/`, with the slash |
+| Keycloak | `https://<host>/realms/<realm>` |
+| Google | `https://accounts.google.com` |
+| AWS Cognito | `https://cognito-idp.<region>.amazonaws.com/<user pool ID>` |
+| PingOne | `https://auth.pingone.<region>/<environment ID>/as` |
+| Authentik | `https://<host>/application/o/<application slug>/` |
+| Zitadel | `https://<instance>.zitadel.cloud`, or your own domain |
+
+A wrong issuer stops `rapidoc serve` at start, with the address it couldn't reach.
+
+## Groups
+
+[Access rules](/docs/access/access-rules/) by group read the claim named in `auth.claims.groups` (default `groups`) from the ID token or the provider's user info. It must be a list of names, or names separated by spaces or commas. A dot in `auth.claims.groups` means a nested field (`realm_access.roles`), so a claim name can't contain one.
+
+| Provider | Setting |
+| :--- | :--- |
+| Okta | On the authorization server, add a claim named `groups` to the ID token: **Security → API → Authorization Servers → default → Claims → Add Claim**, value type **Groups**, filter **Matches regex** `.*` (or a narrower one). If you include it only with the `groups` scope, add `groups` to `scopes`. |
+| Microsoft Entra ID | Use app roles and `claims: { groups: roles }`. The `groups` claim holds group IDs, not names, and is left out for users in more than 200 groups. Steps: [SSO with Microsoft Entra ID](/docs/access/entra-id/#2-create-app-roles-for-your-groups). |
+| Auth0 | Auth0 sends no roles by default. Add them in a Post Login Action, under a claim name with no dots, and set `claims: { groups: https://acme/roles }`. See below. |
+| Keycloak | Realm roles: `claims: { groups: realm_access.roles }`. In **Client scopes → roles → Mappers → realm roles**, turn on **Add to ID token** or **Add to userinfo**. |
+| Google | No groups. Use `emails` rules instead (`*@acme.com`); see [Google Workspace](#google-workspace). |
+| AWS Cognito | User pool groups arrive as `cognito:groups`: `claims: { groups: "cognito:groups" }`. |
+| Ping, Authentik, Zitadel | Add a claim with the reader's groups as a list of names, and set `auth.claims.groups` to its name. Zitadel's own roles claim is an object, which rules can't read: map it to a list in an Action. |
+
+The Auth0 Action, under **Actions → Library → Create Action → Login / Post Login**, then added to the Login flow:
+
+```js title="Add roles to the ID token"
+exports.onExecutePostLogin = async (event, api) => {
+  api.idToken.setCustomClaim("https://acme/roles", event.authorization?.roles ?? []);
+};
+```
+
+After a sign-in that carries no groups, `rapidoc serve` logs `no "<claim>" claim for <user>: group rules can't match`. Group changes apply at the reader's next sign-in.
+
+## Audience for Try
+
+With [`tryIt`](/docs/access/try-it/), **Try** sends the reader's access token to your API, so the token has to be for your API:
+
+| Provider | Setting |
+| :--- | :--- |
+| Okta | Use your API's authorization server as `issuer`. Its tokens are for that server's audience. |
+| Microsoft Entra ID | Add your API's scope to `scopes`, for example `api://<API's application ID>/access_as_user`. |
+| Auth0 | Set `audience` to the API's identifier. |
+| Keycloak | Add an **Audience** mapper for your API's client to the portal's client. |
+| Google | Not possible: Google's tokens are for Google's own APIs. |
+| AWS Cognito | Add your resource server's scopes to `scopes`. |
+
+## Google Workspace
+
+Google's ID token has no groups, so rules can use `signed-in` or `emails`; Google marks addresses as verified. To keep other Google accounts out, set the OAuth consent screen's **User type** to **Internal**: then only accounts of your Workspace organization can sign in.
+
+## SAML-only providers
+
+Put an OpenID Connect broker in front: Keycloak, Authentik, Zitadel or Ory Polis. The portal signs in with the broker, which signs in with your SAML provider. Each broker's documentation has the steps.
+
+## One build, several tenants
+
+`RAPIDOC_AUTH_ISSUER`, `RAPIDOC_AUTH_CLIENT_ID` and `RAPIDOC_AUTH_AUDIENCE` override the config, so the same build can run against a staging and a production tenant.
+
+Source: https://portal.rapidocui.com/docs/access/providers/
+
+---
+
+# Access rules
+
+> Decide who may read which pages, APIs and files - by sign-in, group or email.
+
+The `access` key of `rapidoc.config.yaml` decides who may read which pages, API references, specs and files. It works together with [`auth`](/docs/access/overview/) and is enforced by `rapidoc serve`; `rapidoc dev` shows everything.
+
+```yaml title="rapidoc.config.yaml"
+access:
+  default: public
+  rules:
+    - path: /docs/partners/**
+      allow: signed-in
+    - path: /apis/billing/**
+      allow: { groups: [billing-team] }
+    - path: /docs/internal/**
+      allow: { emails: ['*@acme.com'] }
+```
+
+| Key | Meaning |
+| :--- | :--- |
+| `default` | Who may read what no rule matches: any `allow` value below. Default `public`. |
+| `rules` | A list of `{ path, allow }`, checked top to bottom. |
+| `rules[].path` | A URL path pattern, see below. |
+| `rules[].allow` | Who may read what the path matches, see [Who may read](#who-may-read-allow). |
+
+> **Caution: A rule must match something**
+> A rule whose path matches no page or file **fails the build**, so a typo can't leave content public by accident. Write rules only for paths your portal has.
+
+## Rules
+
+Rules are checked top to bottom, and **the first rule whose path matches decides**. Put specific rules before general ones.
+
+`path` is a URL path on the site, starting with `/`:
+
+- `*` matches one path segment: `/docs/*/setup` matches `/docs/orders/setup`.
+- `**` matches any number of segments, including none: `/docs/internal/**` matches `/docs/internal` and everything under it.
+
+Guides in `docs/internal/` are at `/docs/internal/...`, so the folder and the path match ([Project structure](/docs/getting-started/project-structure/#docs)).
+
+## Who may read: `allow`
+
+| `allow` | Who may read |
+| :--- | :--- |
+| `public` | Everyone, signed in or not. |
+| `signed-in` | Anyone who has signed in: everyone your provider lets sign in, which may be more than your staff ([who counts as signed in](/docs/access/overview/#choose-your-setup)). |
+| `{ groups: [a, b] }` | Signed-in readers in at least one of these groups. |
+| `{ emails: ['*@acme.com', 'jo@partner.io'] }` | Signed-in readers whose verified email matches one of these. `*` matches any characters. |
+
+`groups` and `emails` can be combined in one `allow`: matching either one is enough (OR), not both.
+
+Groups come from the claim named in `auth.claims.groups` (default `groups`); see [Groups](/docs/access/providers/#groups) for how each provider sends them.
+
+An email counts only when the provider vouches for it in the token: `email_verified: true`, or on Microsoft Entra ID `xms_edov: true`. That one means the email's domain is verified by the reader's organization, not that the reader confirmed the address. Entra ID sends neither by default: add `xms_edov` as an optional claim, or better, use app roles ([SSO with Microsoft Entra ID](/docs/access/entra-id/)). `rapidoc serve` logs a hint when a reader's email can't match email rules.
+
+## APIs and their specs
+
+An API's reference page, its tag pages, its spec file and its embedded operations are all under `/apis/<id>`, where `<id>` is the API's `id` under `apis:` ([APIs](/docs/configuration/apis/)). One rule covers all of them:
+
+```yaml title="rapidoc.config.yaml"
+access:
+  rules:
+    - path: /apis/billing/**
+      allow: { groups: [finance] }
+```
+
+This covers every [version](/docs/api-reference/versions/) of the API too. To treat one version differently, put a rule for its URLs before the API's rule, since the first match decides:
+
+```yaml title="rapidoc.config.yaml"
+access:
+  rules:
+    - path: /apis/billing/v4-beta/**
+      allow: { groups: [finance-beta] }
+    - path: /apis/billing/**
+      allow: { groups: [finance] }
+```
+
+## What is protected
+
+- Pages, specs, and the files of your project's `public/` folder.
+- Search results: the search indexes are split per rule, so readers only find what they may read.
+- The sitemap lists only public pages.
+
+Not protected: the titles and paths of protected pages. Locked links stay visible in menus and the catalog with a lock icon, so readers know there is more behind sign-in; don't put anything confidential in a title or a URL.
+
+Always public: the site's scripts, styles and fonts, the RapiDoc bundle, the logo and the favicon. Paths under `/_rapidoc/` belong to the portal: don't put pages or files there.
+
+## What readers get
+
+| Request | Allowed | Signed out | Signed in, not allowed |
+| :--- | :--- | :--- | :--- |
+| Page | 200 | Sent to your provider's sign-in, then back to the page | 403 "access denied" page |
+| Spec or other file | 200 | 401 | 403 |
+
+## Build warnings
+
+- A protected API whose spec is a URL: the build warns, because the spec stays public at that URL. Protect it where it is hosted.
+- A public page that embeds an operation of a protected API: the build warns, because the operation won't load for readers who may not see the API.
+
+Source: https://portal.rapidocui.com/docs/access/access-rules/
+
+---
+
+# Try with the reader's token
+
+> Let Try call your API with the signed-in reader's access token.
+
+Every operation on an API reference page has a **Try** button, which sends the request to your API from the reader's browser. Without `tryIt`, readers fill in the **Authentication** panel of the reference page themselves: an API key, a token, or their own OAuth sign-in.
+
+With `auth.tryIt`, a signed-in reader presses **Try** and the request carries their own access token, from their sign-in to the portal. Your API's own permission check answers, with that reader's permissions: `200` for a reader who may call it, `403` for one who may not. There is no token to copy and paste.
+
+`tryIt` is optional. It needs:
+
+- portal sign-in with `auth` ([Set up sign-in](/docs/access/setup/)),
+- an API that accepts access tokens from the same provider, for the right audience ([below](#the-audience)),
+- an API that allows the portal's address for cross-origin requests (CORS) with an `Authorization` header, as for any **Try** request.
+
+```yaml title="rapidoc.config.yaml"
+auth:
+  issuer: https://acme.okta.com/oauth2/default   # your API's authorization server
+  clientId: portal-web
+  tryIt: true
+```
+
+## How it works
+
+1. At sign-in, `rapidoc serve` keeps the reader's access token in its own encrypted, `HttpOnly` cookie. The ID and refresh tokens are not kept at all.
+2. Reference pages and embedded operations ask the server for the token, and fill it into the authentication panel for one security scheme of the spec:
+   - the first `oauth2` or `openIdConnect` scheme,
+   - else the first HTTP `bearer` scheme.
+3. **Try** sends `Authorization: Bearer <token>` to the API.
+
+The page keeps the token in memory only, never in local storage. It is handed only to pages of the portal itself (same origin), but every script running on those pages can fetch it, including analytics or other scripts you add with [`head`](/docs/configuration/site/#head-tags). Add only scripts you trust to a portal with `tryIt`.
+
+The token expires on the provider's schedule, often after an hour, which can be well before the sign-in ends (`session.maxAge`). From then on, **Try** sends no token until the reader signs in again. A shorter `session.maxAge` keeps the two closer.
+
+## The audience
+
+The access token has to be for your API, not for the portal. Okta: use your API's authorization server as `issuer`. Auth0: set `audience` to the API's identifier. Microsoft Entra ID: add your API's scope to `scopes`, such as `api://<API's application ID>/access_as_user`. Every provider: [Audience for Try](/docs/access/providers/#audience-for-try).
+
+## Before your API exists: the mock server
+
+Point the spec's server at [`rapidoc mock`](/docs/tools/mock-server/), which checks each token's signature, audience and scopes the way your API would:
+
+```yaml title="specs/billing.yaml"
+servers:
+  - url: http://localhost:4010/billing   # /<api id>
+```
+
+```bash
+npx rapidoc mock --issuer https://acme.okta.com/oauth2/default --audience api://default
+```
+
+Signed-in readers then get `200` or `403` from the mock, depending on their own scopes. Okta's default authorization server issues tokens for the audience `api://default`.
+
+## Troubleshooting
+
+| What you see | Cause |
+| :--- | :--- |
+| **Try** has no token | The reader isn't signed in, `tryIt` isn't `true`, the token has expired, or the spec has no `oauth2`, `openIdConnect` or HTTP `bearer` scheme. |
+| `401` from your API | The token is for another audience (see [The audience](#the-audience)), or it has expired. |
+| A CORS error in the browser console, no response | Your API doesn't allow the portal's address, or the `Authorization` header, for cross-origin requests. |
+| `403` from your API | The API's own check: the reader lacks the scope or permission. **Try** is working. |
+
+Source: https://portal.rapidocui.com/docs/access/try-it/
+
+---
+
+# Mock server
+
+> Serve your specs with examples and generated data, validate requests, and check real OAuth scopes.
+
+`rapidoc mock` serves every local spec of the portal on one port, each under `/<api id>` (a version other than the default under `/<api id>/<version>`). Readers can press **Try** before the API exists, and you can demo who may call what with real tokens.
+
+```bash
+npm install -D @rapidoc/mock
+npx rapidoc mock
+```
+
+```text
+http://localhost:4010/bookstore   → specs/bookstore.yaml
+```
+
+List the mock as a server in the spec, and the reference pages' **Try** calls it:
+
+```yaml title="specs/bookstore.yaml"
+servers:
+  - url: http://localhost:4010/bookstore
+    description: Local mock
+```
+
+This site's [example API](/apis/bookstore/) does exactly that: run `npm run mock:portal-site` in the [RapiDoc repository](https://github.com/rapi-doc/RapiDoc), where this site's source is, and **Try** answers. **Run workflow** on a [workflow](/docs/configuration/workflows/#run-against-the-mock) diagram uses the same server, so whole workflows run with no backend.
+
+## What it answers
+
+Examples from the spec first, else data generated from the schema; requests are validated against the spec; `Prefer` headers pick a documented response (`Prefer: code=404`); CORS is allowed for any origin. All of that, streamed responses (OpenAPI 3.2 `itemSchema`: Server-Sent Events and JSON Lines, sent one item at a time), and the options (`--port`, `--host`, `--seed`, `--stream-interval`), is on the [Mock Server](https://rapidocui.com/docs/mocking/mock-server/) page of the RapiDoc docs.
+
+## Real token checks
+
+Each operation's `security` is enforced. Start the mock with your OpenID Connect issuer, and bearer tokens must be signed by it, unexpired, for your audience and carry the operation's scopes (else `401` or `403`):
+
+```bash
+npx rapidoc mock --issuer https://acme.us.auth0.com/ --audience https://api.acme.com
+```
+
+`--issuer` and `--audience` can also come from `RAPIDOC_MOCK_ISSUER` and `RAPIDOC_MOCK_AUDIENCE`. Without `--issuer`, any bearer token passes and scopes aren't checked. Combined with [Try with the reader's token](/docs/access/try-it/), signed-in readers see `200` or `403` depending on their own permissions.
+
+## Without a portal
+
+The mock also works on plain spec files:
+
+```bash
+npx rapidoc mock ./specs                      # every OpenAPI file in the folder
+npx rapidoc mock orders.yaml billing.json     # these files
+```
+
+Each spec is served under its file name: `orders-api.yaml` is `/orders-api`. The mapping is printed at start. This needs only `@rapidoc/cli` and `@rapidoc/mock`, not the portal.
+
+Source: https://portal.rapidocui.com/docs/tools/mock-server/
+
+---
+
+# MCP server for agents
+
+> Every portal build carries its APIs and workflows as MCP tools; rapidoc serve hosts them at /mcp for AI agents, with the reader's own access.
+
+AI agents can use your APIs the way readers do. `rapidoc build` turns every local spec and every workflow into [MCP](https://modelcontextprotocol.io) tool manifests, and `rapidoc serve` hosts them at `/mcp`: one endpoint for the whole portal, with the same access rules as the pages.
+
+```text
+dist/mcp/<api id>.json              the API's operations as tools, named <api id>_<operation>
+dist/mcp/workflows/<id>.json        each workflow of the file as one tool, its inputs as the arguments
+```
+
+Nothing to configure: a build has the manifests whenever it has specs on disk (a spec that is a URL is left out).
+
+## Connect an agent
+
+With [`rapidoc serve`](/docs/deploy/rapidoc-serve/), the portal's MCP endpoint is `https://<your portal>/mcp` (Streamable HTTP).
+
+An app that supports Streamable HTTP connects to that URL directly. In Cursor, add it to `.cursor/mcp.json`; in Claude Code, run one command:
+
+```json title=".cursor/mcp.json"
+{
+  "mcpServers": {
+    "acme-portal": { "url": "https://developers.acme.com/mcp" }
+  }
+}
+```
+
+```bash
+claude mcp add --transport http acme-portal https://developers.acme.com/mcp
+```
+
+An app that speaks stdio only, such as Claude Desktop, connects through [mcp-remote](https://www.npmjs.com/package/mcp-remote), a small program the app starts that forwards to the URL. This goes in Claude Desktop's own settings file:
+
+```json title="claude_desktop_config.json"
+{
+  "mcpServers": {
+    "acme-portal": {
+      "command": "npx",
+      "args": ["mcp-remote", "https://developers.acme.com/mcp"]
+    }
+  }
+}
+```
+
+Other stdio-only apps take the same `mcpServers` entry in their own configuration file.
+
+Without a token, the agent sees the public APIs and calls them without a reader's access token. A key set in the server's environment (see [Credentials of other kinds](#credentials-of-other-kinds)) is still sent, for every agent.
+
+## Agents that sign in
+
+On a portal with [sign-in](/docs/access/overview/), a signed-in reader opens the user menu and picks **Connect an AI agent**. **Get token** mints a token for their agents and shows the command that uses it:
+
+```bash
+npx mcp-remote https://developers.acme.com/mcp --header "Authorization: Bearer <token>"
+```
+
+With the token, the agent:
+
+- sees the tools of every API the reader may see, and the workflows whose APIs they may all see;
+- with [`auth.tryIt`](/docs/access/try-it/), calls the APIs with the reader's own access token, so the API's permission check applies to the agent as it does to **Try**.
+
+The token is the reader's session (sealed like the cookies, never a copy of them) and lasts as long as the session. It opens exactly what the reader can see; a reader can't give an agent more than they have.
+
+The reader's access token inside it is not refreshed. It usually expires sooner than the session; after that the agent still sees its tools, but its calls go out without that token and the API answers `401`. The reader then gets a new token from the menu.
+
+## Credentials of other kinds
+
+The reader's access token fills `oauth2`, `openIdConnect` and HTTP `bearer` schemes. For an API that takes an API key or HTTP Basic, set the credential in the environment of `rapidoc serve`, named like the exported project's: the scheme id in upper snake case (`PARTNER_KEY`), `<SCHEME>_USERNAME` and `<SCHEME>_PASSWORD` for Basic. For an API with one security scheme, `API_KEY` also works; an API with several needs a variable per scheme. Every agent then calls that API with the same key, with or without a token.
+
+## From the command line
+
+For an API that isn't in a portal, or to try its tools before building one, the CLI turns any spec into an MCP server:
+
+```bash
+npx rapidoc mcp export openapi.yaml --out-dir orders-mcp   # writes the server project
+npx rapidoc mcp serve openapi.yaml                         # runs it over stdio, no files
+```
+
+`--base-url http://localhost:4010/orders` sends the calls to [`rapidoc mock`](/docs/tools/mock-server/), and `--arazzo flows.arazzo.yaml` adds the workflows as tools. The options, the credentials it reads and the agent configuration are on the [rapidoc mcp](https://rapidocui.com/docs/cli/mcp/) and [MCP Server](https://rapidocui.com/docs/ai/mcp-server/) pages of the RapiDoc docs.
+
+## Exported servers
+
+Readers can also download a standalone MCP server for one API from its reference page (**Export MCP server**, with `rapidoc.mcp: true`): a small stdio server with the same manifest and runtime, for agents that run where the portal can't be reached.
+
+## Static hosting, and turning it off
+
+The `/mcp` endpoint needs `rapidoc serve`: a static host only returns files, so a portal on GitHub Pages, Netlify or S3 has no endpoint. Agents can still use its APIs through [exported servers](#exported-servers) or [`rapidoc mcp serve`](#from-the-command-line), which run on the agent's machine.
+
+To serve a portal with `rapidoc serve` but without the endpoint, set `RAPIDOC_MCP=off` in its environment: no `/mcp`, no agent tokens, and no "connect an AI agent" section in the user menu. `rapidoc serve` prints `MCP: off` when it starts.
+
+Source: https://portal.rapidocui.com/docs/tools/mcp-server/
+
+---
+
+# Validate
+
+> Check your portal's OpenAPI specs and workflow files against the specification, locally and in CI.
+
+```bash
+npx rapidoc validate                       # every local spec in apis:, and the workflow files
+npx rapidoc validate ./specs/orders.yaml   # one file
+```
+
+In a portal folder, `rapidoc validate` checks every local spec in `apis:` strictly against the OpenAPI Specification (required fields and types, path parameters, `$ref`s), with file, line and column for each error. It also warns about operations without an `operationId` (their page URLs change when their summary is edited), and checks that the steps of each workflow file resolve against your APIs.
+
+What it checks, its output and its options (`--format json | sarif`, `--strict`, `--remote`) are described on the [rapidoc validate](https://rapidocui.com/docs/cli/validate/) page of the RapiDoc docs.
+
+## In CI
+
+It exits with code `1` when a spec has errors (or warnings, with `--strict`), so it can gate a pull request:
+
+```yaml title=".github/workflows/docs.yml"
+# in a job's steps:
+- run: npm ci
+- run: npx rapidoc validate
+- run: npx rapidoc build
+```
+
+To see the problems on the pull request itself, upload a SARIF report to GitHub code scanning:
+
+```yaml title=".github/workflows/docs.yml"
+permissions:
+  security-events: write
+# in a job's steps:
+- run: npx rapidoc validate --format sarif > rapidoc.sarif || true
+- uses: github/codeql-action/upload-sarif@v3
+  with:
+    sarif_file: rapidoc.sarif
+```
+
+Projects created with `npm create rapidoc` have it as `npm run validate`.
+
+Validating one file needs only `@rapidoc/cli`. Validating a whole portal also reads the config, so it needs `@rapidoc/portal`.
+
+Source: https://portal.rapidocui.com/docs/tools/validate/
+
+---
+
+# Lint
+
+> Check what your portal's specs need to make good API pages, beyond being valid OpenAPI.
+
+```bash
+npx rapidoc lint                          # every API in rapidoc.config.*
+npx rapidoc lint --strict --format sarif > rapidoc.sarif
+```
+
+A valid spec can still make a poor portal: operations without an `operationId` get page URLs that change when their summary is edited, bodies without examples leave **Try** and the mock server with nothing to show, tags that aren't declared have no description for their sidebar group. `rapidoc lint` finds those, after running [`validate`](/docs/tools/validate/)'s check.
+
+The rules, their defaults, the output and the options are on the [rapidoc lint](https://rapidocui.com/docs/cli/lint/) page of the RapiDoc docs (`rapidoc lint --rules` prints them too).
+
+## Settings
+
+Set severities in `rapidoc.config.yaml`, for every API or per API. Most specific wins: `--rule` on the command line, then the API's entry under `lint.apis`, then `lint.rules`, then the defaults.
+
+```yaml title="rapidoc.config.yaml"
+lint:
+  rules:
+    operation-description: warn
+    no-unused-components: off
+  apis:
+    legacy: # an API that can't meet a rule yet
+      operation-operationId: off
+```
+
+## In CI
+
+Exit code `1` on errors (or warnings with `--strict`), `2` for a wrong rule name or severity:
+
+```yaml title=".github/workflows/docs.yml"
+# in a job's steps:
+- run: npx rapidoc lint --strict
+```
+
+Upload a SARIF report to see the findings on the pull request, as the [Validate](/docs/tools/validate/#in-ci) page shows.
+
+A portal folder needs `@rapidoc/portal`, to read the `apis:` list; one spec or a URL needs `@rapidoc/cli` alone.
+
+Source: https://portal.rapidocui.com/docs/tools/lint/
+
+---
+
+# Bundle
+
+> Join a spec split over several files into one, for tools that can't follow $refs to other files.
+
+```bash
+npx rapidoc bundle --api orders -o dist/orders.yaml   # an API of rapidoc.config.*
+npx rapidoc bundle specs/orders.yaml -o dist/orders.json
+```
+
+`rapidoc bundle` loads a spec and every file its `$ref`s reach, and writes one document: every `$ref` to another file becomes a component. The portal itself follows `$ref`s across files, so it doesn't need this; code generators, gateways and review tools often do.
+
+`--api <id>` bundles the spec of an API in `rapidoc.config.*` (its default version) instead of a file, and needs `@rapidoc/portal`. What the bundle contains, how components are named, and the other options (`--dereference`, `--format`, `--no-validate`, `--remote`) are on the [rapidoc bundle](https://rapidocui.com/docs/cli/bundle/) page of the RapiDoc docs.
+
+Source: https://portal.rapidocui.com/docs/tools/bundle/
+
+---
+
+# Migrating
+
+> Move a Zudoku or Redocly portal to RapiDoc Portal.
+
+`rapidoc migrate` reads your existing portal's config and writes a `rapidoc.config.yaml` next to it.
+
+```bash
+npx @rapidoc/cli migrate                  # finds redocly.yaml or zudoku.config.* and asks to confirm
+npx @rapidoc/cli migrate --from zudoku
+npx @rapidoc/cli migrate --from redocly
+```
+
+Run it in the project folder. Use `npx @rapidoc/cli`, not `npx rapidoc`: before the CLI is installed, `npx rapidoc` looks for the npm package `rapidoc`, the `<rapi-doc>` web component, which has no command. Without `--from` it looks for a Redocly (`redocly.yaml`) or Zudoku (`zudoku.config.*`) config and asks before migrating it; in CI or a script, pass `--from` (or `--yes` to take the one found). An existing `rapidoc.config.yaml` is replaced, after asking in a terminal. It lists anything it could not convert; fix those before you build.
+
+> **Caution:**
+> It overwrites an existing `rapidoc.config.yaml`. Commit or copy yours first.
+
+## From Zudoku
+
+Reads `zudoku.config.ts`, `.mjs` or `.js`.
+
+- Zudoku's top-level navigation items become the header tabs.
+- The APIs become entries in `apis:`. APIs that had a custom path get a [redirect](/docs/configuration/docs-search-redirects/#redirects), because every reference page is `/apis/<id>`.
+- An `input` list (one spec per version) becomes [`versions:`](/docs/api-reference/versions/), and each version's old URL gets a redirect. An input with `?prefix=`, which shows part of one file as a version, isn't supported: the query is dropped, so that version shows the whole file, and the migration warns about it.
+- Imports from `zudoku/ui/...` and `<Stepper>` in MDX pages are rewritten at build time, so the pages work as they are.
+- Zudoku's callout types (`info`, `warning`, `sparkles`, `rocket`, ...) render as before.
+- `basePath` with `canonicalUrlOrigin` becomes the path of [`site.url`](/docs/configuration/site/#serving-under-a-path); a `basePath` without the origin gets a warning to set `site.url`. A `metadata.title` with `%s` becomes `site.titleTemplate`.
+
+## From Redocly
+
+Reads `redocly.yaml`, plus `sidebars.yaml` if it is there.
+
+- The sidebars become a Documentation tab.
+- The APIs become an API Catalog tab.
+- `theme.openapi` becomes the theme and [`rapidoc:` attributes](/docs/api-reference/rapidoc-attributes/).
+- `seo.siteUrl`, `seo.image` and `seo.projectTitle` become `site.url`, `site.image` and `site.titleTemplate`; `scripts.head` and `links` become [`head`](/docs/configuration/site/#head-tags) entries.
+
+## After migrating
+
+Install the CLI and the portal engine in the project, then check and preview the result:
+
+```bash
+npm install -D @rapidoc/cli @rapidoc/portal
+npx rapidoc validate
+npx rapidoc dev
+```
+
+Then check the header tabs and sidebars, and move remaining settings by hand with the [configuration reference](/docs/reference/config/).
+
+Source: https://portal.rapidocui.com/docs/tools/migrate/
+
+---
+
+# Static hosting
+
+> Deploy the built portal to GitHub Pages, Netlify, Vercel, Cloudflare Pages or any web server.
+
+Without `auth`, `rapidoc build` writes a plain static site to `dist/`. Host it anywhere that serves files.
+
+```bash
+npm run build                       # writes dist/
+npx rapidoc build --out-dir site    # or another folder
+```
+
+Don't build into `public/`: that is the [folder of static files](/docs/getting-started/project-structure/#public) the build copies into the site.
+
+Set `site.url` to the portal's public URL, for canonical links and the sitemap. To host the portal in a folder of another site, put the folder in the URL (`https://acme.com/developers`): links are built with `/developers` in front, and you upload `dist/` into that folder ([Serving under a path](/docs/configuration/site/#serving-under-a-path)).
+
+## GitHub Pages
+
+1. In the repository's **Settings → Pages**, set **Source** to **GitHub Actions**.
+2. Set `site.url` to the address GitHub Pages gives the site:
+   - a project repository is served under its name, so include it: `https://<user>.github.io/<repo>`;
+   - a `<user>.github.io` repository, or a custom domain, is served at the root: `https://<user>.github.io`.
+3. Commit a `package-lock.json` (`npm install` writes it): the workflow installs with `npm ci`, which needs it.
+4. Add this workflow. Each push to `main` builds and deploys the portal; the run's summary shows its address.
+
+```yaml title=".github/workflows/deploy.yml"
+name: Deploy portal
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22 # the latest 22.x, at least 22.12
+      - run: npm ci
+      - run: npx rapidoc validate
+      - run: npx rapidoc build
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+    steps:
+      - uses: actions/deploy-pages@v4
+```
+
+`npx rapidoc validate` stops the deploy when a spec is invalid.
+
+## Netlify, Vercel, Cloudflare Pages
+
+| Setting | Value |
+| :--- | :--- |
+| Build command | `npm run build` |
+| Output folder | `dist` |
+| Node.js version | 22.12 or later |
+
+## Any web server
+
+Copy `dist/` to the server's web root (Nginx, Apache, Caddy, S3 with CloudFront). Every page is a folder with an `index.html`, so the server needs no rewrite rules.
+
+## Need sign-in (SSO)?
+
+A static host can't check who is reading. There are two ways to put a portal behind your company's single sign-on.
+
+If only calls to your API need a sign-in, and the documentation stays public, you need neither: readers sign in to your API from the API page itself, in the browser. See [OAuth 2 sign-in for Try](/docs/api-reference/reference-pages/#oauth-2-sign-in-for-try).
+
+### The whole portal behind your SSO
+
+When every signed-in employee may read everything, keep the plain static build and let the layer in front of it handle sign-in. No portal server runs:
+
+- **Cloudflare Access** in front of Cloudflare Pages or any origin.
+- **AWS**: an Application Load Balancer with OpenID Connect authentication in front of the files, or CloudFront with an authenticating edge function.
+- **Your own server**: [oauth2-proxy](https://oauth2-proxy.github.io/oauth2-proxy/) in front of Nginx or Caddy.
+- **Your host's own protection**, such as Vercel or Netlify on plans that offer SSO for deployments.
+
+Leave `auth` and `access` out of the config: the portal doesn't know about the sign-in, so it shows no sign-in button or user menu, Try doesn't get the reader's token, and there is no MCP endpoint for agents.
+
+### Some pages for some readers
+
+For per-page and per-group rules, a sign-in button, Try with the reader's own token and MCP tools under the same rules, configure [`auth` and `access`](/docs/access/overview/) and deploy with [`rapidoc serve`](/docs/deploy/rapidoc-serve/). Public pages can still be cached by a CDN in front of it.
+
+Source: https://portal.rapidocui.com/docs/deploy/static-hosting/
+
+---
+
+# Deploy with rapidoc serve
+
+> Run a portal with sign-in and access rules on Node or in Docker.
+
+A portal with `auth` is served by `rapidoc serve` (`@rapidoc/server`). It serves the build, signs readers in through your provider, and enforces the [access rules](/docs/access/access-rules/) on every page, spec, file and search result.
+
+```bash
+npm install -D @rapidoc/cli @rapidoc/portal @rapidoc/server
+npx rapidoc build
+npx rapidoc serve dist   # port 8080, or $PORT
+```
+
+Set its [environment variables](#environment-variables) (`RAPIDOC_SESSION_SECRET`, `RAPIDOC_PUBLIC_URL`, and `RAPIDOC_AUTH_CLIENT_SECRET` for a confidential client) in the host's secret or environment settings, not on the command line, where they would end up in the shell history. To run it on your computer, see [Set up sign-in](/docs/access/setup/#3-test-on-your-computer).
+
+- **Stateless**: the session is an encrypted cookie, so any number of instances can run behind a load balancer. No database.
+- **Small**: it needs only Node, the CLI, `@rapidoc/server` and the build. Not `@rapidoc/portal`.
+- **Agents too**: the APIs and workflows are MCP tools at `/mcp`, under the same rules. See [MCP server for agents](/docs/tools/mcp-server/).
+
+You need it only for per-page or per-group access rules. A public portal, or one that is private as a whole behind your SSO proxy, is plain static files: see [Static hosting](/docs/deploy/static-hosting/#need-sign-in-sso).
+
+## Availability and scaling
+
+The server is a small Node process that reads the build from disk. It keeps nothing in memory between requests that another instance would need, so run it like any stateless web service:
+
+- **Two or more instances** behind a load balancer, with the same `RAPIDOC_SESSION_SECRET`. Readers stay signed in whichever instance answers, and through restarts and deploys.
+- **Health check**: `GET /_rapidoc/health` for the load balancer, Kubernetes or ECS.
+- **Rolling deploys**: on `SIGTERM` the server stops taking new connections and exits, so the orchestrator can replace instances one at a time.
+- **A CDN in front**: build assets (`_rapidoc/assets/`) are sent as `immutable` for a year and public pages revalidate, while anything that depends on the session is `private, no-store` and never cached.
+
+A new release of the portal is a new build: build it in CI, ship `dist/` in the image, and roll the instances. There is no database to migrate.
+
+## Environment variables
+
+| Variable | Required | Meaning |
+| :--- | :--- | :--- |
+| `RAPIDOC_SESSION_SECRET` | with `auth` | Encrypts the session cookie. 32 or more characters, the same on every instance. Changing it signs everyone out. |
+| `RAPIDOC_AUTH_CLIENT_SECRET` | confidential clients | Leave unset for a public client (PKCE only). |
+| `RAPIDOC_PUBLIC_URL` | recommended | The portal's external URL: the redirect URL, and whether cookies are `Secure`. Default `site.url`, else the request's host. |
+| `RAPIDOC_AUTH_ISSUER`, `RAPIDOC_AUTH_CLIENT_ID`, `RAPIDOC_AUTH_AUDIENCE` | no | Override `auth.issuer`, `auth.clientId`, `auth.audience`. |
+| `RAPIDOC_MOUNT_PATH` | no | Path requests arrive under, when a proxy strips part of the portal's path. `--mount-path` wins. Default: the path of `site.url`. |
+| `RAPIDOC_MCP` | no | `off` turns off the [MCP endpoint](/docs/tools/mcp-server/): no `/mcp`, no agent tokens, and no "connect an AI agent" section in the user menu. Default `on`. Any other value stops the server. |
+| `PORT`, `HOST` | no | Default `8080` and `0.0.0.0`. `--port` and `--host` win. |
+| `<SCHEME>`, `API_KEY` | no | API keys and HTTP Basic credentials for `/mcp` tool calls, named by the spec's security scheme id. See [MCP server for agents](/docs/tools/mcp-server/#credentials-of-other-kinds). |
+| `EXTERNAL_HOSTS` | no | Hosts, comma-separated (`*` for any), that a workflow step's `x-operation` URL computed at run time may call from `/mcp`, besides the hosts the workflow names (its APIs' servers and URLs written out in its steps). |
+
+The server refuses to start, with the reason, when a required value is missing or the provider can't be discovered.
+
+## Behind a proxy that strips part of the path
+
+A portal with `site.url: https://acme.com/sales/developers` is built and served under `/sales/developers`. When a gateway or ingress routes `/sales/*` to the server and strips `/sales`, requests arrive as `/developers/...`. Tell the server:
+
+```bash
+npx rapidoc serve dist --mount-path /developers
+```
+
+Links, redirects and the sign-in callback keep the full path the browser sees, `/sales/developers/...`. Without a proxy, the server answers under the path of `site.url` by itself.
+
+## Docker
+
+```dockerfile title="Dockerfile"
+FROM node:22-alpine AS build
+WORKDIR /portal
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npx rapidoc build
+
+FROM node:22-alpine
+WORKDIR /portal
+COPY package*.json ./
+RUN npm ci --omit=dev && npm install --no-save @rapidoc/cli @rapidoc/server
+COPY --from=build /portal/dist ./dist
+ENV PORT=8080
+EXPOSE 8080
+CMD ["npx", "rapidoc", "serve", "dist"]
+```
+
+Health check for load balancers and Kubernetes: `GET /_rapidoc/health`.
+
+## The build output
+
+With `auth`, `rapidoc build` writes:
+
+| Path | Holds |
+| :--- | :--- |
+| `dist/public/` | Everything anyone may read. Contains no protected content, so it can sit on a CDN. |
+| `dist/protected/` | Pages and files behind a rule. |
+| `dist/rapidoc-server.json` | The rules and zones the server enforces. |
+
+Responses that depend on the session are `Cache-Control: private, no-store` with `Vary: Cookie`, so a CDN in front never caches a protected page for the wrong reader.
+
+## Without `auth`
+
+`rapidoc serve` also serves a plain static build, which is handy for a local check of the production build:
+
+```bash
+npx rapidoc build && npx rapidoc serve dist
+```
+
+Source: https://portal.rapidocui.com/docs/deploy/rapidoc-serve/
+
+---
+
+# Render, DigitalOcean, Railway
+
+> Deploy a portal to Render, DigitalOcean App Platform or Railway, in one click from the starter or from your own repository.
+
+Render, DigitalOcean App Platform and Railway build the portal from your Git repository and run it with `rapidoc serve`. Every push rebuilds it. Sign-in works by adding environment variables, and agents get the `/mcp` endpoint.
+
+## Try it in one click
+
+The [starter repository](https://github.com/rapi-doc/rapidoc-portal-starter) deploys a sample portal as it is:
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/rapi-doc/rapidoc-portal-starter)
+[![Deploy to DO](https://www.deploytodo.com/do-btn-blue.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/rapi-doc/rapidoc-portal-starter/tree/main)
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/eq5i1k?referralCode=tI_nkc)
+
+To publish your own APIs, click **Use this template** on the starter's GitHub page, edit your copy, and deploy it as below.
+
+## Your own repository
+
+A portal made by `npm create rapidoc@latest` or `rapidoc init` is ready for all three. The hosts run the same scripts from `package.json`:
+
+| Step | Command |
+| :--- | :--- |
+| Build | `npm run build` (`rapidoc build`) |
+| Start | `npm start` (`rapidoc serve`, listening on `$PORT`, which the host sets) |
+| Health check | `GET /_rapidoc/health` |
+| Node.js | `engines.node` in `package.json` (22.12 or later) |
+
+| Host | How |
+| :--- | :--- |
+| **Render** | Dashboard → New → Blueprint → your repository. It reads `render.yaml`. |
+| **DigitalOcean App Platform** | Create App → GitHub → your repository. It detects the build and start scripts. Set the health check path to `/_rapidoc/health`. |
+| **Railway** | New Project → Deploy from GitHub repo → your repository. It detects the build and start scripts. Set the health check path to `/_rapidoc/health`, and generate a domain under Networking. |
+
+`@rapidoc/cli` and `@rapidoc/server` must be **dependencies**, not dev dependencies: DigitalOcean removes dev dependencies after the build, and `npm start` needs both. `@rapidoc/portal` is only needed for the build and stays a dev dependency. A portal made before this layout can be moved over with:
+
+```bash
+npm install @rapidoc/cli @rapidoc/server
+npm pkg set scripts.start="rapidoc serve" engines.node=">=22.12.0"
+```
+
+and, for Render, this `render.yaml`:
+
+```yaml title="render.yaml"
+services:
+  - type: web
+    name: my-portal
+    runtime: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /_rapidoc/health
+```
+
+## Sign-in
+
+With [`auth`](/docs/access/overview/) in the config, set the secrets in the host's environment settings, never in the repository: `RAPIDOC_SESSION_SECRET` (32 or more random characters), `RAPIDOC_AUTH_CLIENT_SECRET` for a confidential client, and `RAPIDOC_PUBLIC_URL`, the portal's address, which must match the callback URL registered with your provider. All variables: [Deploy with rapidoc serve](/docs/deploy/rapidoc-serve/#environment-variables).
+
+## Plans
+
+- **Render**: a free web service sleeps after 15 minutes without visits, and the next visit waits up to a minute. A paid instance stays awake.
+- **DigitalOcean**: web services run on paid instances; the starter's button uses the smallest one.
+- **Railway**: billed by usage.
+
+A portal without sign-in is also a plain static site, which these hosts (and others) serve for free without sleeping: see [Static hosting](/docs/deploy/static-hosting/).
+
+Source: https://portal.rapidocui.com/docs/deploy/cloud-platforms/
+
+---
+
+# CLI
+
+> Every rapidoc command and option.
+
+```bash
+rapidoc <command> [options]
+```
+
+The command comes from the npm package `@rapidoc/cli`. In a project that has it installed, run it as `npx rapidoc <command>` or through the `npm run` scripts. Without it, run `npx @rapidoc/cli <command>`: `npx rapidoc` would look for the npm package `rapidoc`, the `<rapi-doc>` web component, which has no command.
+
+| Command | Does |
+| :--- | :--- |
+| `init [dir]` | Scaffolds a portal in `dir` (default: the current folder), using the OpenAPI files already there. |
+| `dev [dir]` | Starts the dev server with live reload on `http://localhost:4321`. |
+| `build [dir]` | Builds the static portal into `dist/`. |
+| `serve [dist]` | Serves a built portal, with sign-in and access rules. Default folder `dist`. |
+| `preview <spec>` | Shows one spec (a file or URL) in `<rapi-doc>` on `http://localhost:4000`, reloading when a file in its folder changes. No portal needed. |
+| `mock [dir \| spec...]` | Mock server for a portal's APIs, a folder of specs, or spec files (paths or URLs), each under `/<api id>`. |
+| `validate [spec \| dir]` | Validates one spec (a file or URL), or every spec and workflow file in a portal ([Validate](/docs/tools/validate/), [every option](https://rapidocui.com/docs/cli/validate/)). |
+| `lint [spec \| dir]` | Checks what a spec needs to make a good portal: operationIds, summaries, examples, security, declared tags ([Lint](/docs/tools/lint/), [every option](https://rapidocui.com/docs/cli/lint/)). |
+| `bundle <spec>` | Writes a spec split over several files as one: other-file `$ref`s become components ([Bundle](/docs/tools/bundle/), [every option](https://rapidocui.com/docs/cli/bundle/)). |
+| `pdf <spec>` | Writes the API reference of a spec as a PDF; `--api <id>` takes an API of the portal ([every option](https://rapidocui.com/docs/cli/pdf/)). Needs `rapipdf`. |
+| `mcp export <spec>` | Writes an MCP server project for the spec ([MCP server](/docs/tools/mcp-server/#from-the-command-line), [every option](https://rapidocui.com/docs/cli/mcp/)). |
+| `mcp serve <spec>` | Runs that MCP server over stdio, without writing files. |
+| `migrate [--from <src>]` | Writes `rapidoc.config.yaml` from a `zudoku` or `redocly` project (found in the folder when `--from` is left out). |
+| `doctor [dir]` | Checks Node, the packages' versions, the portal config and the browser bundle; `--format json` for bug reports. |
+| `completion <zsh \| bash \| fish>` | Prints a completion script for the shell ([Shell completion](https://rapidocui.com/docs/cli/reference/#shell-completion)). |
+| `help [command]` | Shows help, or one command's options and examples (same as `rapidoc <command> --help`). |
+| `--version`, `-v` | Shows the version. |
+
+Options and arguments can come in any order (`rapidoc build --out-dir public ./portal`). A misspelled command or option is an error with a suggestion (`Unknown option --outdir. Did you mean --out-dir?`).
+
+## Options of the portal commands
+
+| Option | Commands | Meaning |
+| :--- | :--- | :--- |
+| `--out-dir <path>` | build | Output folder. Default `dist`. |
+| `--port <number>` | dev, serve, mock | dev: default `4321`; serve: `$PORT` or `8080`; mock: `4010`. |
+| `--host <host>` | serve, mock | Address to listen on. Default `$HOST` (serve), else `0.0.0.0`. |
+| `--open` | dev | Open the page in the browser. |
+| `--mount-path <path>` | serve | Path requests arrive under, when a proxy strips part of the portal's path. Default `$RAPIDOC_MOUNT_PATH`, else the path of `site.url`. |
+| `--issuer <url>`, `--audience <id>` | mock | OpenID Connect issuer and audience of accepted tokens ([Mock server](/docs/tools/mock-server/#real-token-checks)). |
+| `--debug` | dev, build | Keep the temporary build workspace and print its path. |
+| `--title <title>` | init | Site title. |
+| `--spec <file>` | init | An OpenAPI file to include; repeat for more. Default: every one found in the folder. |
+| `--starter-spec` | init | Use the starter spec instead of the OpenAPI files found. |
+| `--force`, `-f` | init | Overwrite existing files (in a terminal, lists them and asks first). |
+| `--no-install` | init | Skip `npm install`. |
+| `--from <src>` | migrate | `zudoku` or `redocly` ([Migrating](/docs/tools/migrate/)). |
+| `--format pretty \| json` | doctor | `json` for bug reports. |
+| `--help`, `-h` | all | Show the command's help instead of running it. |
+| `--quiet`, `-q` | all | Print errors and warnings only. |
+| `--yes`, `-y` | all | Don't ask anything: take the default answer to every question. |
+
+The options of `preview`, `validate`, `lint`, `bundle`, `pdf` and `mcp`, which work on any spec, are in the RapiDoc docs: [All Commands & Options](https://rapidocui.com/docs/cli/reference/).
+
+## Questions
+
+In a terminal, commands ask for what their options don't say, and `rapidoc` alone shows a menu of the common commands. When the output is piped, `CI` is set, or `--yes` is given, they never ask: they use the defaults, or stop and name the option to pass. Every question has an option, so any run can be scripted.
+
+| Command | Asks | Option that answers it |
+| :--- | :--- | :--- |
+| `init` | The site title, which of the OpenAPI files found to include, whether to run `npm install`. Then prints the command that does the same without questions. | `--title`, `--spec` / `--starter-spec`, `--no-install` |
+| `init --force` | Whether to replace the existing files it lists. | `--yes` |
+| `migrate` | Which project to migrate, when `--from` is left out (it looks for `redocly.yaml` and `zudoku.config.*`); whether to replace an existing `rapidoc.config.yaml`. | `--from`, `--yes` |
+| `dev`, `serve`, `mock` | Whether to use the next free port when the port is taken. Without a terminal, `serve` and `mock` stop (`dev` moves to a free port by itself). | `--port`, `--yes` |
+
+`Ctrl+C` on a question cancels the command (exit code `130`).
+
+## Exit codes, packages and shell completion
+
+`0` success, `1` a problem in the input (an invalid spec or config, a failed build, a missing package), `2` a wrong command line, `130` cancelled at a question. The CLI loads `@rapidoc/portal`, `@rapidoc/server` and `@rapidoc/mock` only for the commands that need them, and `rapidoc completion zsh|bash|fish` prints a completion script. Each is described in [All Commands & Options](https://rapidocui.com/docs/cli/reference/).
+
+## Examples
+
+```bash
+rapidoc init my-portal --title "Acme Developer Portal"
+rapidoc dev
+rapidoc build ./my-api-portal
+rapidoc serve dist --port 8080
+rapidoc mock --issuer https://example.us.auth0.com/ --audience https://api.example.com
+rapidoc mock ./specs --port 4011
+rapidoc validate ./specs/orders-api.yaml
+rapidoc lint --strict
+rapidoc bundle ./specs/orders-api.yaml -o dist/orders-api.json
+rapidoc migrate --from zudoku
+```
+
+Source: https://portal.rapidocui.com/docs/reference/cli/
+
+---
+
+# Configuration keys
+
+> Every key of rapidoc.config.yaml in one place.
+
+Every key, with its default. The guides explain each section: [Configuration](/docs/configuration/overview/).
+
+## `site`
+
+| Key | Type | Default |
+| :--- | :--- | :--- |
+| `site.title` | string, **required** | |
+| `site.description` | string | |
+| `site.url` | URL | |
+| `site.logo.src` | path, or `{ light, dark }` | |
+| `site.logo.text` | string | the title when there is no image |
+| `site.logo.alt` | string | |
+| `site.logo.href` | URL | `/` |
+| `site.favicon` | path | |
+| `site.image` | path (needs `site.url`) or URL | |
+| `site.titleTemplate` | string with `%s` | `'%s \| <title>'` |
+| `site.noindex` | boolean | `false` |
+| `site.banner.message` | string, required in a banner | |
+| `site.banner.href` | URL | |
+| `site.banner.dismissible` | boolean | `true` |
+| `site.banner.background`, `site.banner.color` | CSS color | |
+
+## `theme`
+
+| Key | Type | Default |
+| :--- | :--- | :--- |
+| `theme.primary` | CSS color | `#f76b39` |
+| `theme.mode` | `auto` \| `light` \| `dark` | `auto` |
+| `theme.fonts.sans`, `theme.fonts.mono` | `{ family, url? }` | System fonts |
+| `theme.css` | path, or list of paths | |
+
+## `header`
+
+| Key | Type | Default |
+| :--- | :--- | :--- |
+| `header.themeSwitcher` | boolean | `true` |
+| `header.links[]` | `{ label, href \| items, icon?, style? }` | |
+| `header.links[].style` | `link` \| `button` \| `primary` | `link` |
+| `header.links[].items[]` | `{ label, href, icon?, description?, badge?, items? }` | |
+
+## `navigation[]`
+
+| Key | Type |
+| :--- | :--- |
+| `label` | string, required |
+| `icon` | Phosphor icon name |
+| `badge` | string, or `{ text, variant }` |
+| exactly one of: `items`, `autogenerate`, `api`, `catalog: true`, `href` | the kind of tab |
+
+Sidebar items: a page path string, or `{ label?, slug \| href \| items \| autogenerate \| api, version?, icon?, badge?, collapsed? }`.
+
+A tab or sidebar item with `api` can have `version`: one of that API's versions.
+
+## `apis[]`
+
+| Key | Type | Default |
+| :--- | :--- | :--- |
+| `id` | lowercase letters, digits, dashes; **required** | |
+| `spec` | path or URL; **required** unless `versions` is set | |
+| `versions` | list of spec paths or `{ spec, version?, label? }`, instead of `spec` | the first is the default |
+| `title` | string | `info.title` |
+| `description` | string | `info.description` |
+| `category` | string | `General` |
+
+### `apis[].versions[]`
+
+| Key | Type | Default |
+| :--- | :--- | :--- |
+| `spec` | path or URL, **required** | |
+| `version` | lowercase letters, digits, dots, dashes; **required** for a URL spec | `info.version` |
+| `label` | string | `info.version` |
+
+## `workflows[]`
+
+| Key | Type | Default |
+| :--- | :--- | :--- |
+| `file` | path to an Arazzo 1.x file; **required** | |
+| `id` | lowercase letters, digits, dashes | the file name without `.arazzo.yaml` |
+| `sources` | map of source description name → API id | sources named like an API id |
+
+See [Workflows](/docs/configuration/workflows/).
+
+## `docs`
+
+| Key | Type | Default |
+| :--- | :--- | :--- |
+| `docs.dir` | path | `./docs` |
+| `docs.toc` | `{ minHeadingLevel, maxHeadingLevel }` or `false` | levels 2 to 3 |
+| `docs.editUrl` | URL | |
+
+## `footer` (or `false`)
+
+| Key | Type | Default |
+| :--- | :--- | :--- |
+| `footer.cta` | `{ title, description?, links? }`, up to 3 links | |
+| `footer.newsletter` | `{ action, field?, title?, description?, button? }` | field `email`, button `Subscribe` |
+| `footer.columns[]` | `{ title, links: [{ label, href }] }` | |
+| `footer.social[]` | `{ icon: github \| x \| discord \| linkedin \| youtube, href }` | |
+| `footer.copyright` | string | |
+| `footer.branding` | boolean | `true` |
+
+## Others
+
+| Key | Type | Default |
+| :--- | :--- | :--- |
+| `rapidoc` | map of `<rapi-doc>` attributes | see [RapiDoc attributes](/docs/api-reference/rapidoc-attributes/) |
+| `head[]` | `{ script }`, `{ link }` or `{ meta }`; `script` is attributes or inline code | |
+| `search` | boolean | `true` |
+| `llms` | `false`, or `{ description?, pageActions? }` | on; see [LLM output](/docs/configuration/llms/) |
+| `llms.pageActions` | list of `copy`, `markdown`, `chatgpt`, `claude`, or `false` | all four |
+| `redirects[]` | `{ from, to }` | |
+
+## `auth`
+
+| Key | Type | Default |
+| :--- | :--- | :--- |
+| `auth.provider` | `oidc` | `oidc` |
+| `auth.issuer` | URL | `$RAPIDOC_AUTH_ISSUER` |
+| `auth.clientId` | string | `$RAPIDOC_AUTH_CLIENT_ID` |
+| `auth.scopes` | string list | `openid, profile, email` |
+| `auth.claims.groups` | claim name or dotted path | `groups` |
+| `auth.session.maxAge` | `30m`, `8h`, `7d` | `8h` |
+| `auth.logout` | `local` \| `idp` | `local` |
+| `auth.label` | string | `Sign in` |
+| `auth.audience` | string | `$RAPIDOC_AUTH_AUDIENCE` |
+| `auth.tryIt` | boolean | `false` |
+
+## `access`
+
+| Key | Type | Default |
+| :--- | :--- | :--- |
+| `access.default` | allow | `public` |
+| `access.rules[]` | `{ path, allow }`, first match wins | |
+
+An allow is `public`, `signed-in`, or `{ groups?, emails? }`.
+
+## `lint`
+
+Settings for [`rapidoc lint`](/docs/tools/lint/); the build ignores them.
+
+| Key | Type | Default |
+| :--- | :--- | :--- |
+| `lint.rules` | `{ <rule>: error \| warn \| off }` | each rule's own default |
+| `lint.apis` | `{ <api id>: { <rule>: severity } }`, wins over `rules` | |
+
+## JSON Schema
+
+The full schema ships as `@rapidoc/portal/schema.json`. Point your editor at it for autocomplete:
+
+```yaml title="rapidoc.config.yaml"
+# yaml-language-server: $schema=./node_modules/@rapidoc/portal/schema.json
+```
+
+Source: https://portal.rapidocui.com/docs/reference/config/
+
+---
+
+# Programmatic API
+
+> Build, serve and mock portals from your own Node.js scripts.
+
+Every CLI command is a function you can call from Node.js 22.12 or later. All packages are ES modules.
+
+## `@rapidoc/portal`
+
+```js title="build.mjs"
+import { buildPortal, startDevServer, loadConfig } from '@rapidoc/portal';
+
+const result = await buildPortal('./my-portal', { outDir: 'dist' });
+// { success, apisCount, outDir, durationMs, access? }
+
+const server = await startDevServer('./my-portal', { port: 4321 });
+await server.stop(); // stops the server and removes its workspace
+
+const { config } = await loadConfig('./my-portal'); // the normalized config
+```
+
+With sign-in, `result.access` is `{ protectedPages, protectedFiles, zones, warnings }`.
+
+Both `buildPortal` and `startDevServer` take `keepWorkspace: true` (the CLI's `--debug`) to keep the generated site in `.rapidoc-temp/`.
+
+Other exports:
+
+| Export | Does |
+| :--- | :--- |
+| `normalizeConfig`, `migrateConfig`, `RapidocConfigSchema` | Config helpers and the zod schema. |
+| `compileMarkdoc`, `markdocTags` | Render Markdoc with the portal's tags to HTML. |
+| `buildSearchIndex`, `searchRecords` | The search index of guides and operations. |
+| `checkPortalSpecs`, `checkApiSpec` | What `rapidoc validate` runs. |
+
+Subpath exports: `@rapidoc/portal/config`, `/markdoc`, `/search`, `/components` (MDX components) and `/schema.json`.
+
+## `@rapidoc/server`
+
+```js title="serve.mjs"
+import { createApp, startServer } from '@rapidoc/server';
+
+const { app } = await createApp({ distDir: 'dist' }); // a Hono app: mount it or add middleware
+const server = await startServer({ distDir: 'dist', port: 8080 });
+await server.close();
+```
+
+## `@rapidoc/mock`
+
+```js title="mock.mjs"
+import { createMockApp, startMockServer } from '@rapidoc/mock';
+
+const { app } = await createMockApp({
+  apis: [{ id: 'orders', fullPath: '/abs/path/orders.yaml' }],
+  issuer: 'https://example.us.auth0.com/',
+  audience: 'https://api.example.com',
+});
+// app.fetch(request), or mount it in your own server
+
+const mock = await startMockServer({ apis, port: 4010 });
+// { url, port, apis, skipped, close }
+```
+
+## `create-rapidoc`
+
+```js title="scaffold.mjs"
+import { scaffoldProject, findOpenApiSpecs } from 'create-rapidoc/scaffold';
+
+const specs = findOpenApiSpecs('./my-portal');
+scaffoldProject('./my-portal', { title: 'Acme Developers', specs });
+```
+
+Source: https://portal.rapidocui.com/docs/reference/programmatic-api/
+
+---
+
+# How a build works
+
+> What rapidoc dev and rapidoc build do, step by step.
+
+You don't need this page to write or deploy a portal. It explains what the commands do behind the scenes, for debugging a build or a leftover folder.
+
+`rapidoc build` runs five steps:
+
+1. **Load and validate** `rapidoc.config.yaml`. An unknown key or a wrong value stops the build with its path.
+2. **Create a temporary workspace** at `<project>/.rapidoc-temp/<dev|build>-<pid>-<n>/`, one per run, so a build never disturbs a running `rapidoc dev`. It holds a normalized copy of `docs/`, the `public/` folder, the specs, the RapiDoc bundle and the search index.
+3. **Render the site** from the workspace with [Astro](https://astro.build/) and its documentation theme, Starlight. The pages (home, guides, catalog, API reference) and their components come from `@rapidoc/portal`.
+4. **Write the static site** to `dist/` (or `--out-dir`). With sign-in configured, the output is then split into `public/`, `protected/` and `rapidoc-server.json` for `rapidoc serve`.
+5. **Delete the workspace**, even when the build fails. Your project ends up exactly as it was, plus `dist/`.
+
+`rapidoc dev` runs steps 1 to 3 and serves the site on `http://localhost:4321`. It watches the project: guide edits appear immediately, and a change to the config or a spec restarts the server. Its workspace is removed when the server stops, including with Ctrl+C.
+
+> **Note: A leftover .rapidoc-temp folder**
+> A run killed before it can clean up (`kill -9`, a crash) leaves its folder behind. The next run removes the folders of processes that are no longer running.
+
+## Why not the OS temp folder?
+
+Astro only compiles pages that share a parent folder with the site root, so the workspace has to live inside your project.
+
+## Debugging the engine
+
+```bash
+npx rapidoc build --debug
+```
+
+`--debug` keeps the workspace and prints its path, so you can inspect the generated site.
+
+Source: https://portal.rapidocui.com/docs/reference/how-it-works/

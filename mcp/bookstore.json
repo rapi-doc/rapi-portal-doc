@@ -1,0 +1,282 @@
+{
+  "manifestVersion": 1,
+  "server": {
+    "name": "bookstore",
+    "version": "1.0.0",
+    "description": "A small example API that shows what an API reference page looks like in RapiDoc Portal. Run npm run mock in this repository and Try calls the mock server on your machine."
+  },
+  "sources": {
+    "bookstore": {
+      "baseUrl": "http://localhost:4010/bookstore",
+      "securitySchemes": {
+        "oauth2": {
+          "type": "oauth2",
+          "flows": {
+            "authorizationCode": {
+              "authorizationUrl": "https://auth.example.com/authorize",
+              "tokenUrl": "https://auth.example.com/oauth/token",
+              "scopes": {
+                "books:write": "Add and change books",
+                "orders:read": "Read your orders",
+                "orders:write": "Place orders"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tools": [
+    {
+      "name": "bookstore_list_books",
+      "description": "List books",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "genre": {
+            "type": "string",
+            "enum": [
+              "fiction",
+              "technology",
+              "history",
+              "science"
+            ],
+            "description": "Only books of this genre."
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 20,
+            "description": "Maximum number of books to return."
+          }
+        }
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true
+      },
+      "operation": {
+        "source": "bookstore",
+        "method": "GET",
+        "path": "/books",
+        "params": [
+          {
+            "name": "genre",
+            "in": "query"
+          },
+          {
+            "name": "limit",
+            "in": "query"
+          }
+        ],
+        "security": []
+      }
+    },
+    {
+      "name": "bookstore_create_book",
+      "description": "Add a book",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "body": {
+            "type": "object",
+            "required": [
+              "title",
+              "author",
+              "genre",
+              "price"
+            ],
+            "properties": {
+              "title": {
+                "type": "string",
+                "maxLength": 200
+              },
+              "author": {
+                "type": "string"
+              },
+              "genre": {
+                "type": "string",
+                "enum": [
+                  "fiction",
+                  "technology",
+                  "history",
+                  "science"
+                ]
+              },
+              "price": {
+                "type": "number",
+                "minimum": 0,
+                "description": "Price in euros."
+              }
+            }
+          }
+        },
+        "required": [
+          "body"
+        ]
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": false
+      },
+      "operation": {
+        "source": "bookstore",
+        "method": "POST",
+        "path": "/books",
+        "params": [
+          {
+            "name": "body",
+            "in": "body",
+            "contentType": "application/json"
+          }
+        ],
+        "security": [
+          {
+            "oauth2": [
+              "books:write"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "bookstore_get_book",
+      "description": "Get a book",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "bookId": {
+            "type": "string",
+            "pattern": "^bk_[0-9]+$"
+          }
+        },
+        "required": [
+          "bookId"
+        ]
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true
+      },
+      "operation": {
+        "source": "bookstore",
+        "method": "GET",
+        "path": "/books/{bookId}",
+        "params": [
+          {
+            "name": "bookId",
+            "in": "path"
+          }
+        ],
+        "security": []
+      }
+    },
+    {
+      "name": "bookstore_create_order",
+      "description": "Place an order",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "body": {
+            "type": "object",
+            "required": [
+              "items"
+            ],
+            "properties": {
+              "items": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "bookId",
+                    "quantity"
+                  ],
+                  "properties": {
+                    "bookId": {
+                      "type": "string"
+                    },
+                    "quantity": {
+                      "type": "integer",
+                      "minimum": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "body"
+        ]
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": false
+      },
+      "operation": {
+        "source": "bookstore",
+        "method": "POST",
+        "path": "/orders",
+        "params": [
+          {
+            "name": "body",
+            "in": "body",
+            "contentType": "application/json"
+          }
+        ],
+        "security": [
+          {
+            "oauth2": [
+              "orders:write"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "bookstore_get_order",
+      "description": "Get an order",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "orderId": {
+            "type": "string",
+            "pattern": "^ord_[0-9]+$"
+          }
+        },
+        "required": [
+          "orderId"
+        ]
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true
+      },
+      "operation": {
+        "source": "bookstore",
+        "method": "GET",
+        "path": "/orders/{orderId}",
+        "params": [
+          {
+            "name": "orderId",
+            "in": "path"
+          }
+        ],
+        "security": [
+          {
+            "oauth2": [
+              "orders:read"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "resources": [],
+  "workflows": {}
+}

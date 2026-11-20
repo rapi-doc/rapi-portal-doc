@@ -1,0 +1,564 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-toc data-has-sidebar class="astro-i3ca2ene"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Callouts | RapiDoc Portal</title><link rel="canonical" href="https://portal.rapidocui.com/docs/writing/callouts/"/><link rel="sitemap" href="/sitemap-index.xml"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"/><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap"/><script async src="https://www.googletagmanager.com/gtag/js?id=G-M9TPKERDJ6"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-M9TPKERDJ6', { content_group: 'Portal' });
+</script><link rel="shortcut icon" href="/rapidoc-leaves.svg" type="image/svg+xml"/><meta property="og:title" content="Callouts"/><meta property="og:type" content="article"/><meta property="og:url" content="https://portal.rapidocui.com/docs/writing/callouts/"/><meta property="og:locale" content="en"/><meta property="og:description" content="Notes, tips and warnings - one look whether you write them in Markdown, MDX or Markdoc."/><meta property="og:site_name" content="RapiDoc Portal"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="Notes, tips and warnings - one look whether you write them in Markdown, MDX or Markdoc."/><script>(() => {
+  let stored = null;
+  try { stored = localStorage.getItem('starlight-theme'); } catch {}
+  const fallback = "auto" === 'auto' ? (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark') : "auto";
+  const theme = stored === 'light' || stored === 'dark' ? stored : fallback;
+  document.documentElement.dataset.theme = theme;
+  return { stored, theme };
+})();
+window.StarlightThemeProvider = { updatePickers() {} };</script><link rel="stylesheet" href="/_rapidoc/assets/print.C9eyqPGL.css" media="print"><link rel="stylesheet" href="/_rapidoc/assets/page-head.D7jp7url.css"><link rel="stylesheet" href="/_rapidoc/assets/index.D1eP6Kq3.css"><link rel="stylesheet" href="/_rapidoc/assets/Badge.imGdW5Gt.css"><style>@layer starlight.components{.card-grid:where(.astro-w3q4g72i){grid-template-columns:100%;gap:1rem;display:grid}.card-grid:where(.astro-w3q4g72i)>*{margin-top:0!important}@media (width>=50rem){.card-grid:where(.astro-w3q4g72i){grid-template-columns:1fr 1fr;gap:1.5rem}.stagger:where(.astro-w3q4g72i){--stagger-height:5rem;padding-bottom:var(--stagger-height)}.stagger:where(.astro-w3q4g72i)>:nth-child(2n){transform:translateY(var(--stagger-height))}}}
+@layer starlight.components{starlight-tabs:where(.astro-agaibtfj){display:block}.tablist-wrapper:where(.astro-agaibtfj){overflow-x:auto}:where(.astro-agaibtfj)[role=tablist]{border-bottom:2px solid var(--sl-color-gray-5);padding:0;list-style:none;display:flex}.tab:where(.astro-agaibtfj){display:flex}.tab:where(.astro-agaibtfj)>:where(.astro-agaibtfj)[role=tab]{--sl-tab-color-border:var(--sl-color-gray-5);line-height:var(--sl-line-height-headings);box-shadow:0 2px 0 var(--sl-tab-color-border);color:var(--sl-color-gray-3);outline-offset:var(--sl-outline-offset-inside);overflow-wrap:initial;align-items:center;gap:.5rem;padding:.275rem 1.25rem;text-decoration:none;display:flex}.tab:where(.astro-agaibtfj) :where(.astro-agaibtfj)[role=tab][aria-selected=true]{--sl-tab-color-border:var(--sl-color-text-accent);color:var(--sl-color-white);font-weight:600}.tablist-wrapper:where(.astro-agaibtfj)~[role=tabpanel]{margin-top:1rem}.sl-steps{--bullet-size:calc(var(--sl-line-height) * 1rem);--bullet-margin:.375rem;counter-reset:steps-counter var(--sl-steps-start,0);padding-inline-start:0;list-style:none}.sl-steps>li{counter-increment:steps-counter;padding-inline-start:calc(var(--bullet-size) + 1rem);min-height:calc(var(--bullet-size) + var(--bullet-margin));padding-bottom:1px;position:relative}.sl-steps>li+li{margin-top:0}.sl-steps>li:before{content:counter(steps-counter);top:0;width:var(--bullet-size);height:var(--bullet-size);line-height:var(--bullet-size);font-size:var(--sl-text-xs);text-align:center;color:var(--sl-color-white);background-color:var(--sl-color-gray-6);box-shadow:inset 0 0 0 1px var(--sl-color-gray-5);border-radius:99rem;font-weight:600;position:absolute;inset-inline-start:0}.sl-steps>li:after{--guide-width:1px;content:"";top:calc(var(--bullet-size) + var(--bullet-margin));bottom:var(--bullet-margin);width:var(--guide-width);background-color:var(--sl-color-hairline-light);position:absolute;inset-inline-start:calc((var(--bullet-size) - var(--guide-width)) / 2)}}@layer starlight.content{.sl-steps>li>:first-child{--lh:calc(1em * var(--sl-line-height));--shift-y:calc(.5 * (var(--bullet-size) - var(--lh)));transform:translateY(var(--shift-y));margin-bottom:var(--shift-y)}.sl-steps>li>:first-child:where(h1,h2,h3,h4,h5,h6){--lh:calc(1em * var(--sl-line-height-headings))}@supports (--prop:1lh){.sl-steps>li>:first-child{--lh:1lh}}}.portal-api-operation:where(.astro-v6utyedq){border:1px solid var(--sl-color-hairline);border-radius:var(--portal-radius);margin:1.5rem 0;overflow:hidden}figcaption:where(.astro-v6utyedq){border-bottom:1px solid var(--sl-color-hairline);padding:.5rem 1rem;font-weight:600}rapi-doc-mini:where(.astro-v6utyedq){--font-sans:inherit;--font-mono:inherit;--font-size-regular:.9375rem;--heading-letter-spacing:-.02em;padding:.5rem 1rem 1rem;display:block}.portal-workflow:where(.astro-qke7b3bh){border:1px solid var(--sl-color-hairline);border-radius:var(--portal-radius);--primary:var(--portal-primary);margin:1.5rem 0;overflow:hidden}figcaption:where(.astro-qke7b3bh){border-bottom:1px solid var(--sl-color-hairline);padding:.5rem 1rem;font-weight:600}.portal-workflow-diagram:where(.astro-qke7b3bh){padding:1rem;overflow-x:auto}.portal-workflow:where(.astro-qke7b3bh) rapi-flow:where(.astro-qke7b3bh){--font-sans:inherit;--font-mono:inherit;display:block}
+</style><script type="module" src="/_rapidoc/assets/cNngjUgL.js"></script></head><body class="astro-i3ca2ene"><a class="sl-skip-link astro-l3mcwfu7" href="#_top">Skip to content</a><div class="page sl-flex astro-bx4ddj32"><header class="portal-header-root" data-portal-region="header" data-has-sidebar><!-- Row 1: brand, search, links and menus, theme switcher --><div class="portal-navbar" data-portal-region="header-inner"><a href="/" class="portal-brand" aria-label="RapiDoc Portal home"><img src="/rapidoc-lockup-light.svg" alt class="portal-brand-img portal-brand-img-light"><img src="/rapidoc-lockup-dark.svg" alt class="portal-brand-img portal-brand-img-dark"><span class="portal-brand-text">Portal</span></a><button type="button" class="portal-search-trigger" id="portal-search-btn" aria-label="Search ⌘K" aria-keyshortcuts="Meta+K Control+K /"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true" class="portal-search-icon"><path d="M232.49,215.51,185,168a92.12,92.12,0,1,0-17,17l47.53,47.54a12,12,0,0,0,17-17ZM44,112a68,68,0,1,1,68,68A68.07,68.07,0,0,1,44,112Z"/></svg><span class="portal-search-text">Search</span><kbd class="portal-search-kbd">⌘K</kbd></button><div class="portal-nav-end"><nav class="portal-nav-menu" aria-label="Main"><div class="portal-dropdown-wrapper"><button type="button" class="portal-nav-button portal-dropdown-trigger" aria-expanded="false" aria-controls="portal-menu-0"><span>Ecosystem</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true" class="portal-chevron"><path d="M216.49,104.49l-80,80a12,12,0,0,1-17,0l-80-80a12,12,0,0,1,17-17L128,159l71.51-71.52a12,12,0,0,1,17,17Z"/></svg></button><div class="portal-megamenu-panel" id="portal-menu-0"><div class="portal-megamenu-grid"><a href="https://rapidocui.com/docs/" class="portal-megamenu-card"><div class="portal-card-icon-box"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="24" height="24" fill="currentColor" aria-hidden="true"><path d="M208,88H152V32Z" opacity="0.2"/><path d="M181.66,146.34a8,8,0,0,1,0,11.32l-24,24a8,8,0,0,1-11.32-11.32L164.69,152l-18.35-18.34a8,8,0,0,1,11.32-11.32Zm-72-24a8,8,0,0,0-11.32,0l-24,24a8,8,0,0,0,0,11.32l24,24a8,8,0,0,0,11.32-11.32L91.31,152l18.35-18.34A8,8,0,0,0,109.66,122.34ZM216,88V216a16,16,0,0,1-16,16H56a16,16,0,0,1-16-16V40A16,16,0,0,1,56,24h96a8,8,0,0,1,5.66,2.34l56,56A8,8,0,0,1,216,88Zm-56-8h28.69L160,51.31Zm40,136V96H152a8,8,0,0,1-8-8V40H56V216H200Z"/></svg></div><div class="portal-card-body"><div class="portal-card-title-row"><span class="portal-card-title">RapiDoc</span><span class="portal-card-arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M224.49,136.49l-72,72a12,12,0,0,1-17-17L187,140H40a12,12,0,0,1,0-24H187L135.51,64.48a12,12,0,0,1,17-17l72,72A12,12,0,0,1,224.49,136.49Z"/></svg></span></div><p class="portal-card-desc">Interactive API reference from your OpenAPI spec</p></div></a><a href="https://rapidocui.com/rapidoc-mini/" class="portal-megamenu-card"><div class="portal-card-icon-box"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="24" height="24" fill="currentColor" aria-hidden="true"><path d="M204,168a28,28,0,0,0,12-2.69V208a8,8,0,0,1-8,8H64a8,8,0,0,1-8-8V165.31a28,28,0,1,1,0-50.62V72a8,8,0,0,1,8-8h46.69a28,28,0,1,1,50.61,0H208a8,8,0,0,1,8,8v42.69A28,28,0,1,0,204,168Z" opacity="0.2"/><path d="M220.27,158.54a8,8,0,0,0-7.7-.46,20,20,0,1,1,0-36.16A8,8,0,0,0,224,114.69V72a16,16,0,0,0-16-16H171.78a35.36,35.36,0,0,0,.22-4,36.15,36.15,0,0,0-11.36-26.25,36,36,0,0,0-60.55,23.63,36.56,36.56,0,0,0,.14,6.62H64A16,16,0,0,0,48,72v32.22a35.36,35.36,0,0,0-4-.22,36.12,36.12,0,0,0-26.24,11.36,35.7,35.7,0,0,0-9.69,27,36.08,36.08,0,0,0,33.31,33.6,36.56,36.56,0,0,0,6.62-.14V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V165.31A8,8,0,0,0,220.27,158.54ZM208,208H64V165.31a8,8,0,0,0-11.43-7.23,20,20,0,1,1,0-36.16A8,8,0,0,0,64,114.69V72h46.69a8,8,0,0,0,7.23-11.43,20,20,0,1,1,36.16,0A8,8,0,0,0,161.31,72H208v32.23a35.68,35.68,0,0,0-6.62-.14A36,36,0,0,0,204,176a35.36,35.36,0,0,0,4-.22Z"/></svg></div><div class="portal-card-body"><div class="portal-card-title-row"><span class="portal-card-title">RapiDoc Mini</span><span class="portal-card-arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M224.49,136.49l-72,72a12,12,0,0,1-17-17L187,140H40a12,12,0,0,1,0-24H187L135.51,64.48a12,12,0,0,1,17-17l72,72A12,12,0,0,1,224.49,136.49Z"/></svg></span></div><p class="portal-card-desc">A few endpoints, with Try, inside a post or guide</p></div></a><a href="https://rapidocui.com/rapi-flow/" class="portal-megamenu-card"><div class="portal-card-icon-box"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="24" height="24" fill="currentColor" aria-hidden="true"><path d="M224,200a24,24,0,1,1-24-24A24,24,0,0,1,224,200Z" opacity="0.2"/><path d="M200,168a32.06,32.06,0,0,0-31,24H72a32,32,0,0,1,0-64h96a40,40,0,0,0,0-80H72a8,8,0,0,0,0,16h96a24,24,0,0,1,0,48H72a48,48,0,0,0,0,96h97a32,32,0,1,0,31-40Zm0,48a16,16,0,1,1,16-16A16,16,0,0,1,200,216Z"/></svg></div><div class="portal-card-body"><div class="portal-card-title-row"><span class="portal-card-title">RapiFlow</span><span class="portal-card-arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M224.49,136.49l-72,72a12,12,0,0,1-17-17L187,140H40a12,12,0,0,1,0-24H187L135.51,64.48a12,12,0,0,1,17-17l72,72A12,12,0,0,1,224.49,136.49Z"/></svg></span></div><p class="portal-card-desc">Step through and run Arazzo workflows</p></div></a><a href="https://rapidocui.com/rapipdf/" class="portal-megamenu-card"><div class="portal-card-icon-box"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="24" height="24" fill="currentColor" aria-hidden="true"><path d="M208,88H152V32Z" opacity="0.2"/><path d="M224,152a8,8,0,0,1-8,8H192v16h16a8,8,0,0,1,0,16H192v16a8,8,0,0,1-16,0V152a8,8,0,0,1,8-8h32A8,8,0,0,1,224,152ZM92,172a28,28,0,0,1-28,28H56v8a8,8,0,0,1-16,0V152a8,8,0,0,1,8-8H64A28,28,0,0,1,92,172Zm-16,0a12,12,0,0,0-12-12H56v24h8A12,12,0,0,0,76,172Zm88,8a36,36,0,0,1-36,36H112a8,8,0,0,1-8-8V152a8,8,0,0,1,8-8h16A36,36,0,0,1,164,180Zm-16,0a20,20,0,0,0-20-20h-8v40h8A20,20,0,0,0,148,180ZM40,112V40A16,16,0,0,1,56,24h96a8,8,0,0,1,5.66,2.34l56,56A8,8,0,0,1,216,88v24a8,8,0,0,1-16,0V96H152a8,8,0,0,1-8-8V40H56v72a8,8,0,0,1-16,0ZM160,80h28.69L160,51.31Z"/></svg></div><div class="portal-card-body"><div class="portal-card-title-row"><span class="portal-card-title">RapiPdf</span><span class="portal-card-arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M224.49,136.49l-72,72a12,12,0,0,1-17-17L187,140H40a12,12,0,0,1,0-24H187L135.51,64.48a12,12,0,0,1,17-17l72,72A12,12,0,0,1,224.49,136.49Z"/></svg></span></div><p class="portal-card-desc">Turn an OpenAPI spec into a PDF</p></div></a><a href="https://rapidocui.com/cli/" class="portal-megamenu-card"><div class="portal-card-icon-box"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="24" height="24" fill="currentColor" aria-hidden="true"><path d="M216,80V192H40V64H200A16,16,0,0,1,216,80Z" opacity="0.2"/><path d="M117.31,134l-72,64a8,8,0,1,1-10.63-12L100,128,34.69,70A8,8,0,1,1,45.32,58l72,64a8,8,0,0,1,0,12ZM216,184H120a8,8,0,0,0,0,16h96a8,8,0,0,0,0-16Z"/></svg></div><div class="portal-card-body"><div class="portal-card-title-row"><span class="portal-card-title">RapiDoc CLI</span><span class="portal-card-arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M224.49,136.49l-72,72a12,12,0,0,1-17-17L187,140H40a12,12,0,0,1,0-24H187L135.51,64.48a12,12,0,0,1,17-17l72,72A12,12,0,0,1,224.49,136.49Z"/></svg></span></div><p class="portal-card-desc">Preview, validate, lint, bundle and export specs</p></div></a><a href="/docs/tools/mock-server" class="portal-megamenu-card"><div class="portal-card-icon-box"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="24" height="24" fill="currentColor" aria-hidden="true"><path d="M216,152v48a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V152a8,8,0,0,1,8-8H208A8,8,0,0,1,216,152ZM208,48H48a8,8,0,0,0-8,8v48a8,8,0,0,0,8,8H208a8,8,0,0,0,8-8V56A8,8,0,0,0,208,48Z" opacity="0.2"/><path d="M208,136H48a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V152A16,16,0,0,0,208,136Zm0,64H48V152H208v48Zm0-160H48A16,16,0,0,0,32,56v48a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V56A16,16,0,0,0,208,40Zm0,64H48V56H208v48ZM192,80a12,12,0,1,1-12-12A12,12,0,0,1,192,80Zm0,96a12,12,0,1,1-12-12A12,12,0,0,1,192,176Z"/></svg></div><div class="portal-card-body"><div class="portal-card-title-row"><span class="portal-card-title">Mock server</span><span class="portal-card-arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M224.49,136.49l-72,72a12,12,0,0,1-17-17L187,140H40a12,12,0,0,1,0-24H187L135.51,64.48a12,12,0,0,1,17-17l72,72A12,12,0,0,1,224.49,136.49Z"/></svg></span></div><p class="portal-card-desc">Answer requests from your specs, with real token checks</p></div></a><a href="/docs/tools/mcp-server" class="portal-megamenu-card"><div class="portal-card-icon-box"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="24" height="24" fill="currentColor" aria-hidden="true"><path d="M200,56H56A24,24,0,0,0,32,80V192a24,24,0,0,0,24,24H200a24,24,0,0,0,24-24V80A24,24,0,0,0,200,56ZM164,184H92a20,20,0,0,1,0-40h72a20,20,0,0,1,0,40Z" opacity="0.2"/><path d="M200,48H136V16a8,8,0,0,0-16,0V48H56A32,32,0,0,0,24,80V192a32,32,0,0,0,32,32H200a32,32,0,0,0,32-32V80A32,32,0,0,0,200,48Zm16,144a16,16,0,0,1-16,16H56a16,16,0,0,1-16-16V80A16,16,0,0,1,56,64H200a16,16,0,0,1,16,16ZM72,108a12,12,0,1,1,12,12A12,12,0,0,1,72,108Zm88,0a12,12,0,1,1,12,12A12,12,0,0,1,160,108Zm4,28H92a28,28,0,0,0,0,56h72a28,28,0,0,0,0-56Zm-24,16v24H116V152ZM80,164a12,12,0,0,1,12-12h8v24H92A12,12,0,0,1,80,164Zm84,12h-8V152h8a12,12,0,0,1,0,24Z"/></svg></div><div class="portal-card-body"><div class="portal-card-title-row"><span class="portal-card-title">MCP server</span><span class="portal-card-arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M224.49,136.49l-72,72a12,12,0,0,1-17-17L187,140H40a12,12,0,0,1,0-24H187L135.51,64.48a12,12,0,0,1,17-17l72,72A12,12,0,0,1,224.49,136.49Z"/></svg></span></div><p class="portal-card-desc">Turn your API into tools for AI agents</p></div></a><a href="https://rapidocui.com/docs/performance/prerender/" class="portal-megamenu-card"><div class="portal-card-icon-box"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="24" height="24" fill="currentColor" aria-hidden="true"><path d="M96,240l16-80L48,136,160,16,144,96l64,24Z" opacity="0.2"/><path d="M215.79,118.17a8,8,0,0,0-5-5.66L153.18,90.9l14.66-73.33a8,8,0,0,0-13.69-7l-112,120a8,8,0,0,0,3,13l57.63,21.61L88.16,238.43a8,8,0,0,0,13.69,7l112-120A8,8,0,0,0,215.79,118.17ZM109.37,214l10.47-52.38a8,8,0,0,0-5-9.06L62,132.71l84.62-90.66L136.16,94.43a8,8,0,0,0,5,9.06l52.8,19.8Z"/></svg></div><div class="portal-card-body"><div class="portal-card-title-row"><span class="portal-card-title">Pre-rendering</span><span class="portal-card-arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M224.49,136.49l-72,72a12,12,0,0,1-17-17L187,140H40a12,12,0,0,1,0-24H187L135.51,64.48a12,12,0,0,1,17-17l72,72A12,12,0,0,1,224.49,136.49Z"/></svg></span></div><p class="portal-card-desc">Server-rendered HTML for search engines and a fast first paint</p></div></a></div></div></div><a href="https://github.com/rapi-doc/RapiDoc" class="portal-nav-link" target="_blank" rel="noopener noreferrer">GitHub</a></nav><button type="button" class="portal-theme-btn" id="portal-theme-toggle" aria-label="Dark mode" aria-pressed="false"><span class="portal-theme-option portal-theme-light" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M116,36V20a12,12,0,0,1,24,0V36a12,12,0,0,1-24,0Zm80,92a68,68,0,1,1-68-68A68.07,68.07,0,0,1,196,128Zm-24,0a44,44,0,1,0-44,44A44.05,44.05,0,0,0,172,128ZM51.51,68.49a12,12,0,1,0,17-17l-12-12a12,12,0,0,0-17,17Zm0,119-12,12a12,12,0,0,0,17,17l12-12a12,12,0,1,0-17-17ZM196,72a12,12,0,0,0,8.49-3.51l12-12a12,12,0,0,0-17-17l-12,12A12,12,0,0,0,196,72Zm8.49,115.51a12,12,0,0,0-17,17l12,12a12,12,0,0,0,17-17ZM48,128a12,12,0,0,0-12-12H20a12,12,0,0,0,0,24H36A12,12,0,0,0,48,128Zm80,80a12,12,0,0,0-12,12v16a12,12,0,0,0,24,0V220A12,12,0,0,0,128,208Zm108-92H220a12,12,0,0,0,0,24h16a12,12,0,0,0,0-24Z"/></svg></span><span class="portal-theme-option portal-theme-dark" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M236.37,139.4a12,12,0,0,0-12-3A84.07,84.07,0,0,1,119.6,31.59a12,12,0,0,0-15-15A108.86,108.86,0,0,0,49.69,55.07,108,108,0,0,0,136,228a107.09,107.09,0,0,0,64.93-21.69,108.86,108.86,0,0,0,38.44-54.94A12,12,0,0,0,236.37,139.4Zm-49.88,47.74A84,84,0,0,1,68.86,69.51,84.93,84.93,0,0,1,92.27,48.29Q92,52.13,92,56A108.12,108.12,0,0,0,200,164q3.87,0,7.71-.27A84.79,84.79,0,0,1,186.49,187.14Z"/></svg></span></button><button type="button" class="portal-mobile-toggle" id="portal-mobile-menu-btn" aria-label="Menu" aria-expanded="false" aria-controls="portal-mobile-drawer"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="24" height="24" fill="currentColor" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/></svg></button><button type="button" class="portal-mobile-toggle portal-sidebar-toggle" popovertarget="starlight__sidebar" aria-label="Menu"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="24" height="24" fill="currentColor" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/></svg></button></div></div><!-- Row 2: section tabs --><nav class="portal-tabs" data-portal-region="header-tabs" aria-label="Sections"><a href="/docs/getting-started/introduction/" class="portal-tab" aria-current="page"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M208,24H72A32,32,0,0,0,40,56V224a8,8,0,0,0,8,8H192a8,8,0,0,0,0-16H56a16,16,0,0,1,16-16H208a8,8,0,0,0,8-8V32A8,8,0,0,0,208,24Zm-8,160H72a31.82,31.82,0,0,0-16,4.29V56A16,16,0,0,1,72,40H200Z"/></svg><span>Documentation</span></a><a href="/docs/reference/cli/" class="portal-tab"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M80,64a8,8,0,0,1,8-8H216a8,8,0,0,1,0,16H88A8,8,0,0,1,80,64Zm136,56H88a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Zm0,64H88a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16ZM44,52A12,12,0,1,0,56,64,12,12,0,0,0,44,52Zm0,64a12,12,0,1,0,12,12A12,12,0,0,0,44,116Zm0,64a12,12,0,1,0,12,12A12,12,0,0,0,44,180Z"/></svg><span>Reference</span></a><a href="/apis/bookstore" class="portal-tab"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M69.12,94.15,28.5,128l40.62,33.85a8,8,0,1,1-10.24,12.29l-48-40a8,8,0,0,1,0-12.29l48-40a8,8,0,0,1,10.24,12.3Zm176,27.7-48-40a8,8,0,1,0-10.24,12.3L227.5,128l-40.62,33.85a8,8,0,1,0,10.24,12.29l48-40a8,8,0,0,0,0-12.29ZM162.73,32.48a8,8,0,0,0-10.25,4.79l-64,176a8,8,0,0,0,4.79,10.26A8.14,8.14,0,0,0,96,224a8,8,0,0,0,7.52-5.27l64-176A8,8,0,0,0,162.73,32.48Z"/></svg><span>Example API</span></a></nav><!-- Mobile Drawer --><div class="portal-mobile-drawer" id="portal-mobile-drawer" hidden><div class="portal-mobile-nav"><nav class="portal-mobile-tabs" aria-label="Sections"><a href="/docs/getting-started/introduction/" class="portal-mobile-tab" aria-current="page"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M208,24H72A32,32,0,0,0,40,56V224a8,8,0,0,0,8,8H192a8,8,0,0,0,0-16H56a16,16,0,0,1,16-16H208a8,8,0,0,0,8-8V32A8,8,0,0,0,208,24Zm-8,160H72a31.82,31.82,0,0,0-16,4.29V56A16,16,0,0,1,72,40H200Z"/></svg><span>Documentation</span></a><a href="/docs/reference/cli/" class="portal-mobile-tab"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M80,64a8,8,0,0,1,8-8H216a8,8,0,0,1,0,16H88A8,8,0,0,1,80,64Zm136,56H88a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Zm0,64H88a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16ZM44,52A12,12,0,1,0,56,64,12,12,0,0,0,44,52Zm0,64a12,12,0,1,0,12,12A12,12,0,0,0,44,116Zm0,64a12,12,0,1,0,12,12A12,12,0,0,0,44,180Z"/></svg><span>Reference</span></a><a href="/apis/bookstore" class="portal-mobile-tab"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M69.12,94.15,28.5,128l40.62,33.85a8,8,0,1,1-10.24,12.29l-48-40a8,8,0,0,1,0-12.29l48-40a8,8,0,0,1,10.24,12.3Zm176,27.7-48-40a8,8,0,1,0-10.24,12.3L227.5,128l-40.62,33.85a8,8,0,1,0,10.24,12.29l48-40a8,8,0,0,0,0-12.29ZM162.73,32.48a8,8,0,0,0-10.25,4.79l-64,176a8,8,0,0,0,4.79,10.26A8.14,8.14,0,0,0,96,224a8,8,0,0,0,7.52-5.27l64-176A8,8,0,0,0,162.73,32.48Z"/></svg><span>Example API</span></a></nav><div class="portal-mobile-links-group"><div class="portal-mobile-section"><div class="portal-mobile-section-title">Ecosystem</div><div class="portal-mobile-links"><a href="https://rapidocui.com/docs/" class="portal-mobile-item" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true" class="portal-mobile-icon"><path d="M181.66,146.34a8,8,0,0,1,0,11.32l-24,24a8,8,0,0,1-11.32-11.32L164.69,152l-18.35-18.34a8,8,0,0,1,11.32-11.32Zm-72-24a8,8,0,0,0-11.32,0l-24,24a8,8,0,0,0,0,11.32l24,24a8,8,0,0,0,11.32-11.32L91.31,152l18.35-18.34A8,8,0,0,0,109.66,122.34ZM216,88V216a16,16,0,0,1-16,16H56a16,16,0,0,1-16-16V40A16,16,0,0,1,56,24h96a8,8,0,0,1,5.66,2.34l56,56A8,8,0,0,1,216,88Zm-56-8h28.69L160,51.31Zm40,136V96H152a8,8,0,0,1-8-8V40H56V216H200Z"/></svg><span>RapiDoc</span></a><a href="https://rapidocui.com/rapidoc-mini/" class="portal-mobile-item" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true" class="portal-mobile-icon"><path d="M220.27,158.54a8,8,0,0,0-7.7-.46,20,20,0,1,1,0-36.16A8,8,0,0,0,224,114.69V72a16,16,0,0,0-16-16H171.78a35.36,35.36,0,0,0,.22-4,36.11,36.11,0,0,0-11.36-26.24,36,36,0,0,0-60.55,23.62,36.56,36.56,0,0,0,.14,6.62H64A16,16,0,0,0,48,72v32.22a35.36,35.36,0,0,0-4-.22,36.12,36.12,0,0,0-26.24,11.36,35.7,35.7,0,0,0-9.69,27,36.08,36.08,0,0,0,33.31,33.6,35.68,35.68,0,0,0,6.62-.14V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V165.31A8,8,0,0,0,220.27,158.54ZM208,208H64V165.31a8,8,0,0,0-11.43-7.23,20,20,0,1,1,0-36.16A8,8,0,0,0,64,114.69V72h46.69a8,8,0,0,0,7.23-11.43,20,20,0,1,1,36.16,0A8,8,0,0,0,161.31,72H208v32.23a35.68,35.68,0,0,0-6.62-.14A36,36,0,0,0,204,176a35.36,35.36,0,0,0,4-.22Z"/></svg><span>RapiDoc Mini</span></a><a href="https://rapidocui.com/rapi-flow/" class="portal-mobile-item" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true" class="portal-mobile-icon"><path d="M200,168a32.06,32.06,0,0,0-31,24H72a32,32,0,0,1,0-64h96a40,40,0,0,0,0-80H72a8,8,0,0,0,0,16h96a24,24,0,0,1,0,48H72a48,48,0,0,0,0,96h97a32,32,0,1,0,31-40Zm0,48a16,16,0,1,1,16-16A16,16,0,0,1,200,216Z"/></svg><span>RapiFlow</span></a><a href="https://rapidocui.com/rapipdf/" class="portal-mobile-item" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true" class="portal-mobile-icon"><path d="M224,152a8,8,0,0,1-8,8H192v16h16a8,8,0,0,1,0,16H192v16a8,8,0,0,1-16,0V152a8,8,0,0,1,8-8h32A8,8,0,0,1,224,152ZM92,172a28,28,0,0,1-28,28H56v8a8,8,0,0,1-16,0V152a8,8,0,0,1,8-8H64A28,28,0,0,1,92,172Zm-16,0a12,12,0,0,0-12-12H56v24h8A12,12,0,0,0,76,172Zm88,8a36,36,0,0,1-36,36H112a8,8,0,0,1-8-8V152a8,8,0,0,1,8-8h16A36,36,0,0,1,164,180Zm-16,0a20,20,0,0,0-20-20h-8v40h8A20,20,0,0,0,148,180ZM40,112V40A16,16,0,0,1,56,24h96a8,8,0,0,1,5.66,2.34l56,56A8,8,0,0,1,216,88v24a8,8,0,0,1-16,0V96H152a8,8,0,0,1-8-8V40H56v72a8,8,0,0,1-16,0ZM160,80h28.69L160,51.31Z"/></svg><span>RapiPdf</span></a><a href="https://rapidocui.com/cli/" class="portal-mobile-item" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true" class="portal-mobile-icon"><path d="M117.31,134l-72,64a8,8,0,1,1-10.63-12L100,128,34.69,70A8,8,0,1,1,45.32,58l72,64a8,8,0,0,1,0,12ZM216,184H120a8,8,0,0,0,0,16h96a8,8,0,0,0,0-16Z"/></svg><span>RapiDoc CLI</span></a><a href="/docs/tools/mock-server" class="portal-mobile-item"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true" class="portal-mobile-icon"><path d="M208,136H48a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V152A16,16,0,0,0,208,136Zm0,64H48V152H208v48Zm0-160H48A16,16,0,0,0,32,56v48a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V56A16,16,0,0,0,208,40Zm0,64H48V56H208v48ZM192,80a12,12,0,1,1-12-12A12,12,0,0,1,192,80Zm0,96a12,12,0,1,1-12-12A12,12,0,0,1,192,176Z"/></svg><span>Mock server</span></a><a href="/docs/tools/mcp-server" class="portal-mobile-item"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true" class="portal-mobile-icon"><path d="M200,48H136V16a8,8,0,0,0-16,0V48H56A32,32,0,0,0,24,80V192a32,32,0,0,0,32,32H200a32,32,0,0,0,32-32V80A32,32,0,0,0,200,48Zm16,144a16,16,0,0,1-16,16H56a16,16,0,0,1-16-16V80A16,16,0,0,1,56,64H200a16,16,0,0,1,16,16Zm-52-56H92a28,28,0,0,0,0,56h72a28,28,0,0,0,0-56Zm-24,16v24H116V152ZM80,164a12,12,0,0,1,12-12h8v24H92A12,12,0,0,1,80,164Zm84,12h-8V152h8a12,12,0,0,1,0,24ZM72,108a12,12,0,1,1,12,12A12,12,0,0,1,72,108Zm88,0a12,12,0,1,1,12,12A12,12,0,0,1,160,108Z"/></svg><span>MCP server</span></a><a href="https://rapidocui.com/docs/performance/prerender/" class="portal-mobile-item" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true" class="portal-mobile-icon"><path d="M215.79,118.17a8,8,0,0,0-5-5.66L153.18,90.9l14.66-73.33a8,8,0,0,0-13.69-7l-112,120a8,8,0,0,0,3,13l57.63,21.61L88.16,238.43a8,8,0,0,0,13.69,7l112-120A8,8,0,0,0,215.79,118.17ZM109.37,214l10.47-52.38a8,8,0,0,0-5-9.06L62,132.71l84.62-90.66L136.16,94.43a8,8,0,0,0,5,9.06l52.8,19.8Z"/></svg><span>Pre-rendering</span></a></div></div><a href="https://github.com/rapi-doc/RapiDoc" class="portal-mobile-direct-link" target="_blank" rel="noopener noreferrer">GitHub</a></div></div></div></header><!-- Full-Text Search Modal (⌘K / Ctrl+K) --><div id="portal-search-modal" data-base="/" class="portal-search-modal-backdrop hidden" role="dialog" aria-modal="true" aria-label="Search Documentation"><div class="portal-search-modal-dialog"><div class="portal-search-modal-header"><span class="portal-search-modal-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="24" height="24" fill="currentColor" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg></span><input type="search" class="portal-search-modal-input" placeholder="Search documentation, guides, and APIs..." aria-label="Search" autocomplete="off" spellcheck="false"><button class="portal-search-modal-close" aria-label="Close search"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M208.49,191.51a12,12,0,0,1-17,17L128,145,64.49,208.49a12,12,0,0,1-17-17L111,128,47.51,64.49a12,12,0,0,1,17-17L128,111l63.51-63.52a12,12,0,0,1,17,17L145,128Z"/></svg></button></div><div class="portal-search-modal-filters"><button type="button" class="portal-search-filter-btn active" data-filter="all">All</button><button type="button" class="portal-search-filter-btn" data-filter="doc">Guides & Docs</button><button type="button" class="portal-search-filter-btn" data-filter="api">API Operations</button></div><div class="portal-search-modal-body"><div class="portal-search-modal-results" role="listbox"></div><div class="portal-search-modal-empty hidden">No results found for "<span class="portal-search-empty-query"></span>"</div><div class="portal-search-modal-hint">Type keywords to search across guides, tutorials, and APIs...</div></div><div class="portal-search-modal-footer"><div class="portal-search-footer-hint"><kbd class="portal-kbd">↑</kbd><kbd class="portal-kbd">↓</kbd> <span>Navigate</span></div><div class="portal-search-footer-hint"><kbd class="portal-kbd">↵</kbd> <span>Select</span></div><div class="portal-search-footer-hint"><kbd class="portal-kbd">ESC</kbd> <span>Close</span></div></div></div></div><script>
+  (function () {
+    const modal = document.getElementById('portal-search-modal');
+    if (!modal) return;
+
+    const input = modal.querySelector('.portal-search-modal-input');
+    const closeBtn = modal.querySelector('.portal-search-modal-close');
+    const resultsContainer = modal.querySelector('.portal-search-modal-results');
+    const emptyState = modal.querySelector('.portal-search-modal-empty');
+    const emptyQuerySpan = modal.querySelector('.portal-search-empty-query');
+    const hintState = modal.querySelector('.portal-search-modal-hint');
+    const filterBtns = modal.querySelectorAll('.portal-search-filter-btn');
+
+    // Paths in the search index are relative to the portal; the portal may be served under a base path.
+    const base = (modal.dataset.base || '/').replace(/\/+$/, '');
+    const withBase = (url) => (url && url.startsWith('/') && !url.startsWith('//') ? base + url : url);
+
+    let searchRecords = null;
+    let isLoading = false;
+    let activeFilter = 'all';
+    let currentResults = [];
+    let selectedIndex = 0;
+
+    async function loadSearchIndex() {
+      if (searchRecords || isLoading) return;
+      isLoading = true;
+      try {
+        const candidateUrls = [withBase('/search-index.json')];
+        for (const url of candidateUrls) {
+          try {
+            const res = await fetch(url);
+            if (res.ok) {
+              const data = await res.json();
+              searchRecords = data.records || [];
+              break;
+            }
+          } catch {}
+        }
+      } catch (err) {
+        console.warn('Failed to load search index:', err);
+      } finally {
+        isLoading = false;
+      }
+    }
+
+    function openModal() {
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      loadSearchIndex();
+      setTimeout(() => {
+        if (input) {
+          input.focus();
+          if (input.value) {
+            performSearch(input.value);
+          }
+        }
+      }, 50);
+    }
+
+    function closeModal() {
+      modal.classList.add('hidden');
+      document.body.style.overflow = '';
+      if (input) input.value = '';
+      if (resultsContainer) resultsContainer.innerHTML = '';
+      if (emptyState) emptyState.classList.add('hidden');
+      if (hintState) hintState.classList.remove('hidden');
+      selectedIndex = 0;
+    }
+
+    // Keyboard trigger: ⌘K or Ctrl+K or / (when not typing in an input)
+    document.addEventListener('keydown', (e) => {
+      const isCmdK = (e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k';
+      const isSlash = e.key === '/' && !['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName);
+
+      if (isCmdK || isSlash) {
+        e.preventDefault();
+        if (modal.classList.contains('hidden')) {
+          openModal();
+        } else {
+          closeModal();
+        }
+      } else if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+        e.preventDefault();
+        closeModal();
+      }
+    });
+
+    // Listen for search button click in header
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('#portal-search-btn, .portal-search-trigger')) {
+        e.preventDefault();
+        openModal();
+      }
+    });
+
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    filterBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeFilter = btn.getAttribute('data-filter') || 'all';
+        if (input && input.value) {
+          performSearch(input.value);
+        }
+      });
+    });
+
+    function performSearch(query) {
+      const q = query.toLowerCase().trim();
+      if (!q) {
+        resultsContainer.innerHTML = '';
+        emptyState.classList.add('hidden');
+        hintState.classList.remove('hidden');
+        currentResults = [];
+        selectedIndex = 0;
+        return;
+      }
+
+      hintState.classList.add('hidden');
+
+      if (!searchRecords || !searchRecords.length) {
+        resultsContainer.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        if (emptyQuerySpan) emptyQuerySpan.textContent = query;
+        return;
+      }
+
+      const tokens = q.split(/\\s+/).filter(Boolean);
+      const scored = [];
+
+      for (const record of searchRecords) {
+        if (activeFilter !== 'all' && record.type !== activeFilter) {
+          continue;
+        }
+
+        const titleLower = (record.title || '').toLowerCase();
+        const subtitleLower = (record.subtitle || '').toLowerCase();
+        const endpointLower = (record.endpoint || '').toLowerCase();
+        const methodLower = (record.method || '').toLowerCase();
+        const categoryLower = (record.category || '').toLowerCase();
+        const contentLower = (record.content || '').toLowerCase();
+
+        let score = 0;
+        let matchesAllTokens = true;
+
+        for (const token of tokens) {
+          let tokenMatched = false;
+          if (titleLower.includes(token)) {
+            score += titleLower.startsWith(token) ? 25 : 15;
+            tokenMatched = true;
+          }
+          if (endpointLower.includes(token)) {
+            score += endpointLower.startsWith(token) ? 20 : 12;
+            tokenMatched = true;
+          }
+          if (subtitleLower.includes(token)) {
+            score += 10;
+            tokenMatched = true;
+          }
+          if (methodLower === token) {
+            score += 15;
+            tokenMatched = true;
+          }
+          if (categoryLower.includes(token)) {
+            score += 8;
+            tokenMatched = true;
+          }
+          if (contentLower.includes(token)) {
+            score += 4;
+            tokenMatched = true;
+          }
+
+          if (!tokenMatched) {
+            matchesAllTokens = false;
+            break;
+          }
+        }
+
+        if (matchesAllTokens && score > 0) {
+          if (titleLower === q || endpointLower === q) score += 30;
+          scored.push({ ...record, score });
+        }
+      }
+
+      scored.sort((a, b) => b.score - a.score);
+      currentResults = scored.slice(0, 15);
+      selectedIndex = 0;
+      renderResults(currentResults, tokens, query);
+    }
+
+    function highlightText(text, tokens) {
+      if (!text) return '';
+      let escaped = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      for (const token of tokens) {
+        if (!token) continue;
+        const re = new RegExp('(' + token.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&') + ')', 'gi');
+        escaped = escaped.replace(re, '<mark class="portal-search-match">$1</mark>');
+      }
+      return escaped;
+    }
+
+    function renderResults(results, tokens, query) {
+      resultsContainer.innerHTML = '';
+      if (!results.length) {
+        emptyState.classList.remove('hidden');
+        if (emptyQuerySpan) emptyQuerySpan.textContent = query;
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+
+      results.forEach((item, idx) => {
+        const link = document.createElement('a');
+        link.href = withBase(item.url);
+        link.className = 'portal-search-result-item ' + (idx === selectedIndex ? 'selected' : '');
+        link.setAttribute('role', 'option');
+        link.setAttribute('data-index', idx);
+
+        let badgeHtml = '';
+        if (item.type === 'api' && item.method) {
+          const methodClass = 'method-' + item.method.toLowerCase();
+          badgeHtml = '<span class="portal-search-badge ' + methodClass + '">' + item.method + '</span>';
+        } else {
+          badgeHtml = '<span class="portal-search-badge badge-doc">DOC</span>';
+        }
+
+        const titleHtml = highlightText(item.title, tokens);
+        const endpointHtml = item.endpoint
+          ? '<span class="portal-search-result-endpoint">' + highlightText(item.endpoint, tokens) + '</span>'
+          : '';
+        const snippetHtml = item.content ? highlightText(item.content.slice(0, 140) + '...', tokens) : '';
+
+        link.innerHTML =
+          '<div class="portal-search-result-header">' +
+          badgeHtml +
+          '<span>' + titleHtml + '</span>' +
+          endpointHtml +
+          '<span class="portal-search-result-category">' + (item.category || '') + '</span>' +
+          '</div>' +
+          (snippetHtml ? '<div class="portal-search-result-snippet">' + snippetHtml + '</div>' : '');
+
+        link.addEventListener('click', closeModal);
+        resultsContainer.appendChild(link);
+      });
+    }
+
+    function updateSelection(newIdx) {
+      const items = resultsContainer.querySelectorAll('.portal-search-result-item');
+      if (!items.length) return;
+      if (newIdx < 0) newIdx = items.length - 1;
+      if (newIdx >= items.length) newIdx = 0;
+      selectedIndex = newIdx;
+      items.forEach((it, i) => {
+        if (i === selectedIndex) {
+          it.classList.add('selected');
+          it.scrollIntoView({ block: 'nearest' });
+        } else {
+          it.classList.remove('selected');
+        }
+      });
+    }
+
+    if (input) {
+      input.addEventListener('input', (e) => performSearch(e.target.value));
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          updateSelection(selectedIndex + 1);
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          updateSelection(selectedIndex - 1);
+        } else if (e.key === 'Enter') {
+          e.preventDefault();
+          if (currentResults[selectedIndex]) {
+            const url = currentResults[selectedIndex].url;
+            closeModal();
+            window.location.href = withBase(url);
+          }
+        }
+      });
+    }
+  })();
+</script><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // 1. Theme switcher: a toggle button, pressed while the dark theme is on
+    const themeBtn = document.getElementById('portal-theme-toggle');
+    if (themeBtn) {
+      const root = document.documentElement;
+      const sync = () => themeBtn.setAttribute('aria-pressed', String(root.getAttribute('data-theme') !== 'light'));
+      sync();
+      themeBtn.addEventListener('click', () => {
+        const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        root.setAttribute('data-theme', next);
+        try {
+          localStorage.setItem('starlight-theme', next);
+        } catch {}
+        sync();
+      });
+    }
+
+    // 2. Announcement Dismissal
+    const closeAnnounce = document.getElementById('portal-announcement-close');
+    const announceBar = document.getElementById('portal-announcement');
+    if (closeAnnounce && announceBar) {
+      // The class hides the bar and sets --portal-banner-height to 0 (portal-theme.css).
+      closeAnnounce.addEventListener('click', () => {
+        document.documentElement.classList.add('portal-announcement-dismissed');
+        // Remembered across reloads and visits until the announcement changes.
+        try {
+          localStorage.setItem(`portal-announcement-dismissed:${announceBar.dataset.bannerKey}`, '1');
+        } catch {}
+      });
+    }
+
+    // 3. Search Trigger (⌘K)
+    const searchBtn = document.getElementById('portal-search-btn');
+    if (searchBtn) {
+      searchBtn.addEventListener('click', () => {
+        const slSearch = document.querySelector('button[data-open-modal]');
+        if (slSearch) {
+          slSearch.click();
+        } else {
+          const rapiDoc = document.querySelector('rapi-doc');
+          if (rapiDoc && typeof rapiDoc.openSearchDialog === 'function') {
+            rapiDoc.openSearchDialog();
+          } else {
+            window.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', metaKey: true, bubbles: true }));
+          }
+        }
+      });
+    }
+
+    // 4. Dropdown menus (WAI-ARIA disclosure navigation): the trigger button toggles its panel, and
+    // hovering opens it for the mouse. Keyboard: Enter/Space toggle, ArrowDown opens the menu and moves
+    // to the next link, ArrowUp/Home/End move between links, Escape closes the menu and returns to its
+    // trigger, and tabbing out closes it. ArrowLeft/ArrowRight move between the top-level items.
+    const navMenu = document.querySelector('.portal-nav-menu');
+    const wrappers = [...document.querySelectorAll('.portal-dropdown-wrapper')];
+    const triggerOf = (wrapper) => wrapper.querySelector('.portal-dropdown-trigger');
+    const isOpen = (wrapper) => wrapper.classList.contains('is-open');
+    const setOpen = (wrapper, open) => {
+      wrapper.classList.toggle('is-open', open);
+      triggerOf(wrapper).setAttribute('aria-expanded', String(open));
+    };
+    const closeAll = (except) => wrappers.forEach((wrapper) => wrapper !== except && setOpen(wrapper, false));
+
+    wrappers.forEach((wrapper) => {
+      const trigger = triggerOf(wrapper);
+      wrapper.addEventListener('mouseenter', () => closeAll(wrapper));
+      trigger.addEventListener('click', () => {
+        const open = !isOpen(wrapper);
+        closeAll(wrapper);
+        setOpen(wrapper, open);
+      });
+      wrapper.addEventListener('keydown', (e) => {
+        const links = [...wrapper.querySelectorAll('.portal-megamenu-panel a')];
+        const index = links.indexOf(document.activeElement);
+        let next;
+        if (e.key === 'Escape') {
+          if (!isOpen(wrapper)) return;
+          setOpen(wrapper, false);
+          trigger.focus();
+        } else if (e.key === 'ArrowDown') {
+          if (!isOpen(wrapper)) {
+            closeAll(wrapper);
+            setOpen(wrapper, true);
+          }
+          next = links[(index + 1) % links.length];
+        } else if (index !== -1 && e.key === 'ArrowUp') {
+          next = links[(index - 1 + links.length) % links.length];
+        } else if (index !== -1 && e.key === 'Home') {
+          next = links[0];
+        } else if (index !== -1 && e.key === 'End') {
+          next = links[links.length - 1];
+        } else {
+          return;
+        }
+        e.preventDefault();
+        next?.focus();
+      });
+      wrapper.addEventListener('focusout', (e) => {
+        if (!wrapper.contains(e.relatedTarget)) setOpen(wrapper, false);
+      });
+    });
+
+    if (navMenu) {
+      navMenu.addEventListener('keydown', (e) => {
+        if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+        const items = [...navMenu.querySelectorAll(':scope > a, :scope > .portal-dropdown-wrapper > .portal-dropdown-trigger')];
+        const index = items.indexOf(document.activeElement);
+        if (index === -1) return;
+        e.preventDefault();
+        items[(index + (e.key === 'ArrowRight' ? 1 : items.length - 1)) % items.length].focus();
+      });
+      navMenu.addEventListener('mouseleave', () => closeAll());
+      navMenu.querySelectorAll(':scope > a').forEach((link) => link.addEventListener('mouseenter', () => closeAll()));
+    }
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.portal-dropdown-wrapper')) closeAll();
+    });
+
+    // 5. Menu drawer (narrow screens without a sidebar): closes on Escape and when a link is chosen
+    const mobileBtn = document.getElementById('portal-mobile-menu-btn');
+    const mobileDrawer = document.getElementById('portal-mobile-drawer');
+    if (mobileBtn && mobileDrawer) {
+      const setDrawer = (open) => {
+        mobileDrawer.hidden = !open;
+        mobileBtn.setAttribute('aria-expanded', String(open));
+      };
+      mobileBtn.addEventListener('click', () => setDrawer(mobileDrawer.hidden));
+      mobileDrawer.addEventListener('click', (e) => {
+        if (e.target.closest('a')) setDrawer(false);
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !mobileDrawer.hidden) {
+          setDrawer(false);
+          mobileBtn.focus();
+        }
+      });
+    }
+  });
+</script><div class="portal-shell astro-bx4ddj32"><nav class="sidebar print:hidden astro-bx4ddj32" aria-label="Main"><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,e=>this.trapFocus(e.newState===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .portal-footer-root, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-bx4ddj32" data-portal-region="sidebar"><div class="sidebar-content sl-flex astro-bx4ddj32"><div class="portal-sidebar-header-links md:sl-hidden astro-qzwbwvs4"><div class="portal-mobile-nav"><nav class="portal-mobile-tabs" aria-label="Sections"><a href="/docs/getting-started/introduction/" class="portal-mobile-tab" aria-current="page"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M208,24H72A32,32,0,0,0,40,56V224a8,8,0,0,0,8,8H192a8,8,0,0,0,0-16H56a16,16,0,0,1,16-16H208a8,8,0,0,0,8-8V32A8,8,0,0,0,208,24Zm-8,160H72a31.82,31.82,0,0,0-16,4.29V56A16,16,0,0,1,72,40H200Z"/></svg><span>Documentation</span></a><a href="/docs/reference/cli/" class="portal-mobile-tab"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M80,64a8,8,0,0,1,8-8H216a8,8,0,0,1,0,16H88A8,8,0,0,1,80,64Zm136,56H88a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Zm0,64H88a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16ZM44,52A12,12,0,1,0,56,64,12,12,0,0,0,44,52Zm0,64a12,12,0,1,0,12,12A12,12,0,0,0,44,116Zm0,64a12,12,0,1,0,12,12A12,12,0,0,0,44,180Z"/></svg><span>Reference</span></a><a href="/apis/bookstore" class="portal-mobile-tab"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M69.12,94.15,28.5,128l40.62,33.85a8,8,0,1,1-10.24,12.29l-48-40a8,8,0,0,1,0-12.29l48-40a8,8,0,0,1,10.24,12.3Zm176,27.7-48-40a8,8,0,1,0-10.24,12.3L227.5,128l-40.62,33.85a8,8,0,1,0,10.24,12.29l48-40a8,8,0,0,0,0-12.29ZM162.73,32.48a8,8,0,0,0-10.25,4.79l-64,176a8,8,0,0,0,4.79,10.26A8.14,8.14,0,0,0,96,224a8,8,0,0,0,7.52-5.27l64-176A8,8,0,0,0,162.73,32.48Z"/></svg><span>Example API</span></a></nav><div class="portal-mobile-links-group"><div class="portal-mobile-section"><div class="portal-mobile-section-title">Ecosystem</div><div class="portal-mobile-links"><a href="https://rapidocui.com/docs/" class="portal-mobile-item" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true" class="portal-mobile-icon"><path d="M181.66,146.34a8,8,0,0,1,0,11.32l-24,24a8,8,0,0,1-11.32-11.32L164.69,152l-18.35-18.34a8,8,0,0,1,11.32-11.32Zm-72-24a8,8,0,0,0-11.32,0l-24,24a8,8,0,0,0,0,11.32l24,24a8,8,0,0,0,11.32-11.32L91.31,152l18.35-18.34A8,8,0,0,0,109.66,122.34ZM216,88V216a16,16,0,0,1-16,16H56a16,16,0,0,1-16-16V40A16,16,0,0,1,56,24h96a8,8,0,0,1,5.66,2.34l56,56A8,8,0,0,1,216,88Zm-56-8h28.69L160,51.31Zm40,136V96H152a8,8,0,0,1-8-8V40H56V216H200Z"/></svg><span>RapiDoc</span></a><a href="https://rapidocui.com/rapidoc-mini/" class="portal-mobile-item" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true" class="portal-mobile-icon"><path d="M220.27,158.54a8,8,0,0,0-7.7-.46,20,20,0,1,1,0-36.16A8,8,0,0,0,224,114.69V72a16,16,0,0,0-16-16H171.78a35.36,35.36,0,0,0,.22-4,36.11,36.11,0,0,0-11.36-26.24,36,36,0,0,0-60.55,23.62,36.56,36.56,0,0,0,.14,6.62H64A16,16,0,0,0,48,72v32.22a35.36,35.36,0,0,0-4-.22,36.12,36.12,0,0,0-26.24,11.36,35.7,35.7,0,0,0-9.69,27,36.08,36.08,0,0,0,33.31,33.6,35.68,35.68,0,0,0,6.62-.14V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V165.31A8,8,0,0,0,220.27,158.54ZM208,208H64V165.31a8,8,0,0,0-11.43-7.23,20,20,0,1,1,0-36.16A8,8,0,0,0,64,114.69V72h46.69a8,8,0,0,0,7.23-11.43,20,20,0,1,1,36.16,0A8,8,0,0,0,161.31,72H208v32.23a35.68,35.68,0,0,0-6.62-.14A36,36,0,0,0,204,176a35.36,35.36,0,0,0,4-.22Z"/></svg><span>RapiDoc Mini</span></a><a href="https://rapidocui.com/rapi-flow/" class="portal-mobile-item" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true" class="portal-mobile-icon"><path d="M200,168a32.06,32.06,0,0,0-31,24H72a32,32,0,0,1,0-64h96a40,40,0,0,0,0-80H72a8,8,0,0,0,0,16h96a24,24,0,0,1,0,48H72a48,48,0,0,0,0,96h97a32,32,0,1,0,31-40Zm0,48a16,16,0,1,1,16-16A16,16,0,0,1,200,216Z"/></svg><span>RapiFlow</span></a><a href="https://rapidocui.com/rapipdf/" class="portal-mobile-item" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true" class="portal-mobile-icon"><path d="M224,152a8,8,0,0,1-8,8H192v16h16a8,8,0,0,1,0,16H192v16a8,8,0,0,1-16,0V152a8,8,0,0,1,8-8h32A8,8,0,0,1,224,152ZM92,172a28,28,0,0,1-28,28H56v8a8,8,0,0,1-16,0V152a8,8,0,0,1,8-8H64A28,28,0,0,1,92,172Zm-16,0a12,12,0,0,0-12-12H56v24h8A12,12,0,0,0,76,172Zm88,8a36,36,0,0,1-36,36H112a8,8,0,0,1-8-8V152a8,8,0,0,1,8-8h16A36,36,0,0,1,164,180Zm-16,0a20,20,0,0,0-20-20h-8v40h8A20,20,0,0,0,148,180ZM40,112V40A16,16,0,0,1,56,24h96a8,8,0,0,1,5.66,2.34l56,56A8,8,0,0,1,216,88v24a8,8,0,0,1-16,0V96H152a8,8,0,0,1-8-8V40H56v72a8,8,0,0,1-16,0ZM160,80h28.69L160,51.31Z"/></svg><span>RapiPdf</span></a><a href="https://rapidocui.com/cli/" class="portal-mobile-item" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true" class="portal-mobile-icon"><path d="M117.31,134l-72,64a8,8,0,1,1-10.63-12L100,128,34.69,70A8,8,0,1,1,45.32,58l72,64a8,8,0,0,1,0,12ZM216,184H120a8,8,0,0,0,0,16h96a8,8,0,0,0,0-16Z"/></svg><span>RapiDoc CLI</span></a><a href="/docs/tools/mock-server" class="portal-mobile-item"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true" class="portal-mobile-icon"><path d="M208,136H48a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V152A16,16,0,0,0,208,136Zm0,64H48V152H208v48Zm0-160H48A16,16,0,0,0,32,56v48a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V56A16,16,0,0,0,208,40Zm0,64H48V56H208v48ZM192,80a12,12,0,1,1-12-12A12,12,0,0,1,192,80Zm0,96a12,12,0,1,1-12-12A12,12,0,0,1,192,176Z"/></svg><span>Mock server</span></a><a href="/docs/tools/mcp-server" class="portal-mobile-item"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true" class="portal-mobile-icon"><path d="M200,48H136V16a8,8,0,0,0-16,0V48H56A32,32,0,0,0,24,80V192a32,32,0,0,0,32,32H200a32,32,0,0,0,32-32V80A32,32,0,0,0,200,48Zm16,144a16,16,0,0,1-16,16H56a16,16,0,0,1-16-16V80A16,16,0,0,1,56,64H200a16,16,0,0,1,16,16Zm-52-56H92a28,28,0,0,0,0,56h72a28,28,0,0,0,0-56Zm-24,16v24H116V152ZM80,164a12,12,0,0,1,12-12h8v24H92A12,12,0,0,1,80,164Zm84,12h-8V152h8a12,12,0,0,1,0,24ZM72,108a12,12,0,1,1,12,12A12,12,0,0,1,72,108Zm88,0a12,12,0,1,1,12,12A12,12,0,0,1,160,108Z"/></svg><span>MCP server</span></a><a href="https://rapidocui.com/docs/performance/prerender/" class="portal-mobile-item" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true" class="portal-mobile-icon"><path d="M215.79,118.17a8,8,0,0,0-5-5.66L153.18,90.9l14.66-73.33a8,8,0,0,0-13.69-7l-112,120a8,8,0,0,0,3,13l57.63,21.61L88.16,238.43a8,8,0,0,0,13.69,7l112-120A8,8,0,0,0,215.79,118.17ZM109.37,214l10.47-52.38a8,8,0,0,0-5-9.06L62,132.71l84.62-90.66L136.16,94.43a8,8,0,0,0,5,9.06l52.8,19.8Z"/></svg><span>Pre-rendering</span></a></div></div><a href="https://github.com/rapi-doc/RapiDoc" class="portal-mobile-direct-link" target="_blank" rel="noopener noreferrer">GitHub</a></div></div></div><sl-sidebar-state-persist data-hash="0bd3n7x" class="astro-vocgexmu"><script aria-hidden="true">
+		(() => {
+			try {
+				if (!matchMedia('(min-width: 50em)').matches) return;
+				/** @type {HTMLElement | null} */
+				const target = document.querySelector('sl-sidebar-state-persist');
+				const state = JSON.parse(sessionStorage.getItem('sl-sidebar-state') || '0');
+				if (!target || !state || target.dataset.hash !== state.hash) return;
+				window._starlightScrollRestore = state.scroll;
+				customElements.define(
+					'sl-sidebar-restore',
+					class SidebarRestore extends HTMLElement {
+						connectedCallback() {
+							try {
+								const idx = parseInt(this.dataset.index || '');
+								const details = this.closest('details');
+								if (details && typeof state.open[idx] === 'boolean') details.open = state.open[idx];
+							} catch {}
+						}
+					}
+				);
+			} catch {}
+		})();
+	</script><ul class="top-level astro-oas3haj5"><li class="astro-oas3haj5"><details open class="astro-oas3haj5"><summary class="astro-oas3haj5"><span class="group-label astro-oas3haj5"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true" class="portal-sidebar-icon astro-oas3haj5"><path d="M223.85,47.12a16,16,0,0,0-15-15c-12.58-.75-44.73.4-71.41,27.07L132.69,64H74.36A15.91,15.91,0,0,0,63,68.68L28.7,103a16,16,0,0,0,9.07,27.16l38.47,5.37,44.21,44.21,5.37,38.49a15.94,15.94,0,0,0,10.78,12.92,16.11,16.11,0,0,0,5.1.83A15.91,15.91,0,0,0,153,227.3L187.32,193A15.91,15.91,0,0,0,192,181.64V123.31l4.77-4.77C223.45,91.86,224.6,59.71,223.85,47.12ZM74.36,80h42.33L77.16,119.52,40,114.34Zm74.41-9.45a76.65,76.65,0,0,1,59.11-22.47,76.46,76.46,0,0,1-22.42,59.16L128,164.68,91.32,128ZM176,181.64,141.67,216l-5.19-37.17L176,139.31Zm-74.16,9.5C97.34,201,82.29,224,40,224a8,8,0,0,1-8-8c0-42.29,23-57.34,32.86-61.85a8,8,0,0,1,6.64,14.56c-6.43,2.93-20.62,12.36-23.12,38.91,26.55-2.5,36-16.69,38.91-23.12a8,8,0,1,1,14.56,6.64Z"/></svg><span class="large astro-oas3haj5">Get started</span></span><svg aria-hidden="true" class="caret astro-oas3haj5 astro-hxdjxph4" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="0"></sl-sidebar-restore><ul class="astro-oas3haj5"><li class="astro-oas3haj5"><a href="/docs/getting-started/introduction/" class="astro-oas3haj5"><span class="astro-oas3haj5">Introduction</span></a></li><li class="astro-oas3haj5"><a href="/docs/getting-started/quickstart/" class="astro-oas3haj5"><span class="astro-oas3haj5">Quickstart</span></a></li><li class="astro-oas3haj5"><a href="/docs/getting-started/project-structure/" class="astro-oas3haj5"><span class="astro-oas3haj5">Project structure</span></a></li></ul></details></li><li class="astro-oas3haj5"><details open class="astro-oas3haj5"><summary class="astro-oas3haj5"><span class="group-label astro-oas3haj5"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true" class="portal-sidebar-icon astro-oas3haj5"><path d="M40,88H73a32,32,0,0,0,62,0h81a8,8,0,0,0,0-16H135a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16Zm64-24A16,16,0,1,1,88,80,16,16,0,0,1,104,64ZM216,168H199a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16h97a32,32,0,0,0,62,0h17a8,8,0,0,0,0-16Zm-48,24a16,16,0,1,1,16-16A16,16,0,0,1,168,192Z"/></svg><span class="large astro-oas3haj5">Configuration</span></span><svg aria-hidden="true" class="caret astro-oas3haj5 astro-hxdjxph4" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="1"></sl-sidebar-restore><ul class="astro-oas3haj5"><li class="astro-oas3haj5"><a href="/docs/configuration/overview/" class="astro-oas3haj5"><span class="astro-oas3haj5">Configuration overview</span></a></li><li class="astro-oas3haj5"><a href="/docs/configuration/customizing/" class="astro-oas3haj5"><span class="astro-oas3haj5">Customizing the portal</span></a></li><li class="astro-oas3haj5"><a href="/docs/configuration/site/" class="astro-oas3haj5"><span class="astro-oas3haj5">Site</span></a></li><li class="astro-oas3haj5"><a href="/docs/configuration/theme/" class="astro-oas3haj5"><span class="astro-oas3haj5">Theme</span></a></li><li class="astro-oas3haj5"><a href="/docs/configuration/header/" class="astro-oas3haj5"><span class="astro-oas3haj5">Header</span></a></li><li class="astro-oas3haj5"><a href="/docs/configuration/navigation/" class="astro-oas3haj5"><span class="astro-oas3haj5">Navigation</span></a></li><li class="astro-oas3haj5"><a href="/docs/configuration/apis/" class="astro-oas3haj5"><span class="astro-oas3haj5">APIs</span></a></li><li class="astro-oas3haj5"><a href="/docs/configuration/workflows/" class="astro-oas3haj5"><span class="astro-oas3haj5">Workflows</span></a></li><li class="astro-oas3haj5"><a href="/docs/configuration/footer/" class="astro-oas3haj5"><span class="astro-oas3haj5">Footer</span></a></li><li class="astro-oas3haj5"><a href="/docs/configuration/docs-search-redirects/" class="astro-oas3haj5"><span class="astro-oas3haj5">Docs, search and redirects</span></a></li><li class="astro-oas3haj5"><a href="/docs/configuration/llms/" class="astro-oas3haj5"><span class="astro-oas3haj5">LLM output</span></a></li></ul></details></li><li class="astro-oas3haj5"><details open class="astro-oas3haj5"><summary class="astro-oas3haj5"><span class="group-label astro-oas3haj5"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true" class="portal-sidebar-icon astro-oas3haj5"><path d="M227.32,73.37,182.63,28.69a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H216a8,8,0,0,0,0-16H115.32l112-112A16,16,0,0,0,227.32,73.37ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.69,147.32,64l24-24L216,84.69Z"/></svg><span class="large astro-oas3haj5">Writing guides</span></span><svg aria-hidden="true" class="caret astro-oas3haj5 astro-hxdjxph4" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="2"></sl-sidebar-restore><ul class="astro-oas3haj5"><li class="astro-oas3haj5"><a href="/docs/writing/markdown/" class="astro-oas3haj5"><span class="astro-oas3haj5">Markdown</span></a></li><li class="astro-oas3haj5"><a href="/docs/writing/markdoc/" class="astro-oas3haj5"><span class="astro-oas3haj5">Markdoc</span></a></li><li class="astro-oas3haj5"><a href="/docs/writing/mdx/" class="astro-oas3haj5"><span class="astro-oas3haj5">MDX</span></a></li><li class="astro-oas3haj5"><a href="/docs/writing/callouts/" aria-current="page" class="astro-oas3haj5"><span class="astro-oas3haj5">Callouts</span></a></li><li class="astro-oas3haj5"><a href="/docs/writing/embedding-operations/" class="astro-oas3haj5"><span class="astro-oas3haj5">Embedding operations</span></a></li></ul></details></li><li class="astro-oas3haj5"><details open class="astro-oas3haj5"><summary class="astro-oas3haj5"><span class="group-label astro-oas3haj5"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true" class="portal-sidebar-icon astro-oas3haj5"><path d="M69.12,94.15,28.5,128l40.62,33.85a8,8,0,1,1-10.24,12.29l-48-40a8,8,0,0,1,0-12.29l48-40a8,8,0,0,1,10.24,12.3Zm176,27.7-48-40a8,8,0,1,0-10.24,12.3L227.5,128l-40.62,33.85a8,8,0,1,0,10.24,12.29l48-40a8,8,0,0,0,0-12.29ZM162.73,32.48a8,8,0,0,0-10.25,4.79l-64,176a8,8,0,0,0,4.79,10.26A8.14,8.14,0,0,0,96,224a8,8,0,0,0,7.52-5.27l64-176A8,8,0,0,0,162.73,32.48Z"/></svg><span class="large astro-oas3haj5">API reference</span></span><svg aria-hidden="true" class="caret astro-oas3haj5 astro-hxdjxph4" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="3"></sl-sidebar-restore><ul class="astro-oas3haj5"><li class="astro-oas3haj5"><a href="/docs/api-reference/reference-pages/" class="astro-oas3haj5"><span class="astro-oas3haj5">Reference pages</span></a></li><li class="astro-oas3haj5"><a href="/docs/api-reference/versions/" class="astro-oas3haj5"><span class="astro-oas3haj5">API versions</span></a></li><li class="astro-oas3haj5"><a href="/docs/api-reference/catalog/" class="astro-oas3haj5"><span class="astro-oas3haj5">API catalog</span></a></li><li class="astro-oas3haj5"><a href="/docs/api-reference/rapidoc-attributes/" class="astro-oas3haj5"><span class="astro-oas3haj5">RapiDoc attributes</span></a></li></ul></details></li><li class="astro-oas3haj5"><details open class="astro-oas3haj5"><summary class="astro-oas3haj5"><span class="group-label astro-oas3haj5"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true" class="portal-sidebar-icon astro-oas3haj5"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Zm-68-56a12,12,0,1,1-12-12A12,12,0,0,1,140,152Z"/></svg><span class="large astro-oas3haj5">Authentication</span></span><svg aria-hidden="true" class="caret astro-oas3haj5 astro-hxdjxph4" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="4"></sl-sidebar-restore><ul class="astro-oas3haj5"><li class="astro-oas3haj5"><a href="/docs/access/overview/" class="astro-oas3haj5"><span class="astro-oas3haj5">Single sign-on (SSO)</span></a></li><li class="astro-oas3haj5"><a href="/docs/access/setup/" class="astro-oas3haj5"><span class="astro-oas3haj5">Set up sign-in</span></a></li><li class="astro-oas3haj5"><a href="/docs/access/entra-id/" class="astro-oas3haj5"><span class="astro-oas3haj5">SSO with Microsoft Entra ID</span></a></li><li class="astro-oas3haj5"><a href="/docs/access/providers/" class="astro-oas3haj5"><span class="astro-oas3haj5">Identity providers</span></a></li><li class="astro-oas3haj5"><a href="/docs/access/access-rules/" class="astro-oas3haj5"><span class="astro-oas3haj5">Access rules</span></a></li><li class="astro-oas3haj5"><a href="/docs/access/try-it/" class="astro-oas3haj5"><span class="astro-oas3haj5">Try with the reader&#39;s token</span></a></li></ul></details></li><li class="astro-oas3haj5"><details open class="astro-oas3haj5"><summary class="astro-oas3haj5"><span class="group-label astro-oas3haj5"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true" class="portal-sidebar-icon astro-oas3haj5"><path d="M226.76,69a8,8,0,0,0-12.84-2.88l-40.3,37.19-17.23-3.7-3.7-17.23,37.19-40.3A8,8,0,0,0,187,29.24,72,72,0,0,0,88,96,72.34,72.34,0,0,0,94,124.94L33.79,177c-.15.12-.29.26-.43.39a32,32,0,0,0,45.26,45.26c.13-.13.27-.28.39-.42L131.06,162A72,72,0,0,0,232,96,71.56,71.56,0,0,0,226.76,69ZM160,152a56.14,56.14,0,0,1-27.07-7,8,8,0,0,0-9.92,1.77L67.11,211.51a16,16,0,0,1-22.62-22.62L109.18,133a8,8,0,0,0,1.77-9.93,56,56,0,0,1,58.36-82.31l-31.2,33.81a8,8,0,0,0-1.94,7.1L141.83,108a8,8,0,0,0,6.14,6.14l26.35,5.66a8,8,0,0,0,7.1-1.94l33.81-31.2A56.06,56.06,0,0,1,160,152Z"/></svg><span class="large astro-oas3haj5">Tools</span></span><svg aria-hidden="true" class="caret astro-oas3haj5 astro-hxdjxph4" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="5"></sl-sidebar-restore><ul class="astro-oas3haj5"><li class="astro-oas3haj5"><a href="/docs/tools/mock-server/" class="astro-oas3haj5"><span class="astro-oas3haj5">Mock server</span></a></li><li class="astro-oas3haj5"><a href="/docs/tools/mcp-server/" class="astro-oas3haj5"><span class="astro-oas3haj5">MCP server for agents</span></a></li><li class="astro-oas3haj5"><a href="/docs/tools/validate/" class="astro-oas3haj5"><span class="astro-oas3haj5">Validate</span></a></li><li class="astro-oas3haj5"><a href="/docs/tools/lint/" class="astro-oas3haj5"><span class="astro-oas3haj5">Lint</span></a></li><li class="astro-oas3haj5"><a href="/docs/tools/bundle/" class="astro-oas3haj5"><span class="astro-oas3haj5">Bundle</span></a></li><li class="astro-oas3haj5"><a href="/docs/tools/migrate/" class="astro-oas3haj5"><span class="astro-oas3haj5">Migrating</span></a></li></ul></details></li><li class="astro-oas3haj5"><details open class="astro-oas3haj5"><summary class="astro-oas3haj5"><span class="group-label astro-oas3haj5"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true" class="portal-sidebar-icon astro-oas3haj5"><path d="M178.34,165.66,160,147.31V208a8,8,0,0,1-16,0V147.31l-18.34,18.35a8,8,0,0,1-11.32-11.32l32-32a8,8,0,0,1,11.32,0l32,32a8,8,0,0,1-11.32,11.32ZM160,40A88.08,88.08,0,0,0,81.29,88.68,64,64,0,1,0,72,216h40a8,8,0,0,0,0-16H72a48,48,0,0,1,0-96c1.1,0,2.2,0,3.29.12A88,88,0,0,0,72,128a8,8,0,0,0,16,0,72,72,0,1,1,100.8,66,8,8,0,0,0,3.2,15.34,7.9,7.9,0,0,0,3.2-.68A88,88,0,0,0,160,40Z"/></svg><span class="large astro-oas3haj5">Deploy</span></span><svg aria-hidden="true" class="caret astro-oas3haj5 astro-hxdjxph4" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="6"></sl-sidebar-restore><ul class="astro-oas3haj5"><li class="astro-oas3haj5"><a href="/docs/deploy/static-hosting/" class="astro-oas3haj5"><span class="astro-oas3haj5">Static hosting</span></a></li><li class="astro-oas3haj5"><a href="/docs/deploy/rapidoc-serve/" class="astro-oas3haj5"><span class="astro-oas3haj5">Deploy with rapidoc serve</span></a></li><li class="astro-oas3haj5"><a href="/docs/deploy/cloud-platforms/" class="astro-oas3haj5"><span class="astro-oas3haj5">Render, DigitalOcean, Railway</span></a></li></ul></details></li></ul><script aria-hidden="true">
+		(() => {
+			const scroller = document.getElementById('starlight__sidebar');
+			if (!window._starlightScrollRestore || !scroller) return;
+			scroller.scrollTop = window._starlightScrollRestore;
+			delete window._starlightScrollRestore;
+		})();
+	</script></sl-sidebar-state-persist><div class="md:sl-hidden astro-qzwbwvs4"><div class="mobile-preferences sl-flex astro-kfb7gml7"><div class="social-icons astro-kfb7gml7"></div></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-bx4ddj32"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-ywyp4mxv"><aside class="right-sidebar-container print:hidden astro-ywyp4mxv"><div class="right-sidebar astro-ywyp4mxv" data-portal-region="toc"><div class="lg:sl-hidden astro-4d77t3pj"><mobile-starlight-toc data-min-h="2" data-max-h="3" class="astro-klcktmrh"><nav aria-labelledby="starlight__on-this-page--mobile" class="astro-klcktmrh"><details id="starlight__mobile-toc" class="astro-klcktmrh"><summary id="starlight__on-this-page--mobile" class="sl-flex astro-klcktmrh"><span class="toggle sl-flex astro-klcktmrh">On this page<svg aria-hidden="true" class="caret astro-klcktmrh astro-hxdjxph4" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></span><span class="display-current astro-klcktmrh"></span></summary><div class="dropdown astro-klcktmrh"><ul class="isMobile astro-ll3qplsu" style="--depth: 0;"><li style="--depth: 0;" class="astro-ll3qplsu"><a href="#_top" style="--depth: 0;" class="astro-ll3qplsu"><span style="--depth: 0;" class="astro-ll3qplsu">Overview</span></a></li><li style="--depth: 0;" class="astro-ll3qplsu"><a href="#markdown-blocks" style="--depth: 0;" class="astro-ll3qplsu"><span style="--depth: 0;" class="astro-ll3qplsu">Markdown blocks</span></a></li><li style="--depth: 0;" class="astro-ll3qplsu"><a href="#types" style="--depth: 0;" class="astro-ll3qplsu"><span style="--depth: 0;" class="astro-ll3qplsu">Types</span></a></li><li style="--depth: 0;" class="astro-ll3qplsu"><a href="#another-icon" style="--depth: 0;" class="astro-ll3qplsu"><span style="--depth: 0;" class="astro-ll3qplsu">Another icon</span></a></li></ul></div></details></nav></mobile-starlight-toc><script type="module" src="/_rapidoc/assets/UvUkdLRp.js"></script></div><div class="right-sidebar-panel sl-hidden lg:sl-block astro-4d77t3pj"><div class="sl-container astro-4d77t3pj"><starlight-toc data-min-h="2" data-max-h="3"><nav aria-labelledby="starlight__on-this-page"><h2 id="starlight__on-this-page">On this page</h2><ul class="astro-ll3qplsu" style="--depth: 0;"><li style="--depth: 0;" class="astro-ll3qplsu"><a href="#_top" style="--depth: 0;" class="astro-ll3qplsu"><span style="--depth: 0;" class="astro-ll3qplsu">Overview</span></a></li><li style="--depth: 0;" class="astro-ll3qplsu"><a href="#markdown-blocks" style="--depth: 0;" class="astro-ll3qplsu"><span style="--depth: 0;" class="astro-ll3qplsu">Markdown blocks</span></a></li><li style="--depth: 0;" class="astro-ll3qplsu"><a href="#types" style="--depth: 0;" class="astro-ll3qplsu"><span style="--depth: 0;" class="astro-ll3qplsu">Types</span></a></li><li style="--depth: 0;" class="astro-ll3qplsu"><a href="#another-icon" style="--depth: 0;" class="astro-ll3qplsu"><span style="--depth: 0;" class="astro-ll3qplsu">Another icon</span></a></li></ul></nav></starlight-toc><script type="module" src="/_rapidoc/assets/BXdiQavN.js"></script><script type="module">var e=`http://www.w3.org/2000/svg`;function t(t){let n=t.querySelector(`:scope > ul`);if(!n)return;let r=document.createElementNS(e,`svg`);r.setAttribute(`aria-hidden`,`true`),r.classList.add(`portal-toc-rail`);let i=document.createElementNS(e,`path`),a=document.createElementNS(e,`path`);i.classList.add(`track`),a.classList.add(`marker`),r.append(i,a),t.append(r);let o=[...n.querySelectorAll(`a`)],s=o.map(e=>document.getElementById(decodeURIComponent(e.hash.slice(1)))),c=document.querySelector(`.sl-markdown-content`),l=[],u=e=>{let t=0;for(let r=e.parentElement?.parentElement;r&&r!==n;r=r.parentElement)r.tagName===`UL`&&t++;return t},d=()=>{let e=t.getBoundingClientRect();if(!e.height)return;let n=.75*parseFloat(getComputedStyle(document.documentElement).fontSize),r=``,s;l=o.map(t=>{let i=t.getBoundingClientRect(),a=n*u(t)+.5,o=i.top-e.top,c=i.bottom-e.top;s===void 0&&(r=`M${a} ${o}`);let l=f(r);if(s!==void 0&&s!==a){let e=o+n/2;r+=`L${s} ${o}C${s} ${e} ${a} ${e} ${a} ${o+n}`}return r+=`L${a} ${c}`,s=a,{start:l,end:f(r)}}),i.setAttribute(`d`,r),a.setAttribute(`d`,r),m()},f=e=>(a.setAttribute(`d`,e),a.getTotalLength()),p=()=>{let e=document.querySelector(`header`)?.getBoundingClientRect().bottom??0,t=s.map(e=>e?.getBoundingClientRect().top??NaN),n=c?.getBoundingClientRect().bottom??1/0,r=t.flatMap((r,i)=>{let a=t.slice(i+1).find(e=>!Number.isNaN(e))??n;return r<innerHeight&&a>e?[i]:[]});if(r.length)return[r[0],r.at(-1)];let i=o.findIndex(e=>e.getAttribute(`aria-current`)===`true`);return i<0?[]:[i,i]},m=()=>{let[e,t]=p(),n=l.at(-1)?.end??0,r=l[e]?.start,i=l[t]?.end;a.style.strokeDasharray=r===void 0||i===void 0?`0 ${n} 0 ${n}`:`0 ${r} ${i-r} ${n}`};d(),new ResizeObserver(d).observe(n),new MutationObserver(m).observe(n,{subtree:!0,attributeFilter:[`aria-current`]});let h=0;addEventListener(`scroll`,()=>h||=requestAnimationFrame(()=>(h=0,m())),{passive:!0}),requestAnimationFrame(()=>requestAnimationFrame(()=>r.classList.add(`ready`)))}document.querySelectorAll(`starlight-toc nav`).forEach(t);</script></div></div></div></aside><div class="main-pane astro-ywyp4mxv"><main data-pagefind-body class="astro-i3ca2ene" lang="en" dir="ltr"><div class="content-panel astro-5binkg73"><div class="sl-container astro-5binkg73"><div class="portal-page-title astro-bqzvpml3"><h1 id="_top" class="astro-pyylglup">Callouts</h1><div class="portal-page-actions not-content astro-bqzvpml3" data-markdown-url="/docs/writing/callouts.md"><button type="button" class="portal-page-action astro-bqzvpml3" data-portal-copy-page><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true" class="astro-bqzvpml3"><path d="M216,28H88A12,12,0,0,0,76,40V76H40A12,12,0,0,0,28,88V216a12,12,0,0,0,12,12H168a12,12,0,0,0,12-12V180h36a12,12,0,0,0,12-12V40A12,12,0,0,0,216,28ZM156,204H52V100H156Zm48-48H180V88a12,12,0,0,0-12-12H100V52H204Z"/></svg><span data-portal-copy-label class="astro-bqzvpml3">Copy page</span></button><div class="portal-page-actions-menu astro-bqzvpml3"><button type="button" class="portal-page-action astro-bqzvpml3" aria-expanded="false" aria-controls="portal-page-actions-panel" aria-label="More page actions"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true" class="astro-bqzvpml3"><path d="M216.49,104.49l-80,80a12,12,0,0,1-17,0l-80-80a12,12,0,0,1,17-17L128,159l71.51-71.52a12,12,0,0,1,17,17Z"/></svg></button><ul id="portal-page-actions-panel" class="portal-page-actions-panel astro-bqzvpml3" hidden><li class="astro-bqzvpml3"><a href="/docs/writing/callouts.md" target="_blank" rel="noopener noreferrer" class="astro-bqzvpml3"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true" class="astro-bqzvpml3"><path d="M232,44H24A20,20,0,0,0,4,64V192a20,20,0,0,0,20,20H232a20,20,0,0,0,20-20V64A20,20,0,0,0,232,44Zm-4,144H28V68H228ZM48,148V108a12,12,0,0,1,20.49-8.49L88,119l19.51-19.52A12,12,0,0,1,128,108v40a12,12,0,0,1-24,0V137l-7.51,7.52a12,12,0,0,1-17,0L72,137v11a12,12,0,0,1-24,0Zm98.63-23.5a12,12,0,0,1,16.87-1.87l.5.4V108a12,12,0,0,1,24,0v15l.5-.4a12,12,0,0,1,15,18.74l-20,16a12,12,0,0,1-15,0l-20-16A12,12,0,0,1,146.63,124.5Z"/></svg>View as Markdown</a></li><li class="astro-bqzvpml3"><a href="/docs/writing/callouts.md" data-assistant="https://chatgpt.com/?q=" target="_blank" rel="noopener noreferrer" class="astro-bqzvpml3"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true" class="astro-bqzvpml3"><path d="M228.88,113.61A60,60,0,0,0,166,33.42,60,60,0,0,0,65.1,47.83a60,60,0,0,0-38,94.56A60.08,60.08,0,0,0,83.6,223a57.83,57.83,0,0,0,6.45-.36A60,60,0,0,0,190.9,208.17a60,60,0,0,0,38-94.56ZM181.81,58.3a36,36,0,0,1,26.58,37.6L170,73.73a12,12,0,0,0-12,0L120,95.67V81.81L154.5,61.9A35.74,35.74,0,0,1,181.81,58.3ZM136,123.38v9.24l-8,4.62-8-4.62v-9.24l8-4.62ZM84,72a36,36,0,0,1,56.39-29.67L102,64.49a12,12,0,0,0-6,10.39v43.88l-12-6.93ZM44.33,88.93A35.81,35.81,0,0,1,60,74.43v44.33a12,12,0,0,0,6,10.4l38,21.93L92,158,57.5,138.1A36,36,0,0,1,44.33,88.93ZM74.19,197.7a36,36,0,0,1-26.58-37.6L86,182.27a12,12,0,0,0,12,0l38-21.94v13.86L101.5,194.1A35.74,35.74,0,0,1,74.19,197.7ZM172,184a36,36,0,0,1-56.39,29.67L154,191.51a12,12,0,0,0,6-10.39V137.24l12,6.93Zm39.67-16.93A35.81,35.81,0,0,1,196,181.57V137.24a12,12,0,0,0-6-10.4l-38-21.93L164,98l34.5,19.92A36,36,0,0,1,211.67,167.07Z"/></svg>Open in ChatGPT</a></li><li class="astro-bqzvpml3"><a href="/docs/writing/callouts.md" data-assistant="https://claude.ai/new?q=" target="_blank" rel="noopener noreferrer" class="astro-bqzvpml3"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true" class="astro-bqzvpml3"><path d="M199,125.31l-49.88-18.39L130.69,57a19.92,19.92,0,0,0-37.38,0L74.92,106.92,25,125.31a19.92,19.92,0,0,0,0,37.38l49.88,18.39L93.31,231a19.92,19.92,0,0,0,37.38,0l18.39-49.88L199,162.69a19.92,19.92,0,0,0,0-37.38Zm-63.38,35.16a12,12,0,0,0-7.11,7.11L112,212.28l-16.47-44.7a12,12,0,0,0-7.11-7.11L43.72,144l44.7-16.47a12,12,0,0,0,7.11-7.11L112,75.72l16.47,44.7a12,12,0,0,0,7.11,7.11L180.28,144ZM140,40a12,12,0,0,1,12-12h12V16a12,12,0,0,1,24,0V28h12a12,12,0,0,1,0,24H188V64a12,12,0,0,1-24,0V52H152A12,12,0,0,1,140,40ZM252,88a12,12,0,0,1-12,12h-4v4a12,12,0,0,1-24,0v-4h-4a12,12,0,0,1,0-24h4V72a12,12,0,0,1,24,0v4h4A12,12,0,0,1,252,88Z"/></svg>Open in Claude</a></li></ul></div><span class="sr-only astro-bqzvpml3" aria-live="polite" data-portal-copy-status></span></div></div><script type="module">for(let e of document.querySelectorAll(`.portal-page-actions`)){let t=new URL(e.dataset.markdownUrl||``,location.href).href;for(let n of e.querySelectorAll(`a[data-assistant]`))n.href=`${n.dataset.assistant}${encodeURIComponent(`Read ${t} so I can ask questions about it.`)}`;let n=e.querySelector(`[data-portal-copy-page]`),r=e.querySelector(`[data-portal-copy-label]`),i=e.querySelector(`[data-portal-copy-status]`);n?.addEventListener(`click`,async()=>{let e=`Copied`;try{let e=await fetch(t);if(!e.ok)throw Error(String(e.status));await navigator.clipboard.writeText(await e.text())}catch{e=`Copy failed`}r&&(r.textContent=e),i&&(i.textContent=e===`Copied`?`Page copied as Markdown`:`Copying the page failed`),setTimeout(()=>{r&&(r.textContent=`Copy page`)},2e3)});let a=e.querySelector(`[aria-controls="portal-page-actions-panel"]`),o=e.querySelector(`.portal-page-actions-panel`);if(!a||!o)continue;let s=e=>{a.setAttribute(`aria-expanded`,String(e)),o.hidden=!e};a.addEventListener(`click`,()=>s(o.hidden)),e.addEventListener(`keydown`,e=>{e.key===`Escape`&&!o.hidden&&(s(!1),a.focus())}),document.addEventListener(`click`,e=>{!o.hidden&&!a.parentElement?.contains(e.target)&&s(!1)}),o.addEventListener(`click`,e=>{e.target.closest(`a`)&&s(!1)})}</script></div></div><div class="content-panel astro-5binkg73"><div class="sl-container astro-5binkg73"><div class="sl-markdown-content"><p>import { Callout } from “@rapidoc/portal/components”;</p>
+<p>A callout looks the same whichever way you write it, so pick the syntax of the page’s format.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left">Format</th>
+<th style="text-align: left">Syntax</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left">Markdown, MDX</td>
+<td style="text-align: left"><code dir="auto">:::tip</code> … <code dir="auto">:::</code></td>
+</tr>
+<tr>
+<td style="text-align: left">MDX</td>
+<td style="text-align: left"><code dir="auto">&lt;Callout type="tip"&gt;</code> or <code dir="auto">&lt;Aside type="tip"&gt;</code></td>
+</tr>
+<tr>
+<td style="text-align: left">Markdoc</td>
+<td style="text-align: left"><code dir="auto">{% callout type="tip" %}</code> or <code dir="auto">{% aside type="tip" %}</code></td>
+</tr>
+</tbody>
+</table>
+<div class="sl-heading-wrapper level-h2"><h2 id="markdown-blocks">Markdown blocks</h2><a class="sl-anchor-link" href="#markdown-blocks"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Markdown blocks”</span></a></div>
+<div class="expressive-code"><link rel="stylesheet" href="/_rapidoc/assets/ec.jgioi.css"><script type="module" src="/_rapidoc/assets/ec.0vx5m.js"></script><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="markdown"><code><div class="ec-line"><div class="code"><span style="--0:#E1E4E8;--1:#24292E">:::note</span></div></div><div class="ec-line"><div class="code"><span style="--0:#E1E4E8;--1:#24292E">A plain note.</span></div></div><div class="ec-line"><div class="code"><span style="--0:#E1E4E8;--1:#24292E">:::</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#E1E4E8;--1:#24292E">:::caution[Rate limits]</span></div></div><div class="ec-line"><div class="code"><span style="--0:#E1E4E8;--1:#24292E">More than 100 requests a second get a 429.</span></div></div><div class="ec-line"><div class="code"><span style="--0:#E1E4E8;--1:#24292E">:::</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#E1E4E8;--1:#24292E">:::danger{title="Irreversible"}</span></div></div><div class="ec-line"><div class="code"><span style="--0:#E1E4E8;--1:#24292E">Deleting an account removes all its data.</span></div></div><div class="ec-line"><div class="code"><span style="--0:#E1E4E8;--1:#24292E">:::</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code=":::noteA plain note.::::::caution[Rate limits]More than 100 requests a second get a 429.::::::danger{title=&quot;Irreversible&quot;}Deleting an account removes all its data.:::"><div></div></button></div></figure></div>
+<div class="portal-callout" role="note" data-type="note"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true" class="portal-callout-icon"><path d="M108,84a16,16,0,1,1,16,16A16,16,0,0,1,108,84Zm128,44A108,108,0,1,1,128,20,108.12,108.12,0,0,1,236,128Zm-24,0a84,84,0,1,0-84,84A84.09,84.09,0,0,0,212,128Zm-72,36.68V132a20,20,0,0,0-20-20,12,12,0,0,0-4,23.32V168a20,20,0,0,0,20,20,12,12,0,0,0,4-23.32Z"/></svg><div class="portal-callout-body"><p>A plain note.</p></div></div>
+<div class="portal-callout" role="note" data-type="caution"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true" class="portal-callout-icon"><path d="M240.26,186.1,152.81,34.23h0a28.74,28.74,0,0,0-49.62,0L15.74,186.1a27.45,27.45,0,0,0,0,27.71A28.31,28.31,0,0,0,40.55,228h174.9a28.31,28.31,0,0,0,24.79-14.19A27.45,27.45,0,0,0,240.26,186.1Zm-20.8,15.7a4.46,4.46,0,0,1-4,2.2H40.55a4.46,4.46,0,0,1-4-2.2,3.56,3.56,0,0,1,0-3.73L124,46.2a4.77,4.77,0,0,1,8,0l87.44,151.87A3.56,3.56,0,0,1,219.46,201.8ZM116,136V104a12,12,0,0,1,24,0v32a12,12,0,0,1-24,0Zm28,40a16,16,0,1,1-16-16A16,16,0,0,1,144,176Z"/></svg><div class="portal-callout-body"><p class="portal-callout-title">Rate limits</p><p>More than 100 requests a second get a 429.</p></div></div>
+<div class="portal-callout" role="note" data-type="danger"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true" class="portal-callout-icon"><path d="M116,132V96a12,12,0,0,1,24,0v36a12,12,0,0,1-24,0Zm12,56a16,16,0,1,0-16-16A16,16,0,0,0,128,188ZM228,56v56c0,54.29-26.32,87.22-48.4,105.29-23.71,19.39-47.44,26-48.44,26.29a12.1,12.1,0,0,1-6.32,0c-1-.28-24.73-6.9-48.44-26.29C54.32,199.22,28,166.29,28,112V56A20,20,0,0,1,48,36H208A20,20,0,0,1,228,56Zm-24,4H52v52c0,35.71,13.09,64.69,38.91,86.15A126.14,126.14,0,0,0,128,219.38a126.28,126.28,0,0,0,37.09-21.23C190.91,176.69,204,147.71,204,112Z"/></svg><div class="portal-callout-body"><p class="portal-callout-title">Irreversible</p><p>Deleting an account removes all its data.</p></div></div>
+<p>The title goes in square brackets, <code dir="auto">:::tip[Title]</code>, or in braces, <code dir="auto">:::tip{title="Title"}</code>.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="types">Types</h2><a class="sl-anchor-link" href="#types"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Types”</span></a></div>
+<table>
+<thead>
+<tr>
+<th style="text-align: left">Type</th>
+<th style="text-align: left">Icon</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left"><code dir="auto">note</code>, <code dir="auto">info</code></td>
+<td style="text-align: left">info</td>
+</tr>
+<tr>
+<td style="text-align: left"><code dir="auto">tip</code></td>
+<td style="text-align: left">lightbulb</td>
+</tr>
+<tr>
+<td style="text-align: left"><code dir="auto">success</code></td>
+<td style="text-align: left">check circle</td>
+</tr>
+<tr>
+<td style="text-align: left"><code dir="auto">caution</code>, <code dir="auto">warning</code></td>
+<td style="text-align: left">warning</td>
+</tr>
+<tr>
+<td style="text-align: left"><code dir="auto">danger</code></td>
+<td style="text-align: left">shield warning</td>
+</tr>
+<tr>
+<td style="text-align: left"><code dir="auto">sparkles</code></td>
+<td style="text-align: left">sparkle</td>
+</tr>
+<tr>
+<td style="text-align: left"><code dir="auto">rocket</code></td>
+<td style="text-align: left">rocket</td>
+</tr>
+<tr>
+<td style="text-align: left"><code dir="auto">settings</code></td>
+<td style="text-align: left">gear</td>
+</tr>
+<tr>
+<td style="text-align: left"><code dir="auto">zap</code></td>
+<td style="text-align: left">lightning</td>
+</tr>
+<tr>
+<td style="text-align: left"><code dir="auto">lock</code></td>
+<td style="text-align: left">lock</td>
+</tr>
+<tr>
+<td style="text-align: left"><code dir="auto">megaphone</code></td>
+<td style="text-align: left">megaphone</td>
+</tr>
+</tbody>
+</table>
+<p>Zudoku’s names (<code dir="auto">info</code>, <code dir="auto">warning</code>, <code dir="auto">sparkles</code>, …) work too, so migrated pages render as they did.</p>
+<div class="portal-callout" role="note" data-type="rocket"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true" class="portal-callout-icon"><path d="M156,228a12,12,0,0,1-12,12H112a12,12,0,0,1,0-24h32A12,12,0,0,1,156,228ZM128,116a16,16,0,1,0-16-16A16,16,0,0,0,128,116Zm99.53,40.7-12.36,55.63a19.9,19.9,0,0,1-12.88,14.53A20.16,20.16,0,0,1,195.6,228a19.87,19.87,0,0,1-12.29-4.27L157.17,204H98.83L72.69,223.74A19.87,19.87,0,0,1,60.4,228a20.16,20.16,0,0,1-6.69-1.15,19.9,19.9,0,0,1-12.88-14.53L28.47,156.7a20.1,20.1,0,0,1,4.16-17.14l27.83-33.4A127,127,0,0,1,69.11,69.7c13.27-33.25,37-54.1,46.64-61.52a20,20,0,0,1,24.5,0c9.6,7.42,33.37,28.27,46.64,61.52a127,127,0,0,1,8.65,36.46l27.83,33.4A20.1,20.1,0,0,1,227.53,156.7ZM101.79,180h52.42c19.51-35.7,23-69.78,10.39-101.4C154.4,53,136.2,35.9,128,29.12,119.8,35.9,101.6,53,91.4,78.6,78.78,110.22,82.28,144.3,101.79,180Zm-22.55,8.72a168,168,0,0,1-16.92-47.3l-10,12,10.58,47.64Zm124.43-35.31-10-12a168,168,0,0,1-16.92,47.3l16.33,12.33Z"/></svg><div class="portal-callout-body"><p class="portal-callout-title">New in v2</p><p>The <code dir="auto">rocket</code>, <code dir="auto">sparkles</code>, <code dir="auto">zap</code> and <code dir="auto">megaphone</code> types suit announcements.</p></div></div>
+<div class="sl-heading-wrapper level-h2"><h2 id="another-icon">Another icon</h2><a class="sl-anchor-link" href="#another-icon"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Another icon”</span></a></div>
+<p><code dir="auto">icon</code> picks any <a href="https://phosphoricons.com">Phosphor</a> icon:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="mdx"><code><div class="ec-line"><div class="code"><span style="--0:#E1E4E8;--1:#24292E">&lt;</span><span style="--0:#79B8FF;--1:#005CC5">Callout</span><span style="--0:#E1E4E8;--1:#24292E"> </span><span style="--0:#B392F0;--1:#6F42C1">type</span><span style="--0:#F97583;--1:#BF3441">=</span><span style="--0:#9ECBFF;--1:#032F62">"info"</span><span style="--0:#E1E4E8;--1:#24292E"> </span><span style="--0:#B392F0;--1:#6F42C1">icon</span><span style="--0:#F97583;--1:#BF3441">=</span><span style="--0:#9ECBFF;--1:#032F62">"clock"</span><span style="--0:#E1E4E8;--1:#24292E"> </span><span style="--0:#B392F0;--1:#6F42C1">title</span><span style="--0:#F97583;--1:#BF3441">=</span><span style="--0:#9ECBFF;--1:#032F62">"Takes a few minutes"</span><span style="--0:#E1E4E8;--1:#24292E">&gt;</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#E1E4E8;--1:#24292E">  </span></span><span style="--0:#E1E4E8;--1:#24292E">Label generation runs in the background.</span></div></div><div class="ec-line"><div class="code"><span style="--0:#E1E4E8;--1:#24292E">&lt;/</span><span style="--0:#79B8FF;--1:#005CC5">Callout</span><span style="--0:#E1E4E8;--1:#24292E">&gt;</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="<Callout type=&quot;info&quot; icon=&quot;clock&quot; title=&quot;Takes a few minutes&quot;>  Label generation runs in the background.</Callout>"><div></div></button></div></figure></div>
+</div><footer class="sl-flex astro-7lostgyo"><div class="meta sl-flex astro-7lostgyo"><a href="https://github.com/rapi-doc/RapiDoc/edit/master/sites/rapi-portal/docs/writing/callouts.md" class="sl-flex print:hidden astro-durzefgz"><svg aria-hidden="true" class="astro-durzefgz astro-hxdjxph4" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.2em;"><path d="M22 7.24a1 1 0 0 0-.29-.71l-4.24-4.24a1 1 0 0 0-1.1-.22 1 1 0 0 0-.32.22l-2.83 2.83L2.29 16.05a1 1 0 0 0-.29.71V21a1 1 0 0 0 1 1h4.24a1 1 0 0 0 .76-.29l10.87-10.93L21.71 8c.1-.1.17-.2.22-.33a1 1 0 0 0 0-.24v-.14l.07-.05ZM6.83 20H4v-2.83l9.93-9.93 2.83 2.83L6.83 20ZM18.17 8.66l-2.83-2.83 1.42-1.41 2.82 2.82-1.41 1.42Z"/></svg>Edit page</a></div><nav class="portal-pagination print:hidden astro-utussxkf" aria-label="Previous and next pages" dir="ltr"><a href="/docs/writing/mdx/" rel="prev" class="portal-pagination-link is-prev astro-utussxkf" aria-label="Previous: MDX"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true" class="astro-utussxkf"><path d="M168.49,199.51a12,12,0,0,1-17,17l-80-80a12,12,0,0,1,0-17l80-80a12,12,0,0,1,17,17L97,128Z"/></svg><span class="portal-pagination-label astro-utussxkf">Previous</span><span class="portal-pagination-title astro-utussxkf">MDX</span></a><a href="/docs/writing/embedding-operations/" rel="next" class="portal-pagination-link is-next is-card astro-utussxkf"><span class="sr-only astro-utussxkf">Next</span><span class="portal-pagination-title astro-utussxkf">Embedding operations</span><span class="portal-pagination-divider astro-utussxkf" role="none"></span><span class="portal-pagination-label astro-utussxkf" aria-hidden="true">Next</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true" class="astro-utussxkf"><path d="M184.49,136.49l-80,80a12,12,0,0,1-17-17L159,128,87.51,56.49a12,12,0,1,1,17-17l80,80A12,12,0,0,1,184.49,136.49Z"/></svg></a></nav></footer></div></div></main></div></div></div></div><!-- Each divided band spans the full width, so its rule runs edge to edge like the header's;
+     the content inside lines up with the header content. --><footer class="portal-footer-root print:hidden" data-portal-region="footer"><div class="portal-footer-band"><div class="portal-footer-container portal-footer-top" data-portal-region="footer-inner"><div class="portal-footer-brand-col"><a href="/" class="portal-footer-brand"><img src="/rapidoc-lockup-light.svg" alt class="portal-brand-img portal-brand-img-light"><img src="/rapidoc-lockup-dark.svg" alt class="portal-brand-img portal-brand-img-dark"><span class="portal-footer-brand-title">Portal</span></a><p class="portal-footer-desc">Turn OpenAPI specs and Markdown guides into a developer portal. Docs as code, static output, optional single sign-on (SSO).</p></div><div class="portal-footer-columns"><div class="portal-footer-col"><h2 class="portal-footer-col-title">Get started</h2><ul class="portal-footer-links"><li><a href="/docs/getting-started/introduction" class="portal-footer-link">Introduction</a></li><li><a href="/docs/getting-started/quickstart" class="portal-footer-link">Quickstart</a></li><li><a href="/docs/configuration/overview" class="portal-footer-link">Configuration</a></li></ul></div><div class="portal-footer-col"><h2 class="portal-footer-col-title">Reference</h2><ul class="portal-footer-links"><li><a href="/docs/reference/cli" class="portal-footer-link">CLI</a></li><li><a href="/docs/reference/config" class="portal-footer-link">Configuration keys</a></li><li><a href="/docs/reference/programmatic-api" class="portal-footer-link">Programmatic API</a></li></ul></div><div class="portal-footer-col"><h2 class="portal-footer-col-title">Project</h2><ul class="portal-footer-links"><li><a href="https://rapidocui.com" class="portal-footer-link" target="_blank" rel="noopener noreferrer">RapiDoc</a></li><li><a href="https://github.com/rapi-doc/RapiDoc" class="portal-footer-link" target="_blank" rel="noopener noreferrer">GitHub</a></li></ul></div></div></div></div><div class="portal-footer-container portal-footer-bottom"><div class="portal-footer-copy"><span>© 2026 RapiDoc. MIT licensed.</span><span class="portal-footer-branding">· <a href="https://rapidocui.com" target="_blank" rel="noopener noreferrer">Powered by RapiDoc</a></span></div><div class="portal-footer-social"><a href="https://github.com/rapi-doc/RapiDoc" class="portal-footer-social-link" aria-label="github" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="24" height="24" fill="currentColor" aria-hidden="true"><path d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"/></svg></a></div></div></footer></div></body></html>

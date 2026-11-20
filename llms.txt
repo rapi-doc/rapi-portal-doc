@@ -1,0 +1,59 @@
+# RapiDoc Portal
+
+> Turn OpenAPI specs and Markdown guides into a developer portal. Docs as code, static output, optional single sign-on (SSO).
+
+## RapiDoc Portal
+
+- [Developer portals from OpenAPI](https://portal.rapidocui.com/index.md): Turn OpenAPI specs and Markdown guides into a developer portal. Docs as code, static output, optional single sign-on (SSO).
+
+## Documentation
+
+- [Introduction](https://portal.rapidocui.com/docs/getting-started/introduction.md): What RapiDoc Portal is, what it builds, and which package does what.
+- [Quickstart](https://portal.rapidocui.com/docs/getting-started/quickstart.md): Create a portal, see it running, add your own OpenAPI spec, and build it for production.
+- [Project structure](https://portal.rapidocui.com/docs/getting-started/project-structure.md): Where the config, specs, guides and static files go, and how files become URLs.
+- [Configuration overview](https://portal.rapidocui.com/docs/configuration/overview.md): How rapidoc.config.yaml is organized, its conventions, and editor autocomplete.
+- [Customizing the portal](https://portal.rapidocui.com/docs/configuration/customizing.md): Every way to change how the portal looks and behaves - brand, layout, your own CSS, components in guides, API reference options and build scripts.
+- [Site](https://portal.rapidocui.com/docs/configuration/site.md): Title, description, URL, logo, favicon, link previews, page titles, head tags and the announcement banner.
+- [Theme](https://portal.rapidocui.com/docs/configuration/theme.md): Accent color, light and dark mode, and fonts.
+- [Header](https://portal.rapidocui.com/docs/configuration/header.md): The first header row - links, buttons, dropdowns, mega-menus and the theme switcher.
+- [Navigation](https://portal.rapidocui.com/docs/configuration/navigation.md): Header tabs and the sidebar of each documentation tab.
+- [APIs](https://portal.rapidocui.com/docs/configuration/apis.md): Add OpenAPI specs to the portal - ids, titles, categories, versions and remote specs.
+- [Workflows](https://portal.rapidocui.com/docs/configuration/workflows.md): Add Arazzo workflow files to the portal - drawn as diagrams in your docs, runnable from the browser, and exported as MCP tools.
+- [Footer](https://portal.rapidocui.com/docs/configuration/footer.md): Call to action, link columns, newsletter sign-up, social links and copyright.
+- [Docs, search and redirects](https://portal.rapidocui.com/docs/configuration/docs-search-redirects.md): The docs folder, table of contents, edit links, site search and redirects.
+- [LLM output](https://portal.rapidocui.com/docs/configuration/llms.md): Every guide as Markdown, /llms.txt and /llms-full.txt for AI tools, and Copy page buttons.
+- [Markdown](https://portal.rapidocui.com/docs/writing/markdown.md): Write guides in plain Markdown - titles, frontmatter, links, images and code.
+- [Markdoc](https://portal.rapidocui.com/docs/writing/markdoc.md): Markdoc tags for callouts, tabs, steps, cards, badges and live API operations.
+- [MDX](https://portal.rapidocui.com/docs/writing/mdx.md): Use components in guides with MDX - no imports needed for the portal components.
+- [Callouts](https://portal.rapidocui.com/docs/writing/callouts.md): Notes, tips and warnings - one look whether you write them in Markdown, MDX or Markdoc.
+- [Embedding operations](https://portal.rapidocui.com/docs/writing/embedding-operations.md): Put a live, interactive API operation inside a guide.
+- [Reference pages](https://portal.rapidocui.com/docs/api-reference/reference-pages.md): What each API's reference page shows, its URLs, and how to link to an operation.
+- [API versions](https://portal.rapidocui.com/docs/api-reference/versions.md): Publish several versions of one API, each with its own URLs, and a version picker on the reference page.
+- [API catalog](https://portal.rapidocui.com/docs/api-reference/catalog.md): The /catalog page - every API, grouped by category.
+- [RapiDoc attributes](https://portal.rapidocui.com/docs/api-reference/rapidoc-attributes.md): Change how API reference pages render with the rapidoc key.
+- [Single sign-on (SSO)](https://portal.rapidocui.com/docs/access/overview.md): Put the portal behind your company's single sign-on (SSO) with OpenID Connect (Okta, Microsoft Entra ID, Google, Keycloak, Auth0), and decide who may read which pages and APIs.
+- [Set up sign-in](https://portal.rapidocui.com/docs/access/setup.md): Step by step, for any OpenID Connect provider - register the portal, configure sign-in and access rules, test locally, and deploy.
+- [SSO with Microsoft Entra ID](https://portal.rapidocui.com/docs/access/entra-id.md): Step by step - put the portal behind Microsoft Entra ID (Azure AD) single sign-on, and give groups of employees access to their APIs with app roles.
+- [Identity providers](https://portal.rapidocui.com/docs/access/providers.md): The issuer URL, groups and Try audience for Okta, Microsoft Entra ID, Auth0, Keycloak, Google, AWS Cognito, Ping, Authentik and Zitadel, and SAML-only providers.
+- [Access rules](https://portal.rapidocui.com/docs/access/access-rules.md): Decide who may read which pages, APIs and files - by sign-in, group or email.
+- [Try with the reader's token](https://portal.rapidocui.com/docs/access/try-it.md): Let Try call your API with the signed-in reader's access token.
+- [Mock server](https://portal.rapidocui.com/docs/tools/mock-server.md): Serve your specs with examples and generated data, validate requests, and check real OAuth scopes.
+- [MCP server for agents](https://portal.rapidocui.com/docs/tools/mcp-server.md): Every portal build carries its APIs and workflows as MCP tools; rapidoc serve hosts them at /mcp for AI agents, with the reader's own access.
+- [Validate](https://portal.rapidocui.com/docs/tools/validate.md): Check your portal's OpenAPI specs and workflow files against the specification, locally and in CI.
+- [Lint](https://portal.rapidocui.com/docs/tools/lint.md): Check what your portal's specs need to make good API pages, beyond being valid OpenAPI.
+- [Bundle](https://portal.rapidocui.com/docs/tools/bundle.md): Join a spec split over several files into one, for tools that can't follow $refs to other files.
+- [Migrating](https://portal.rapidocui.com/docs/tools/migrate.md): Move a Zudoku or Redocly portal to RapiDoc Portal.
+- [Static hosting](https://portal.rapidocui.com/docs/deploy/static-hosting.md): Deploy the built portal to GitHub Pages, Netlify, Vercel, Cloudflare Pages or any web server.
+- [Deploy with rapidoc serve](https://portal.rapidocui.com/docs/deploy/rapidoc-serve.md): Run a portal with sign-in and access rules on Node or in Docker.
+- [Render, DigitalOcean, Railway](https://portal.rapidocui.com/docs/deploy/cloud-platforms.md): Deploy a portal to Render, DigitalOcean App Platform or Railway, in one click from the starter or from your own repository.
+
+## Reference
+
+- [CLI](https://portal.rapidocui.com/docs/reference/cli.md): Every rapidoc command and option.
+- [Configuration keys](https://portal.rapidocui.com/docs/reference/config.md): Every key of rapidoc.config.yaml in one place.
+- [Programmatic API](https://portal.rapidocui.com/docs/reference/programmatic-api.md): Build, serve and mock portals from your own Node.js scripts.
+- [How a build works](https://portal.rapidocui.com/docs/reference/how-it-works.md): What rapidoc dev and rapidoc build do, step by step.
+
+## APIs
+
+- [Bookstore API (OpenAPI)](https://portal.rapidocui.com/specs/bookstore.yaml): A small example API that shows what an API reference page looks like in RapiDoc Portal. Run npm run mock in this repository and Try calls the mock server on your machine.
