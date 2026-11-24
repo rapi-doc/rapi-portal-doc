@@ -1,0 +1,174 @@
+{
+  "manifestVersion": 1,
+  "server": {
+    "name": "bookstore",
+    "version": "1.0.0",
+    "description": "A small example API that shows what an API reference page looks like in RapiDoc Portal. Run npm run mock in this repository and Try calls the mock server on your machine."
+  },
+  "sources": {
+    "bookstore": {
+      "baseUrl": "http://localhost:4010/bookstore",
+      "securitySchemes": {
+        "oauth2": {
+          "type": "oauth2",
+          "flows": {
+            "authorizationCode": {
+              "authorizationUrl": "https://auth.example.com/authorize",
+              "tokenUrl": "https://auth.example.com/oauth/token",
+              "scopes": {
+                "books:write": "Add and change books",
+                "orders:read": "Read your orders",
+                "orders:write": "Place orders"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tools": [
+    {
+      "name": "find_book",
+      "description": "Find a book by genre",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "genre": {
+            "type": "string",
+            "description": "The genre to browse",
+            "default": "fiction"
+          }
+        },
+        "required": [
+          "genre"
+        ]
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": false
+      },
+      "workflow": "findBook"
+    }
+  ],
+  "resources": [],
+  "workflows": {
+    "findBook": {
+      "workflowId": "findBook",
+      "summary": "Find a book by genre",
+      "description": "Lists the books of a genre, then reads the first one in full.",
+      "inputs": {
+        "type": "object",
+        "properties": {
+          "genre": {
+            "type": "string",
+            "description": "The genre to browse",
+            "default": "fiction"
+          }
+        },
+        "required": [
+          "genre"
+        ]
+      },
+      "steps": [
+        {
+          "stepId": "listBooks",
+          "description": "The books of the genre.",
+          "operation": {
+            "source": "bookstore",
+            "method": "GET",
+            "path": "/books",
+            "params": [
+              {
+                "name": "genre",
+                "in": "query"
+              },
+              {
+                "name": "limit",
+                "in": "query"
+              }
+            ],
+            "security": []
+          },
+          "parameters": [
+            {
+              "name": "genre",
+              "in": "query",
+              "value": "$inputs.genre"
+            },
+            {
+              "name": "limit",
+              "in": "query",
+              "value": 5
+            }
+          ],
+          "requestBody": null,
+          "security": [],
+          "successCriteria": [
+            {
+              "condition": "$statusCode == 200"
+            },
+            {
+              "condition": "$response.body#/0 != null"
+            }
+          ],
+          "onSuccess": [],
+          "onFailure": [
+            {
+              "name": "nothingInGenre",
+              "type": "end",
+              "criteria": []
+            }
+          ],
+          "outputs": {
+            "bookId": "$response.body#/0/id"
+          }
+        },
+        {
+          "stepId": "readBook",
+          "description": "The first book in full.",
+          "operation": {
+            "source": "bookstore",
+            "method": "GET",
+            "path": "/books/{bookId}",
+            "params": [
+              {
+                "name": "bookId",
+                "in": "path"
+              }
+            ],
+            "security": []
+          },
+          "parameters": [
+            {
+              "name": "bookId",
+              "in": "path",
+              "value": "$steps.listBooks.outputs.bookId"
+            }
+          ],
+          "requestBody": null,
+          "security": [],
+          "successCriteria": [
+            {
+              "condition": "$statusCode == 200"
+            }
+          ],
+          "onSuccess": [],
+          "onFailure": [],
+          "outputs": {
+            "title": "$response.body#/title",
+            "price": "$response.body#/price"
+          }
+        }
+      ],
+      "outputs": {
+        "bookId": "$steps.listBooks.outputs.bookId",
+        "title": "$steps.readBook.outputs.title",
+        "price": "$steps.readBook.outputs.price"
+      }
+    }
+  },
+  "apis": {
+    "bookstore": "bookstore"
+  }
+}

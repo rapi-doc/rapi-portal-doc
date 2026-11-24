@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://portal.rapidocui.com/sitemap-index.xml
